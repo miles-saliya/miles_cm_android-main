@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.RegisteredStudent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include layout="@layout/toolbarforregistredstudent" />
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/search_bar"
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/actionBarSize"
+                        android:layout_marginLeft="@dimen/spacing_middle"
+                        android:layout_marginRight="@dimen/spacing_middle"
+                        android:clipToPadding="false"
+                        app:cardBackgroundColor="@android:color/white"
+                        app:cardCornerRadius="3dp"
+                        app:cardElevation="1dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <View
+                                android:layout_width="@dimen/spacing_large"
+                                android:layout_height="0dp" />
+
+                            <EditText
+                                android:id="@+id/et_search_clients"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:background="@android:color/transparent"
+                                android:hint="Search with CAN ID"
+                                android:imeOptions="actionSearch"
+                                android:maxLines="1"
+                                android:singleLine="true">
+
+                                <!--<requestFocus />-->
+
+                            </EditText>
+
+                            <ImageButton
+                                android:id="@+id/bt_mic"
+                                android:layout_width="?attr/actionBarSize"
+                                android:layout_height="?attr/actionBarSize"
+                                android:background="@android:color/transparent"
+                                android:clickable="true"
+                                android:tint="@color/grey_60"
+                                app:srcCompat="@drawable/ic_mic" />
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/Student_info_card"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="@dimen/spacing_middle"
+                        android:layout_marginRight="@dimen/spacing_middle"
+                        android:clipToPadding="false"
+                        app:cardBackgroundColor="@android:color/white"
+                        app:cardCornerRadius="3dp"
+                        app:cardElevation="1dp">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:orientation="vertical"
+                            android:padding="2dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:paddingTop="@dimen/spacing_middle"
+
+                                android:paddingBottom="@dimen/spacing_middle">
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:weightSum="4.5"
+                                    android:layout_height="wrap_content">
+                                    <RelativeLayout
+                                        android:layout_width="0dp"
+                                        android:orientation="horizontal"
+                                        android:layout_margin="5dp"
+                                        android:layout_weight="4"
+                                        android:layout_height="wrap_content">
+                                        <TextView
+                                            android:id="@+id/id"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:paddingLeft="@dimen/spacing_middle"
+                                            android:paddingRight="@dimen/spacing_middle"
+                                            android:text="CAN ID  "
+                                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                                            />
+
+                                        <TextView
+                                            android:layout_toRightOf="@+id/can_name"
+                                            android:id="@+id/person_Info_id"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:paddingLeft="@dimen/spacing_middle"
+                                            android:paddingRight="@dimen/spacing_middle"
+                                            android:text=""
+                                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                                            android:textColor="@color/indigo_900" />
+                                        <TextView
+                                            android:id="@+id/can_name"
+                                            android:layout_below="@+id/person_Info_id"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:paddingLeft="@dimen/spacing_middle"
+                                            android:paddingRight="@dimen/spacing_middle"
+                                            android:text="CAN Name  "
+                                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                                            />
+
+                                        <TextView
+                                            android:id="@+id/person_Info_name"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_below="@+id/person_Info_id"
+                                            android:layout_toRightOf="@+id/can_name"
+                                            android:paddingLeft="@dimen/spacing_middle"
+                                            android:paddingRight="@dimen/spacing_middle"
+                                            android:text=" "
+                                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                                            android:textColor="@color/indigo_900" />
+
+                                        <TextView
+                                            android:id="@+id/can_city"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:paddingLeft="@dimen/spacing_middle"
+                                            android:paddingRight="@dimen/spacing_middle"
+                                            android:text="CAN City  "
+                                            android:layout_below="@+id/person_Info_name"
+                                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                                            />
+
+                                        <TextView
+                                            android:id="@+id/person_Info_city"
+                                            android:layout_below="@+id/person_Info_name"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:paddingLeft="@dimen/spacing_middle"
+                                            android:paddingRight="@dimen/spacing_middle"
+                                            android:text=""
+                                            android:layout_toRightOf="@+id/can_name"
+                                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                                            android:textColor="@color/indigo_900" />
+
+                                    </RelativeLayout>
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_weight="0.5"
+                                        android:orientation="vertical"
+                                        android:layout_height="wrap_content">
+                                        <ImageView
+                                            android:onClick="TakePicture"
+                                            android:layout_width="25dp"
+                                            android:layout_margin="2dp"
+                                            app:srcCompat="@drawable/ic_take_a_picture"
+                                            android:layout_height="25dp"/>
+                                        <ImageView
+                                            android:onClick="reTakePicture"
+                                            android:layout_width="25dp"
+                                            app:srcCompat="@drawable/ic_reload_new"
+                                            android:layout_margin="2dp"
+                                            android:layout_height="25dp"/>
+
+                                    </LinearLayout>
+                                </LinearLayout>
+                            </LinearLayout>
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/camera_card"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:visibility="gone"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="@dimen/spacing_middle"
+                        android:layout_marginRight="@dimen/spacing_middle"
+                        android:clipToPadding="false"
+                        app:cardBackgroundColor="@android:color/white"
+                        app:cardCornerRadius="3dp"
+                        app:cardElevation="1dp">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:orientation="vertical"
+                            android:layout_height="wrap_content">
+                            <SurfaceView
+                                android:id="@+id/camera_preview"
+                                android:layout_width="400dp"
+                                android:layout_height="400dp"
+                                android:layout_marginLeft="15dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginRight="15dp" />
+                            <LinearLayout
+                                android:id="@+id/capturePic_layout"
+                                android:onClick="captureStudentPic"
+                                android:layout_width="match_parent"
+                                android:layout_marginTop="15dp"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginRight="5dp"
+                                android:padding="5dp"
+                                android:layout_marginBottom="5dp"
+                                android:background="#28c76f"
+                                android:gravity="center"
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:text="Take Picture"
+                                    android:textSize="18sp"
+                                    android:textColor="@android:color/white"
+                                    android:layout_height="wrap_content"/>
+                            </LinearLayout>
+                            <LinearLayout
+                                android:id="@+id/upload_layout"
+                                android:layout_width="match_parent"
+                                android:layout_marginTop="15dp"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginRight="5dp"
+                                android:padding="5dp"
+                                android:onClick="UploadToServer"
+                                android:visibility="gone"
+                                android:layout_marginBottom="5dp"
+                                android:background="#28c76f"
+                                android:gravity="center"
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:text="Upload Student Picture"
+                                    android:textSize="18sp"
+                                    android:textColor="@android:color/white"
+                                    android:layout_height="wrap_content"/>
+                            </LinearLayout>
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/add_photo_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="gone" />
+    </RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

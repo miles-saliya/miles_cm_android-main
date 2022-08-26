@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="@android:color/white"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/referel_suggest"
+        android:layout_width="wrap_content"
+        android:text="venkat"
+        android:padding="2dp"
+        android:layout_margin="2dp"
+        android:textColor="@android:color/black"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

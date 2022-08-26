@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/user_info_snakebar"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.MainActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/grey_5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignParentRight="true">
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/navigation"
+            android:orientation="vertical">
+            <!--toolbar and header-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <include
+                    android:id="@+id/search_bar"
+                    layout="@layout/include_card_view_search_bar" />
+            </LinearLayout>
+
+
+            <androidx.drawerlayout.widget.DrawerLayout
+                android:id="@+id/drawer_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+
+                    <LinearLayout
+                        android:id="@+id/container_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_above="@+id/navigation"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:orientation="vertical">
+
+                    </LinearLayout>
+
+                    <com.google.android.material.bottomnavigation.BottomNavigationView
+                        android:id="@+id/navigation"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_gravity="bottom"
+                        android:background="@color/light_blue_300"
+                        app:itemIconTint="@drawable/color_state_white_1"
+                        app:itemTextColor="@drawable/color_state_white_1"
+                        app:menu="@menu/menu_bottom_navigation_basic" />
+                </RelativeLayout>
+                <!--  </androidx.core.widget.NestedScrollView>-->
+                <com.google.android.material.navigation.NavigationView
+                    android:id="@+id/nav_view"
+                    android:layout_width="250dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="start|left"
+                    android:background="@android:color/white"
+                    android:fitsSystemWindows="false"
+                    android:paddingTop="15dp"
+                    app:contentInsetStartWithNavigation="0dp"
+                    app:headerLayout="@layout/drawer_header"
+                    app:itemIconTint="@color/navigation_icon_state_list_color_light"
+                    app:itemTextAppearance="@style/TextAppearance.Subhead.Bold"
+                    app:itemTextColor="@color/navigation_text_state_list_color_light"
+                    app:menu="@menu/navigationmenu">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_centerHorizontal="true"
+                            android:layout_margin="10dp"
+                            android:text="version 0.1.7"
+                            android:textColor="@color/indigo_900"
+                            app:fontFamily="sans-serif-medium" />
+                    </RelativeLayout>
+                </com.google.android.material.navigation.NavigationView>
+            </androidx.drawerlayout.widget.DrawerLayout>
+        </LinearLayout>
+
+
+    </RelativeLayout>
+</LinearLayout>

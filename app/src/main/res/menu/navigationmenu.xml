@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:id="@+id/grp_1"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_addlead"
+            android:icon="@drawable/ic_plus_add"
+            android:title="Add Lead"
+            android:visible="false" />
+        <item
+            android:id="@+id/nav_syncMyCallData"
+            android:icon="@drawable/ic_upload_to_cloud"
+            android:title="Sync My Calls" />
+        <item
+            android:id="@+id/nav_update_UT"
+            android:icon="@drawable/ic_upload_to_cloud"
+            android:title="Update UT" />
+
+        <item
+            android:id="@+id/nav_syncMyRecords"
+            android:icon="@drawable/ic_upload_to_cloud"
+            android:visible="false"
+            android:title="Sync Record Files" />
+        <item
+            android:id="@+id/testing_sync"
+            android:icon="@drawable/ic_upload_to_cloud"
+            android:visible="false"
+            android:title="Sync My Files"
+            />
+
+    </group>
+    <item android:title="Add Lead">
+        <menu>
+            <item
+                android:id="@+id/nav_b2c"
+                android:title="B2C" />
+            <item
+                android:id="@+id/nav_b2b_cr"
+                android:title="B2B (CR)" />
+            <item
+                android:id="@+id/nav_b2b_ir"
+                android:title="B2B (IR)" />
+
+            <item
+                android:id="@+id/ewb"
+                android:visible="false"
+                android:title="EWB" />
+        </menu>
+    </item>
+    <item android:title="Attendance">
+        <menu>
+            <item
+                android:id="@+id/add_classs"
+                android:visible="false"
+                android:title="Add Class" />
+            <item
+                android:id="@+id/register_student_pic"
+                android:visible="false"
+                android:title="Registered Student Picture" />
+            <item
+                android:id="@+id/take_attendance"
+                android:visible="false"
+                android:title="Take Attendance" />
+        </menu>
+    </item>
+
+    <group
+        android:id="@+id/grp_2"
+        android:checkableBehavior="none">
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/ic_logout"
+            android:title="Logout" />
+    </group>
+</menu>

@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/edit_text_round_bg_gray_50"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/bt_close"
+                android:layout_width="?attr/actionBarSize"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:tint="@android:color/white"
+                app:srcCompat="@drawable/ic_close" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="Options"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+                android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/bt_save_mobile_number"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:paddingLeft="@dimen/spacing_xsmall"
+                android:paddingRight="@dimen/spacing_xsmall"
+                android:text="@string/SAVE"
+                android:visibility="invisible"
+                android:textColor="@android:color/white" />
+
+        </LinearLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            android:weightSum="4">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="Call"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="View"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="Edit"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="Delete"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/triggerToCall"
+            style="@style/EditText.Flat.Grey"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_large"
+            android:background="@drawable/edit_text_round_bg_white"
+            android:drawableRight="@drawable/ic_call_new"
+            android:drawablePadding="5dp"
+            android:gravity="center"
+            android:hint="mobile number"
+            android:inputType="number"
+            android:maxHeight="40dp"
+            android:minHeight="40dp"
+            android:paddingLeft="@dimen/spacing_middle"
+            android:singleLine="true"
+            android:text="XXXXXX1105"
+            android:textSize="18dp" />
+
+        <TextView
+            android:id="@+id/visibleNumber"
+            style="@style/EditText.Flat.Grey"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_large"
+            android:background="@drawable/edit_text_round_bg_white"
+            android:drawableRight="@drawable/ic_visibility_new"
+            android:drawablePadding="5dp"
+            android:gravity="center"
+            android:hint="mobile number"
+            android:inputType="number"
+            android:maxHeight="40dp"
+            android:minHeight="40dp"
+            android:paddingLeft="@dimen/spacing_middle"
+            android:singleLine="true"
+            android:text="XXXXXX1105"
+            android:textSize="18dp" />
+
+        <EditText
+            android:id="@+id/edit_number"
+            style="@style/EditText.Flat.Grey"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_large"
+            android:background="@drawable/edit_text_round_bg_white"
+            android:drawableRight="@drawable/ic_pencil"
+            android:drawablePadding="5dp"
+            android:gravity="center"
+            android:hint="mobile number"
+            android:inputType="number"
+            android:maxHeight="40dp"
+            android:minHeight="40dp"
+            android:paddingLeft="@dimen/spacing_middle"
+            android:singleLine="true"
+            android:text="XXXXXX1105"
+            android:textSize="18dp" />
+
+        <TextView
+            android:id="@+id/delete_number"
+            style="@style/EditText.Flat.Grey"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_large"
+            android:background="@drawable/edit_text_round_bg_white"
+            android:drawableRight="@drawable/ic_delete"
+            android:drawablePadding="5dp"
+            android:gravity="center"
+            android:hint="mobile number"
+            android:inputType="number"
+            android:visibility="gone"
+            android:maxHeight="40dp"
+            android:minHeight="40dp"
+            android:paddingLeft="@dimen/spacing_middle"
+            android:singleLine="true"
+            android:text="Do you want delete this number...?"
+            android:textSize="18dp" />
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/spacing_large" />
+    </LinearLayout>
+</LinearLayout>

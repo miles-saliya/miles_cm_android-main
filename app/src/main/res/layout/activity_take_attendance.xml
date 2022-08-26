@@ -1,0 +1,503 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.TakeAttendance">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include layout="@layout/toolbarfortakeattendance" />
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/search_bar"
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/actionBarSize"
+                        android:layout_marginLeft="@dimen/spacing_middle"
+                        android:layout_marginRight="@dimen/spacing_middle"
+                        android:clipToPadding="false"
+                        app:cardBackgroundColor="@android:color/white"
+                        app:cardCornerRadius="3dp"
+                        app:cardElevation="1dp">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:weightSum="5"
+                            android:padding="10dp">
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_weight="4"
+                                android:layout_height="match_parent">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Total Attendance : "
+                                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                                    android:textSize="20sp" />
+
+                                <TextView
+                                    android:id="@+id/attendance_number"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="0"
+                                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                                    android:textColor="@color/indigo_900"
+                                    android:textSize="20sp" />
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:onClick="ShowAttendPeopleData"
+                                android:layout_height="match_parent">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="View all"
+                                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                                    android:textSize="20sp" />
+
+
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/spacing_middle"
+                        android:layout_marginRight="@dimen/spacing_middle"
+                        android:clipToPadding="false"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginBottom="2dp"
+                        app:cardBackgroundColor="@android:color/white"
+                        app:cardCornerRadius="3dp"
+                        app:cardElevation="1dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:padding="10dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Select Class : "
+                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                                android:textSize="15sp" />
+
+                            <androidx.appcompat.widget.AppCompatSpinner
+                                android:id="@+id/class_spinner"
+                                style="@style/EditText.Flat.Grey"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="5dp"
+                                android:layout_marginTop="@dimen/spacing_medium"
+                                android:background="@drawable/edit_text_round_bg_gray_50"
+                                android:paddingLeft="@dimen/spacing_middle"
+                                android:paddingRight="@dimen/spacing_middle" />
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/class_info_card"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/spacing_middle"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="@dimen/spacing_middle"
+                        android:layout_marginBottom="5dp"
+                        android:clipToPadding="false"
+                        app:cardBackgroundColor="@android:color/white"
+                        app:cardCornerRadius="3dp"
+                        app:cardElevation="1dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:orientation="vertical"
+                            android:padding="2dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:paddingTop="@dimen/spacing_middle"
+                                android:paddingBottom="@dimen/spacing_middle">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:orientation="vertical"
+                                    android:layout_height="wrap_content">
+
+                                    <RelativeLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_margin="5dp"
+
+                                        android:orientation="horizontal">
+
+                                        <TextView
+                                            android:id="@+id/Class_id"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:paddingLeft="@dimen/spacing_middle"
+                                            android:paddingRight="@dimen/spacing_middle"
+                                            android:text="Class  "
+                                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2" />
+
+                                        <TextView
+                                            android:id="@+id/class_info"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_toRightOf="@+id/batch_name"
+                                            android:paddingLeft="@dimen/spacing_middle"
+                                            android:paddingRight="@dimen/spacing_middle"
+                                            android:text=""
+                                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                                            android:textColor="@color/indigo_900" />
+
+                                        <TextView
+                                            android:id="@+id/batch_name"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_below="@+id/class_info"
+                                            android:paddingLeft="@dimen/spacing_middle"
+                                            android:paddingRight="@dimen/spacing_middle"
+                                            android:text="Batch  "
+                                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2" />
+
+                                        <TextView
+                                            android:id="@+id/batch_name_title"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_below="@+id/class_info"
+                                            android:layout_toRightOf="@+id/batch_name"
+                                            android:paddingLeft="@dimen/spacing_middle"
+                                            android:paddingRight="@dimen/spacing_middle"
+                                            android:text=""
+                                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                                            android:textColor="@color/indigo_900" />
+
+                                        <TextView
+                                            android:id="@+id/class_date"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_below="@+id/batch_name_title"
+                                            android:paddingLeft="@dimen/spacing_middle"
+                                            android:paddingRight="@dimen/spacing_middle"
+                                            android:text="Date "
+                                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2" />
+
+                                        <TextView
+                                            android:id="@+id/class_date_info"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_below="@+id/batch_name_title"
+                                            android:layout_toRightOf="@+id/batch_name"
+                                            android:paddingLeft="@dimen/spacing_middle"
+                                            android:paddingRight="@dimen/spacing_middle"
+                                            android:text=""
+                                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                                            android:textColor="@color/indigo_900" />
+                                    </RelativeLayout>
+                                    <LinearLayout
+
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="5dp"
+                                        android:layout_marginTop="15dp"
+                                        android:layout_marginRight="5dp"
+                                        android:layout_marginBottom="5dp"
+                                        android:background="#28c76f"
+                                        android:gravity="center"
+                                        android:onClick="OpenCameraVIew"
+                                        android:padding="5dp">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="Mark Class Attendance"
+                                            android:textColor="@android:color/white"
+                                            android:textSize="18sp" />
+                                    </LinearLayout>
+                                </LinearLayout>
+                            </LinearLayout>
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/Student_info_card"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/spacing_middle"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="@dimen/spacing_middle"
+                        android:layout_marginBottom="5dp"
+                        android:clipToPadding="false"
+                        android:visibility="gone"
+                        app:cardBackgroundColor="@android:color/white"
+                        app:cardCornerRadius="3dp"
+                        app:cardElevation="1dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:orientation="vertical"
+                            android:padding="2dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:paddingTop="@dimen/spacing_middle"
+                                android:paddingBottom="@dimen/spacing_middle">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:orientation="vertical"
+                                    android:layout_height="wrap_content">
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="35dp"
+                                        android:background="@drawable/edit_text_round_bg_gray_50"
+                                        android:orientation="horizontal">
+
+                                        <View
+                                            android:layout_width="@dimen/spacing_large"
+                                            android:layout_height="0dp" />
+
+                                        <EditText
+                                            android:id="@+id/et_search_clients_phone"
+                                            android:layout_width="0dp"
+                                            android:layout_height="match_parent"
+                                            android:layout_weight="1"
+                                            android:background="@android:color/transparent"
+                                            android:hint="Search with Mobile number"
+                                            android:inputType="number"
+                                            android:imeOptions="actionSearch"
+                                            android:maxLines="1"
+                                            android:singleLine="true">
+
+                                            <!--<requestFocus />-->
+
+                                        </EditText>
+
+                                        <ImageButton
+                                            android:id="@+id/bt_mic"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:background="@android:color/transparent"
+                                            android:clickable="true"
+                                            android:tint="@color/grey_60"
+                                            app:srcCompat="@drawable/ic_mic" />
+                                    </LinearLayout>
+
+                                    <RelativeLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_margin="5dp"
+
+                                        android:orientation="horizontal">
+
+                                        <TextView
+                                            android:id="@+id/id"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:paddingLeft="@dimen/spacing_middle"
+                                            android:paddingRight="@dimen/spacing_middle"
+                                            android:text="CAN ID  "
+                                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2" />
+
+                                        <TextView
+                                            android:id="@+id/person_Info_id"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_toRightOf="@+id/can_name"
+                                            android:paddingLeft="@dimen/spacing_middle"
+                                            android:paddingRight="@dimen/spacing_middle"
+                                            android:text=""
+                                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                                            android:textColor="@color/indigo_900" />
+
+                                        <TextView
+                                            android:id="@+id/can_name"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_below="@+id/person_Info_id"
+                                            android:paddingLeft="@dimen/spacing_middle"
+                                            android:paddingRight="@dimen/spacing_middle"
+                                            android:text="CAN Name  "
+                                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2" />
+
+                                        <TextView
+                                            android:id="@+id/person_Info_name"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_below="@+id/person_Info_id"
+                                            android:layout_toRightOf="@+id/can_name"
+                                            android:paddingLeft="@dimen/spacing_middle"
+                                            android:paddingRight="@dimen/spacing_middle"
+                                            android:text=" "
+                                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                                            android:textColor="@color/indigo_900" />
+
+                                        <TextView
+                                            android:id="@+id/can_city"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_below="@+id/person_Info_name"
+                                            android:paddingLeft="@dimen/spacing_middle"
+                                            android:paddingRight="@dimen/spacing_middle"
+                                            android:text="CAN City  "
+                                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2" />
+
+                                        <TextView
+                                            android:id="@+id/person_Info_city"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_below="@+id/person_Info_name"
+                                            android:layout_toRightOf="@+id/can_name"
+                                            android:paddingLeft="@dimen/spacing_middle"
+                                            android:paddingRight="@dimen/spacing_middle"
+                                            android:text=""
+                                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                                            android:textColor="@color/indigo_900" />
+                                    </RelativeLayout>
+                                    <LinearLayout
+                                        android:id="@+id/register_student_layout"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="5dp"
+                                        android:layout_marginTop="15dp"
+                                        android:layout_marginRight="5dp"
+                                        android:layout_marginBottom="5dp"
+                                        android:background="#28c76f"
+                                        android:gravity="center"
+                                        android:visibility="gone"
+                                        android:onClick="RegisterPicWIthThisCan"
+                                        android:padding="5dp">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="Register Picture With Can"
+                                            android:textColor="@android:color/white"
+                                            android:textSize="18sp" />
+                                    </LinearLayout>
+                                </LinearLayout>
+                            </LinearLayout>
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/camera_card_attendence"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/spacing_middle"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="@dimen/spacing_middle"
+                        android:layout_marginBottom="5dp"
+                        android:clipToPadding="false"
+                        android:visibility="gone"
+                        app:cardBackgroundColor="@android:color/white"
+                        app:cardCornerRadius="3dp"
+                        app:cardElevation="1dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <SurfaceView
+                                android:id="@+id/camera_preview"
+                                android:layout_width="400dp"
+                                android:layout_height="400dp"
+                                android:layout_marginLeft="15dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginRight="15dp" />
+
+                            <LinearLayout
+                                android:id="@+id/capturePic_layout"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginTop="15dp"
+                                android:layout_marginRight="5dp"
+                                android:layout_marginBottom="5dp"
+                                android:background="#28c76f"
+                                android:gravity="center"
+                                android:onClick="captureStudentAttendencePic"
+                                android:padding="5dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Take Picture"
+                                    android:textColor="@android:color/white"
+                                    android:textSize="18sp" />
+                            </LinearLayout>
+                            <LinearLayout
+                                android:id="@+id/reset_pic_layout"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginTop="15dp"
+                                android:layout_marginRight="5dp"
+                                android:layout_marginBottom="5dp"
+                                android:background="#28c76f"
+                                android:gravity="center"
+                                android:visibility="gone"
+                                android:onClick="resetStudentAttendencePic"
+                                android:padding="5dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Reset Picture"
+                                    android:textColor="@android:color/white"
+                                    android:textSize="18sp" />
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+
+
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/attendance_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="gone" />
+    </RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

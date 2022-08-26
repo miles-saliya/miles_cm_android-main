@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/take_break"
+        android:title="Take a Break" />
+    <item
+        android:id="@+id/leave_for_day"
+        android:title="Leave for the day" />
+</menu>

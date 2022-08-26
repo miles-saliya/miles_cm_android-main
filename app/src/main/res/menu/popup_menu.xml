@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/b2c"
+        android:title="B2C" />
+    <item
+        android:id="@+id/b2b_cr"
+        android:title="B2B (CR)" />
+    <item
+        android:id="@+id/b2b_ir"
+        android:title="B2B (IR)" />
+</menu>

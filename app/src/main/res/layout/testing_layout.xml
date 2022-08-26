@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/bt_close"
+                    android:layout_width="?attr/actionBarSize"
+                    android:layout_height="?attr/actionBarSize"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:tint="@android:color/white"
+                    app:srcCompat="@drawable/ic_close" />
+
+                <TextView
+                    android:layout_width="10dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="Edit Plan of Action"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+                    android:textColor="@android:color/white" />
+
+            </LinearLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/grey_5"
+            android:clipToPadding="false"
+            android:scrollbars="none"
+            android:scrollingCache="true"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/spacing_mlarge">
+
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white"
+                    app:cardCornerRadius="2dp"
+                    app:cardElevation="2dp"
+                    app:cardUseCompatPadding="true">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:orientation="vertical"
+                        android:padding="2dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/mainHeader"
+                                android:layout_alignTop="@+id/evaluation_spinner"
+                                android:layout_alignBottom="@+id/evaluation_spinner"
+                                style="@style/EditText.Flat.Grey"
+                                android:gravity="center"
+                                android:layout_centerVertical="true"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Evaluation: " />
+
+                            <androidx.appcompat.widget.AppCompatSpinner
+                                android:id="@+id/evaluation_spinner"
+                                android:layout_toRightOf="@+id/mainHeader"
+                                style="@style/EditText.Flat.Grey"
+                                android:layout_width="match_parent"
+                                android:layout_height="45dp"
+                                android:layout_marginLeft="4dp"
+                                android:layout_marginTop="@dimen/spacing_medium"
+                                android:background="@drawable/edit_text_round_bg_gray_50"
+                                android:paddingLeft="@dimen/spacing_middle"
+                                android:paddingRight="@dimen/spacing_middle" />
+                            <TextView
+                                android:id="@+id/nts"
+                                style="@style/EditText.Flat.Grey"
+                                android:layout_alignTop="@+id/nts_spinner"
+                                android:layout_alignBottom="@+id/nts_spinner"
+                                android:gravity="center"
+                                android:layout_below="@+id/evaluation_spinner"
+                                android:layout_alignParentLeft="true"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:text="NTS           :" />
+
+                            <androidx.appcompat.widget.AppCompatSpinner
+                                android:layout_toRightOf="@+id/mainHeader"
+                                android:id="@+id/nts_spinner"
+                                style="@style/EditText.Flat.Grey"
+                                android:layout_width="match_parent"
+                                android:layout_height="45dp"
+                                android:layout_marginLeft="5dp"
+                                android:layout_below="@+id/evaluation_spinner"
+                                android:layout_marginTop="@dimen/spacing_medium"
+                                android:background="@drawable/edit_text_round_bg_gray_50"
+                                android:paddingLeft="@dimen/spacing_middle"
+                                android:paddingRight="@dimen/spacing_middle" />
+
+
+
+                            <TextView
+                                android:id="@+id/aud"
+                                android:layout_alignTop="@+id/aud_spinner"
+                                android:layout_alignBottom="@+id/aud_spinner"
+                                android:gravity="center"
+                                style="@style/EditText.Flat.Grey"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/nts_spinner"
+                                android:layout_gravity="center"
+                                android:text="AUD           :" />
+
+                            <androidx.appcompat.widget.AppCompatSpinner
+                                android:layout_toRightOf="@+id/mainHeader"
+                                android:id="@+id/aud_spinner"
+                                style="@style/EditText.Flat.Grey"
+                                android:layout_width="match_parent"
+                                android:layout_height="45dp"
+                                android:layout_below="@+id/nts_spinner"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginTop="@dimen/spacing_medium"
+                                android:background="@drawable/edit_text_round_bg_gray_50"
+                                android:paddingLeft="@dimen/spacing_middle"
+                                android:paddingRight="@dimen/spacing_middle" />
+
+
+
+                            <TextView
+                                style="@style/EditText.Flat.Grey"
+                                android:layout_alignTop="@+id/far_spinner"
+                                android:layout_alignBottom="@+id/far_spinner"
+                                android:gravity="center"
+                                android:layout_below="@+id/aud_spinner"
+                                android:layout_width="wrap_content"
+                                android:layout_alignParentLeft="true"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:text="FAR           :" />
+
+                            <androidx.appcompat.widget.AppCompatSpinner
+                                android:id="@+id/far_spinner"
+                                android:layout_toRightOf="@+id/mainHeader"
+                                style="@style/EditText.Flat.Grey"
+                                android:layout_width="match_parent"
+                                android:layout_height="45dp"
+                                android:layout_below="@+id/aud_spinner"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginTop="@dimen/spacing_medium"
+                                android:background="@drawable/edit_text_round_bg_gray_50"
+                                android:paddingLeft="@dimen/spacing_middle"
+                                android:paddingRight="@dimen/spacing_middle" />
+
+
+                            <TextView
+                                style="@style/EditText.Flat.Grey"
+                                android:layout_alignTop="@+id/bec_spinner"
+                                android:layout_alignBottom="@+id/bec_spinner"
+                                android:gravity="center"
+                                android:layout_width="wrap_content"
+                                android:layout_alignParentLeft="true"
+                                android:layout_below="@+id/far_spinner"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:text="BEC           :" />
+
+                            <androidx.appcompat.widget.AppCompatSpinner
+                                android:id="@+id/bec_spinner"
+                                android:layout_toRightOf="@+id/mainHeader"
+                                android:layout_below="@+id/far_spinner"
+                                style="@style/EditText.Flat.Grey"
+                                android:layout_width="match_parent"
+                                android:layout_height="45dp"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginTop="@dimen/spacing_medium"
+                                android:background="@drawable/edit_text_round_bg_gray_50"
+                                android:paddingLeft="@dimen/spacing_middle"
+                                android:paddingRight="@dimen/spacing_middle" />
+
+                            <TextView
+                                android:layout_alignTop="@+id/reg_spinner"
+                                android:layout_alignBottom="@+id/reg_spinner"
+                                android:gravity="center"
+                                style="@style/EditText.Flat.Grey"
+                                android:layout_below="@+id/bec_spinner"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:text="REG           :" />
+
+                            <androidx.appcompat.widget.AppCompatSpinner
+                                android:id="@+id/reg_spinner"
+                                style="@style/EditText.Flat.Grey"
+                                android:layout_width="match_parent"
+                                android:layout_height="45dp"
+                                android:layout_toRightOf="@+id/mainHeader"
+                                android:layout_below="@+id/bec_spinner"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginTop="@dimen/spacing_medium"
+                                android:background="@drawable/edit_text_round_bg_gray_50"
+                                android:paddingLeft="@dimen/spacing_middle"
+                                android:paddingRight="@dimen/spacing_middle" />
+
+
+                        </RelativeLayout>
+                        <RelativeLayout
+                            android:id="@+id/update_plan_off_action"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp"
+                            android:gravity="right">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/strip_background"
+                                android:gravity="end"
+                                android:text="Update" />
+
+                        </RelativeLayout>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/sr_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+
+</RelativeLayout>

@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">MWB.EWB</string>
+    <string name="version_unknown">Unknown</string>
+    <string name="app_version">Version</string>
+    <string name="default_notification_channel_id">Default</string>
+    <string name="webview_loading">Load Content... </string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="SAVE">SAVE</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="template1"><h2 style=" margin-bottom:30px; line-height: 1.5;font-weight:600;"><a style="color#3e4d5c" href="https://www.mileseducation.com/cma/Training-Videos" target="_blank">
+                            <strong class="national-title">"Introducing the world's favorite CPA &amp; CMA instructor" </strong>Varun
+                            Jain,&amp;<span style="font-size:16px;">CPA, CMA,
+                                Harvard B-School
+                                Alumnus</span> </a></h2>
+                                <img src="https://assets.mileseducation.com/images/MilesEducation_Logo.png" /></string>
+    <string name="templete2"><button>Template 3</button><br /><img height="50" src="https://assets.mileseducation.com/images/MilesEducation_Logo.png" width="50" /></string>
+    <string name="templete3"><button>Template 3</button><br /><img height="50" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGBldq_31NcqDksHA5NODzpybvxW6YH8Zh05Oie4QhSJUfa8qxzw" width="50" /></string>
+    <string name="pusher_key">426103b2991489001efe</string>
+    <string name="milesforce_web_client_id">360383923261-6faoq4fm4ho363sb3vqqb8250uhom0m3.apps.googleusercontent.com</string>
+
+    <!--Version Details-->
+    <!--Version 0.0.5  sync all call Log, Adding callLog Tab, multiple click logout issue -->
+    <!--Version 0.0.6 fixing recording format issue , sorting  of levels ,Ui changes which is showing identity and level and source,live Data Effect-->
+
+    <!--Version 0.0.8 fixing Level change Error-->
+    <!--Version 0.0.9 Removing Delete Option -->
+    <!--VERSION 0.0.10 Pusher changes and adding missing options in Direct sources -->
+
+
+</resources>
