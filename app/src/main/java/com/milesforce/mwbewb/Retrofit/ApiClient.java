@@ -104,6 +104,11 @@ public interface ApiClient {
     /*Getting Client mobile number request Api*/
     @GET("getMobileNumbers")
     Call<List<MobileNumberModel>> getClientMobileNumbers(@Query("person_id") int id, @Header("Authorization") String s, @Header("Accept") String s1);
+    /*Getting Client Emails request Api*/
+
+    @GET("getEmails")
+    Call<List<EmailModel>> getUserEmails(@Query("person_id") int id, @Header("Authorization") String s, @Header("Accept") String s1);
+
 
     /*Getting Untapped Data*/
     @GET()
@@ -112,8 +117,6 @@ public interface ApiClient {
     @GET("getEngagementHistory")
     Call<EngagemmentHistoryModel> getPersonengagement(@Query("page") int page, @Query("person_id") int person_id, @Header("Authorization") String s, @Header("Accept") String s1);
 
-    @GET("getEmails")
-    Call<List<EmailModel>> getUserEmails(@Query("person_id") int id, @Header("Authorization") String s, @Header("Accept") String s1);
 
     @POST("addEngagement")
     @FormUrlEncoded
@@ -318,16 +321,5 @@ public interface ApiClient {
 
     @GET("getTeam")
     Call<TeamModel> getTeam(@Header("Authorization") String s);
-
-
-
-
-
-
-
-
-
-
-
 
 }

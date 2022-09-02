@@ -104,7 +104,7 @@ public class LocalCallRecordingsActivity extends AppCompatActivity {
             recordsModelArrayList.clear();
         }
         try {
-            String fileNmae = Environment.getExternalStorageDirectory() + "/Call";
+            String fileNmae = Environment.getExternalStorageDirectory() + "/Recordings/Call";
             File directory = new File(fileNmae);
             File[] files = directory.listFiles();
             Log.d("Files", "Size: " + files.length);
@@ -321,7 +321,7 @@ public class LocalCallRecordingsActivity extends AppCompatActivity {
     private void DeleteFileFromLocal(String file_name) {
         try {
             try {
-                String fileName = Environment.getExternalStorageDirectory() + "/Call";
+                String fileName = Environment.getExternalStorageDirectory() + "/Recordings/Call";
                 File directory = new File(fileName);
                 File[] files = directory.listFiles();
                 for (int i = 0; i < files.length; i++) {
@@ -343,8 +343,10 @@ public class LocalCallRecordingsActivity extends AppCompatActivity {
     }
 
     public boolean isConnected() {
+
         ConnectivityManager mgr = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = mgr.getActiveNetworkInfo();
+
         if (netInfo != null) {
             if (netInfo.isConnected()) {
                 // Internet Available
@@ -472,7 +474,7 @@ public class LocalCallRecordingsActivity extends AppCompatActivity {
     private void DeleteAllLocalFiles() {
         try {
             try {
-                String fileName = Environment.getExternalStorageDirectory() + "/Call";
+                String fileName = Environment.getExternalStorageDirectory() + "/Recordings/Call";
                 File directory = new File(fileName);
                 File[] files = directory.listFiles();
                 for (int i = 0; i < files.length; i++) {

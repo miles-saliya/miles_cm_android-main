@@ -74,8 +74,6 @@ public class LoginActivity extends AppCompatActivity {
     GoogleSignInClient mGoogleSignInClient;
     public static final int RC_SIGN_IN = 0;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,9 +81,9 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         apiClient = ApiUtills.getAPIService();
         BatteryModel batteryModel = new BatterPercentage().getBattertPercentage(getApplicationContext());
-        if (realm.where(UserToken.class).findFirst()!=null){
+        if (realm.where(UserToken.class).findFirst() != null) {
             UserToken access_token = realm.where(UserToken.class).findFirst();
-            Log.d("user_access_token",access_token.getAccessToken());
+            Log.d("user_access_token", access_token.getAccessToken());
         }
         sharedPreferences = getSharedPreferences(SaveToken, MODE_PRIVATE);
         if (sharedPreferences.getString(AccessToken, null) != null) {
@@ -128,17 +126,16 @@ public class LoginActivity extends AppCompatActivity {
                     ActivityCompat.requestPermissions(this,
                             new String[]{Manifest.permission.CALL_PRIVILEGED},
                             PERMISSIONS_REQUEST_CALL_PRIVILEGED);
-                }
+                  }
             }
         }
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .requestIdToken("360383923261-ppk7gerj3afi09g091ks366cuhv82nsj.apps.googleusercontent.com")
+//                .requestIdToken("360383923261-g6bp2s734psko2o4nkprjlhvec0v1tu2.apps.googleusercontent.com")
                 .setHostedDomain("mileseducation.com")
                 .build();
-         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
-
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
 
     }
@@ -165,6 +162,9 @@ public class LoginActivity extends AppCompatActivity {
 
                     if (response.body().getStatus_code() == 200) {
                         /*Call Record Service */
+                        Log.d("onResponse", response.body().toString());
+
+                        Log.d("onResponse_message", response.message());
                         callRecord = new CallRecord.Builder(getApplicationContext())
                                 /* .setAudioSource(MediaRecorder.AudioSource.VOICE_COMMUNICATION)
                                  .setOutputFormat(MediaRecorder.OutputFormat.AMR_NB)
@@ -174,13 +174,14 @@ public class LoginActivity extends AppCompatActivity {
                                 // optional & default value ->Ex: RecordFileName_incoming.amr || RecordFileName_outgoing.amr
                                 .build();
                         callRecord.startCallReceiver();
-                        getUserToken(response.body().getResponse().getAccess_token(),user_name.getText().toString().trim());
+                        getUserToken(response.body().getResponse().getAccess_token(), user_name.getText().toString().trim());
                     } else {
                         login_progressbar.setVisibility(View.GONE);
                         opensnakeBar("Please enter valid credentials");
                     }
                 } catch (Exception e) {
                     login_progressbar.setVisibility(View.GONE);
+                    Log.d("login_progressbar", e.getMessage());
                     opensnakeBar(e.getMessage());
                 }
             }
@@ -189,12 +190,14 @@ public class LoginActivity extends AppCompatActivity {
             public void onFailure(Call<TokenDataModel> call, Throwable t) {
                 login_progressbar.setVisibility(View.GONE);
                 opensnakeBar("Some thing went wrong");
+                Log.d("onFailure", t.getMessage());
             }
         });
     }
 
 
     private boolean checkAndRequestPermissions() {
+
         int permissionSendMessage = ContextCompat.checkSelfPermission(this,
                 Manifest.permission.READ_CONTACTS);
 
@@ -269,16 +272,16 @@ public class LoginActivity extends AppCompatActivity {
         snackbar.show();
     }
 
-    private void getUserToken( final  String accessToken, final String User_email) {
+    private void getUserToken(final String accessToken, final String User_email) {
         apiClient.getUserIdForPusherSubscription("Bearer " + accessToken, "application/json").enqueue(new Callback<ModelForId>() {
             @Override
             public void onResponse(Call<ModelForId> call, Response<ModelForId> response) {
                 try {
-                    if(response.raw().code() == 515){
+                    if (response.raw().code() == 515) {
                         login_progressbar.setVisibility(View.GONE);
-                        Intent intent = new Intent(LoginActivity.this,StartWorkActivity.class);
-                        intent.putExtra("accessToken",accessToken);
-                        intent.putExtra("user_enail",User_email);
+                        Intent intent = new Intent(LoginActivity.this, StartWorkActivity.class);
+                        intent.putExtra("accessToken", accessToken);
+                        intent.putExtra("user_enail", User_email);
                         startActivity(intent);
                         return;
 
@@ -296,7 +299,7 @@ public class LoginActivity extends AppCompatActivity {
                         UserToken userToken = realm.createObject(UserToken.class);
                         userToken.setAccessToken(accessToken);
                         realm.commitTransaction();
-                    }catch (Exception e){
+                    } catch (Exception e) {
                     }
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     finish();
@@ -333,6 +336,7 @@ public class LoginActivity extends AppCompatActivity {
     public void LoginWIthGoogle(View view) {
         login_progressbar.setVisibility(View.VISIBLE);
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        Log.d("Google_error", signInIntent.toString());
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
@@ -343,26 +347,31 @@ public class LoginActivity extends AppCompatActivity {
             // The Task returned from this call is always completed, no need to attach
             // a listener.
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+
             handleSignInResult(task);
         }
     }
+
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             String token = account.getIdToken();
             String user_email = account.getEmail();
-            if (!token.isEmpty()){
-                Log.d("toekndjkvsfjk",token);
-                GetSignWithGoogle(token,user_email);
+            if (!token.isEmpty()) {
+                Log.d("ApiException_token", token);
+                GetSignWithGoogle(token, user_email);
+                Log.d("ApiException_user_email", user_email);
+
             }
         } catch (ApiException e) {
             opensnakeBar(String.valueOf(e.getMessage()));
+            Log.d("ApiException", e.getMessage());
             login_progressbar.setVisibility(View.GONE);
         }
     }
 
-    private void GetSignWithGoogle(String token, final  String Email) {
-        String GoogleURL = "getAccessTokenFromGoogleIdToken/"+token;
+    private void GetSignWithGoogle(String token, final String Email) {
+        String GoogleURL = "getAccessTokenFromGoogleIdToken/" + token;
         apiClient.getAccessTokenFromGoogle(GoogleURL).enqueue(new Callback<TokenModel>() {
             @Override
             public void onResponse(Call<TokenModel> call, Response<TokenModel> response) {
@@ -372,7 +381,7 @@ public class LoginActivity extends AppCompatActivity {
                         callRecord = new CallRecord.Builder(getApplicationContext())
                                 .build();
                         callRecord.startCallReceiver();
-                        getUserToken(response.body().getAccess_token(),Email);
+                        getUserToken(response.body().getAccess_token(), Email);
                     } else {
                         login_progressbar.setVisibility(View.GONE);
                         opensnakeBar(String.valueOf(response.raw().message()));
@@ -382,6 +391,7 @@ public class LoginActivity extends AppCompatActivity {
                     opensnakeBar(e.getMessage());
                 }
             }
+
             @Override
             public void onFailure(Call<TokenModel> call, Throwable t) {
                 login_progressbar.setVisibility(View.GONE);

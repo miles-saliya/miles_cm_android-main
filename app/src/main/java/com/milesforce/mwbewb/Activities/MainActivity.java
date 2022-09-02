@@ -11,7 +11,6 @@ import android.content.res.AssetManager;
 import android.media.AudioManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -116,6 +115,8 @@ import static com.milesforce.mwbewb.Utils.PusherClass.UnScribeChannel;
 import static com.milesforce.mwbewb.Utils.PusherClass.subscribeChannel;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private static final int AUDIO_RECORDER_FOLDER = 0;
     ActionBar actionBar;
     Toolbar toolbar;
     private View search_bar;
@@ -131,12 +132,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ArrayList<LevelsModel> spinnerLevelList;
     EditText date_picker_;
     Calendar myCalendar, LeadsCalendar;
-    AppCompatImageButton bt_menu_back_from_caller, addLeadForm, search_icon,work_status;
+    AppCompatImageButton bt_menu_back_from_caller, addLeadForm, search_icon, work_status;
     ImageView endCall_btn, addEngagementForm;
     public static final int PERMISSION_ACCESS_CALL_PHONE = 20;
     RadioGroup radioGroupForReference;
     LinearLayout referal, direct, referal_layout, reference_layout_spinner, corporate_company;
-    AppCompatSpinner ewbspinner, mwbspinner, levels_spinner, city_spinner, direct_spinner, milesSpos_spinner,connection_status_spinner;
+    AppCompatSpinner ewbspinner, mwbspinner, levels_spinner, city_spinner, direct_spinner, milesSpos_spinner, connection_status_spinner;
     EditText direct_reference;
     ArrayList<String> levelsArrayList = new ArrayList<>();
     ArrayList<String> ewbArraylist = new ArrayList<>();
@@ -178,7 +179,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     String LeadLevels = " ";
     String RPA_Checked_lead = " ";
     String FOFO_Checked_lead = " ";
-   // String MWbLeadCourseData = "CPA";
+    // String MWbLeadCourseData = "CPA";
     String MWbLeadCourseData = "IIML-BA";
     BatteryModel batteryModel;
     static String SELECTED_STATUS = " ";
@@ -188,7 +189,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     File file_to_upload;
     String LAST_TENDIGIT_MOBILE_NUMBER = null;
     GoogleSignInClient mGoogleSignInClient;
-    private String[] corporates = {
+    private final String[] corporates = {
             "Accenture",
             "AIG",
             "American Express",
@@ -318,10 +319,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     RadioGroup responce_radio_group;
     String RadioBtnResponseType = null;
     EditText engagement_description;
-    AppCompatCheckBox b2c_cpa_check,b2c_cma_check,
+    AppCompatCheckBox b2c_cpa_check, b2c_cma_check,
             b2c_iiml_fa_check,
-            b2c_iiml_ba_check,b2c_iiml_pa_check,b2c_iiml_hr_check,b2c_iitr_bf_check,
-            b2c_iitr_dbe_check,b2c_iimlfa_check,b2c_iimlsf_check;
+            b2c_iiml_ba_check, b2c_iiml_pa_check, b2c_iiml_hr_check, b2c_iitr_bf_check,
+            b2c_iitr_dbe_check, b2c_iimlfa_check, b2c_iimlsf_check;
+
     static String CPAChecked = " ";
     static String CPMChecked = " ";
     static String DaChecked = " ";
@@ -330,11 +332,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     static String IIML_FA_Checked = " ";
     static String IIML_BA_Checked = " ";
     static String IIML_PA_Checked = " ";
-    static  String IIML_HR_Checked= " ";
-    static  String IITR_BF_Checked= " ";
-    static  String IITR_DBE_Checked= " ";
-
-
+    static String IIML_HR_Checked = " ";
+    static String IITR_BF_Checked = " ";
+    static String IITR_DBE_Checked = " ";
 
 
     static String CoursesData = null;
@@ -347,7 +347,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ProgressBar add_engagement_progress;
     AppCompatSpinner appconpact_spinner_connectionstatus;
     AlertDialog alert;
-    EditText b2c_lead_name, b2c_lead_mobile, b2c_lead_email, b2c_lead_education, b2c_lead_company, b2c_lead_designation, b2c_lead_experiance, b2c_lead_engagement, b2c_lead_nextCall_picker_,b2c_international,b2c_country;
+    EditText b2c_lead_name, b2c_lead_mobile, b2c_lead_email, b2c_lead_education, b2c_lead_company, b2c_lead_designation, b2c_lead_experiance, b2c_lead_engagement, b2c_lead_nextCall_picker_, b2c_international, b2c_country;
     EditText b2bcr_leadname, b2bcr_leadmobile, b2bcr_lead_email, b2b_cr_lead_company, b2b_cr_lead_designation, b2b_cr_lead_experiance, b2b_cr_lead_engagement, direct_reference_cr;
     EditText lead_b2b_ir_name, lead_b2b_ir_mobile, lead_b2b_ir_email, lead_b2b_ir_institute, lead_b2b_ir_designation, lead_b2b_ir_engagement, lead_b2b_ir_reference;
 
@@ -359,14 +359,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     LevelsCustomAdapter levelsCustomAdapter;
     UserToken userToken;
     GetCallLogService getCallLogService;
-   static ArrayAdapter<String> cityAdpater;
+    static ArrayAdapter<String> cityAdpater;
 
-    static LinearLayout iiml_course_layout,ba_course_layout;
-
-
+    static LinearLayout iiml_course_layout, ba_course_layout;
 
     @Override
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         realm = Realm.getDefaultInstance();
@@ -571,9 +568,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         apiClient.getSpocUtilization("Bearer " + accessToken, "application/json").enqueue(new Callback<SpocUtilizationModel>() {
             @Override
             public void onResponse(Call<SpocUtilizationModel> call, Response<SpocUtilizationModel> response) {
-               // String data = String.valueOf(response.body());
+                // String data = String.valueOf(response.body());
                 try {
-                    if(response.raw().code() == 515){
+                    if (response.raw().code() == 515) {
                         new ResumeWork().stResumeWork(MainActivity.this);
                         return;
                     }
@@ -581,13 +578,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     calls_.setText(" | " + response.body().getNo_of_calls() + " Calls ");
                     Toast.makeText(MainActivity.this, "UT Updated", Toast.LENGTH_SHORT).show();
                 } catch (Exception e) {
-                   // Toast.makeText(MainActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(MainActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<SpocUtilizationModel> call, Throwable t) {
-               // Toast.makeText(MainActivity.this, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
+                // Toast.makeText(MainActivity.this, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -674,7 +671,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     case R.id.nav_update_UT:
                         new SyncAllMyCallRecords().SyncMyCallLog(MainActivity.this, accessToken);
                         getUtilizationData(accessToken);
-
                         break;
                     case R.id.nav_logout:
                         stopUserSession(accessToken);
@@ -684,7 +680,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         break;
                     case R.id.nav_b2b_cr:
                         //  openAddLeadForB2BCr();
-
                         break;
                     case R.id.nav_b2b_ir:
                         //  openAddLeadFormFroB2bIr();
@@ -720,22 +715,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        drawer.openDrawer(GravityCompat.START);
     }
 
-    private void stopUserSession( final String accessToken) {
-        apiClient.updateWorkingStatus("stopped","Bearer "+accessToken).enqueue(new Callback<SuccessModel>() {
+    private void stopUserSession(final String accessToken) {
+        apiClient.updateWorkingStatus("stopped", "Bearer " + accessToken).enqueue(new Callback<SuccessModel>() {
             @Override
             public void onResponse(Call<SuccessModel> call, Response<SuccessModel> response) {
-               try {
-                   if(response.body().getStatus().equals("success")){
-                       Toast.makeText(MainActivity.this, "Successfully updated!", Toast.LENGTH_SHORT).show();
-                   }
-               }catch (Exception e){
-                 e.getMessage();
-               }
+                try {
+                    if (response.body().getStatus().equals("success")) {
+                        Toast.makeText(MainActivity.this, "Successfully updated!", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    e.getMessage();
+                }
 
             }
+
             @Override
             public void onFailure(Call<SuccessModel> call, Throwable t) {
-              t.getMessage();
+                t.getMessage();
             }
         });
 
@@ -747,7 +743,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         deleteRealmData();
         try {
             mGoogleSignInClient.signOut();
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
         startActivity(new Intent(MainActivity.this, LoginActivity.class));
@@ -780,6 +776,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
          getSupportActionBar().setDisplayShowTitleEnabled(false);
          Tools.setSystemBarColor(this);
      }*/
+
     private void initComponent() {
         search_bar = (View) findViewById(R.id.search_bar);
         addLeadForm = findViewById(R.id.addLeadForm);
@@ -1162,10 +1159,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.take_break:
-                       OpenAlertForWorkStatus("paused",1);
+                        OpenAlertForWorkStatus("paused", 1);
                         break;
                     case R.id.leave_for_day:
-                        OpenAlertForWorkStatus("stopped",0);
+                        OpenAlertForWorkStatus("stopped", 0);
                         break;
 
 
@@ -1179,20 +1176,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void OpenAlertForWorkStatus(String stopped, final int i) {
         final AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create(); //Read Update
         alertDialog.setTitle("Confirm");
-        if(i == 0){
+        if (i == 0) {
             alertDialog.setMessage("Are you sure you want to stop?");
         }
-        if(i == 1){
+        if (i == 1) {
             alertDialog.setMessage("Are you sure you want to pause?");
         }
         alertDialog.setButton(Dialog.BUTTON_POSITIVE, "Accept", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if(i == 0){
+                if (i == 0) {
                     stopUserSession(accessToken);
                 }
-                if(i == 1){
-                    UpdadtingWorkingStatus("paused",1);
+                if (i == 1) {
+                    UpdadtingWorkingStatus("paused", 1);
                 }
             }
         });
@@ -1208,26 +1205,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void UpdadtingWorkingStatus(String status, int i) {
-        apiClient.updateWorkingStatus(status,"Bearer " + accessToken).enqueue(new Callback<SuccessModel>() {
+        apiClient.updateWorkingStatus(status, "Bearer " + accessToken).enqueue(new Callback<SuccessModel>() {
             @Override
             public void onResponse(Call<SuccessModel> call, Response<SuccessModel> response) {
                 try {
-                    if(response.raw().code() == 515 ){
+                    if (response.raw().code() == 515) {
                         Toast.makeText(MainActivity.this, String.valueOf(response.body().getMessage()), Toast.LENGTH_SHORT).show();
-                       return;
+                        return;
                     }
-                    if(response.body().getStatus().equals("success")){
+                    if (response.body().getStatus().equals("success")) {
                         new ResumeWork().stResumeWork(MainActivity.this);
 
-                    }else {
+                    } else {
                         Toast.makeText(MainActivity.this, String.valueOf(response.body().getMessage()), Toast.LENGTH_SHORT).show();
                     }
 
-                }catch (Exception e){
+                } catch (Exception e) {
 
                 }
 
             }
+
             @Override
             public void onFailure(Call<SuccessModel> call, Throwable t) {
 
@@ -1536,7 +1534,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 LeadDetails = lead_b2b_ir_reference.getText().toString();
             }
             b2b_ir_progress.setVisibility(View.VISIBLE);
-            apiClient.AddMwbLead(lead_b2b_ir_name.getText().toString().trim(), "M1", "None", "B2BIR", lead_b2b_ir_institute.getText().toString().trim(), lead_b2b_ir_designation.getText().toString().trim(), " ", " ", LEADCity, "", LEADSOURCE, LeadDetails, lead_b2b_ir_email.getText().toString(), lead_b2b_ir_mobile.getText().toString(), lead_b2b_ir_engagement.getText().toString().trim(), nextCallTimeStamp, 0, batteryModel.getBattey_percentage(), batteryModel.getCharging_status(), VERSION_NUMBER, "","",ConnectionStatus,"","Bearer " + accessToken, "application/json").enqueue(new Callback<SuccessModel>() {
+            apiClient.AddMwbLead(lead_b2b_ir_name.getText().toString().trim(), "M1", "None", "B2BIR", lead_b2b_ir_institute.getText().toString().trim(), lead_b2b_ir_designation.getText().toString().trim(), " ", " ", LEADCity, "", LEADSOURCE, LeadDetails, lead_b2b_ir_email.getText().toString(), lead_b2b_ir_mobile.getText().toString(), lead_b2b_ir_engagement.getText().toString().trim(), nextCallTimeStamp, 0, batteryModel.getBattey_percentage(), batteryModel.getCharging_status(), VERSION_NUMBER, "", "", ConnectionStatus, "", "Bearer " + accessToken, "application/json").enqueue(new Callback<SuccessModel>() {
                 @Override
                 public void onResponse(Call<SuccessModel> call, Response<SuccessModel> response) {
                     try {
@@ -1909,12 +1907,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         b2c_country = dialog.findViewById(R.id.country);
         b2c_lead_nextCall_picker_ = dialog.findViewById(R.id.b2c_lead_nextCall_picker_);
         add_b2b_progresss = dialog.findViewById(R.id.add_b2b_progresss);
-        iiml_course_layout = dialog.findViewById(R.id.iiml_course_layout) ;
+        iiml_course_layout = dialog.findViewById(R.id.iiml_course_layout);
         ba_course_layout = dialog.findViewById(R.id.ba_course_layout);
-        if( IIML_TAB_CHANGE_CODE ==0 ){
+        if (IIML_TAB_CHANGE_CODE == 0) {
             iiml_course_layout.setVisibility(View.GONE);
             ba_course_layout.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             iiml_course_layout.setVisibility(View.VISIBLE);
             ba_course_layout.setVisibility(View.GONE);
         }
@@ -1947,9 +1945,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         b2c_iiml_pa_check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
+                if (isChecked) {
                     IIML_PA_Checked = "IIML-PM";
-                }else {
+                } else {
                     IIML_PA_Checked = "";
                 }
             }
@@ -1957,9 +1955,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         b2c_iiml_hr_check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
+                if (isChecked) {
                     IIML_HR_Checked = "IIML-HR";
-                }else {
+                } else {
                     IIML_HR_Checked = "";
                 }
             }
@@ -1967,26 +1965,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         b2c_iitr_bf_check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked){
+                if (isChecked) {
                     IITR_BF_Checked = "IITR-BF";
-                }else {
-                    IITR_BF_Checked="";
+                } else {
+                    IITR_BF_Checked = "";
                 }
             }
         });
         b2c_iitr_dbe_check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked){
+                if (isChecked) {
                     IITR_DBE_Checked = "IITR-DB";
-                }else {
-                    IITR_DBE_Checked="";
+                } else {
+                    IITR_DBE_Checked = "";
                 }
             }
         });
-
-
-
 
 
         autoCompleteText_mwb_b2c = dialog.findViewById(R.id.autoCompleteText_mwb_b2c);
@@ -2220,8 +2215,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
 
-
-         cityAdpater = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, cityArrayList);
+        cityAdpater = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, cityArrayList);
         // Drop down layout style - list view with radio button
         cityAdpater.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // attaching data adapter to spinner
@@ -2250,7 +2244,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 SELECTED_STATUS = connection_status_spinner.getSelectedItem().toString();
-                Toast.makeText(MainActivity.this, ""+SELECTED_STATUS, Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "" + SELECTED_STATUS, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -2291,24 +2285,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         .get(Calendar.YEAR), LeadsCalendar.get(Calendar.MONTH),
                         LeadsCalendar.get(Calendar.DAY_OF_MONTH));
                 datePickerDialog.getDatePicker().setMinDate(LeadsCalendar.getTimeInMillis());
-                datePickerDialog .show();
+                datePickerDialog.show();
             }
         });
 
-        apiClient.getSpocCity("Bearer "+accessToken).enqueue(new Callback<SuccessModel>() {
+        apiClient.getSpocCity("Bearer " + accessToken).enqueue(new Callback<SuccessModel>() {
             @Override
             public void onResponse(Call<SuccessModel> call, Response<SuccessModel> response) {
                 try {
-                    if(response.body() ==null){
-                    }else {
+                    if (response.body() == null) {
+                    } else {
                         String City = response.body().getCity();//the value you want the position for
                         int spinnerPosition = cityAdpater.getPosition(City);
                         city_spinner.setSelection(spinnerPosition);
                         LEADCity = City;
-                       // Toast.makeText(MainActivity.this, ""+LEADCity, Toast.LENGTH_SHORT).show();
+                        // Toast.makeText(MainActivity.this, ""+LEADCity, Toast.LENGTH_SHORT).show();
 
                     }
-                }catch (Exception e){
+                } catch (Exception e) {
 
                 }
 
@@ -2409,7 +2403,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-
     public void openAlert(String s) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
@@ -2452,7 +2445,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void SaveMWbB2CLead(final Dialog dialog) {
         if (SELECTED_STATUS.equals(" ")) {
             Toast.makeText(this, "Please select Connection status ", Toast.LENGTH_SHORT).show();
-            return ;
+            return;
         }
         if (SELECTED_STATUS.equals("Connected / Discussed")) {
             ConnectionStatus = "CD";
@@ -2495,20 +2488,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     LeadDetails = direct_reference.getText().toString();
                 }
                 add_b2b_progresss.setVisibility(View.VISIBLE);
-                if(b2c_lead_mobile.getText().toString().trim().length() == 10){
+                if (b2c_lead_mobile.getText().toString().trim().length() == 10) {
                     LAST_TENDIGIT_MOBILE_NUMBER = b2c_lead_mobile.getText().toString().trim();
-                }if(b2c_lead_mobile.getText().toString().trim().length() > 10){
+                }
+                if (b2c_lead_mobile.getText().toString().trim().length() > 10) {
                     String Mobile_NUmber = b2c_lead_mobile.getText().toString().trim();
                     LAST_TENDIGIT_MOBILE_NUMBER = Mobile_NUmber.substring(Mobile_NUmber.length() - 10);
                 }
-                if(b2c_lead_mobile.getText().toString().trim().length() < 10){
+                if (b2c_lead_mobile.getText().toString().trim().length() < 10) {
                     Toast.makeText(this, "Please enter 10 digits mobile number", Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
                     return;
                 }
                 String international_city = b2c_international.getText().toString();
                 String country_ = b2c_country.getText().toString();
-                apiClient.AddMwbLead(b2c_lead_name.getText().toString().trim(), LeadLevels, MWbLeadCourseData, "B2C", b2c_lead_company.getText().toString(), b2c_lead_designation.getText().toString(), b2c_lead_experiance.getText().toString(), b2c_lead_education.getText().toString(), LEADCity, "", LEADSOURCE, LeadDetails, b2c_lead_email.getText().toString().trim(), LAST_TENDIGIT_MOBILE_NUMBER, b2c_lead_engagement.getText().toString().trim(), nextCallTimeStamp, 0, batteryModel.getBattey_percentage(), batteryModel.getCharging_status(), VERSION_NUMBER, international_city,country_,ConnectionStatus,"","Bearer " + accessToken, "application/json").enqueue(new Callback<SuccessModel>() {
+                apiClient.AddMwbLead(b2c_lead_name.getText().toString().trim(), LeadLevels, MWbLeadCourseData, "B2C", b2c_lead_company.getText().toString(), b2c_lead_designation.getText().toString(), b2c_lead_experiance.getText().toString(), b2c_lead_education.getText().toString(), LEADCity, "", LEADSOURCE, LeadDetails, b2c_lead_email.getText().toString().trim(), LAST_TENDIGIT_MOBILE_NUMBER, b2c_lead_engagement.getText().toString().trim(), nextCallTimeStamp, 0, batteryModel.getBattey_percentage(), batteryModel.getCharging_status(), VERSION_NUMBER, international_city, country_, ConnectionStatus, "", "Bearer " + accessToken, "application/json").enqueue(new Callback<SuccessModel>() {
                     @Override
                     public void onResponse(Call<SuccessModel> call, Response<SuccessModel> response) {
                         try {
@@ -2523,21 +2517,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     dialog.dismiss();
                                     showSnakebar(response.body().getMessage());
                                     add_b2b_progresss.setVisibility(View.GONE);
-                                }if (response.body().getStatus().equals("error")) {
+                                }
+                                if (response.body().getStatus().equals("error")) {
                                     showSnakebar(response.body().getMessage());
                                     String spam_number_check = response.body().getMessage();
                                     add_b2b_progresss.setVisibility(View.GONE);
-                                    if(spam_number_check.contains("spam")){
-                                        showSpamDialog(dialog,LAST_TENDIGIT_MOBILE_NUMBER,b2c_lead_mobile.getText().toString().trim(),"Bearer " + accessToken);
-                                    }else {
+                                    if (spam_number_check.contains("spam")) {
+                                        showSpamDialog(dialog, LAST_TENDIGIT_MOBILE_NUMBER, b2c_lead_mobile.getText().toString().trim(), "Bearer " + accessToken);
+                                    } else {
                                         showSnakebar(response.body().getMessage());
                                         add_b2b_progresss.setVisibility(View.GONE);
-                                      //  dialog.dismiss();
+                                        //  dialog.dismiss();
 
                                     }
-                                }
-
-                                else {
+                                } else {
                                     //dialog.dismiss();
                                     showSnakebar(response.body().getMessage());
                                     add_b2b_progresss.setVisibility(View.GONE);
@@ -2562,17 +2555,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    private void showSpamDialog(Dialog dialog, final String last_tendigit_mobile_number,String original_number, final String accessToken) {
+    private void showSpamDialog(Dialog dialog, final String last_tendigit_mobile_number, String original_number, final String accessToken) {
         AlertDialog.Builder builder1 = new AlertDialog.Builder(dialog.getContext());
-        builder1.setMessage("This number("+original_number+" ) is marked as spam. Would you like to remove it from Spam ?");
+        builder1.setMessage("This number(" + original_number + " ) is marked as spam. Would you like to remove it from Spam ?");
         builder1.setCancelable(false);
-
 
         builder1.setPositiveButton(
                 "Remove from Spam",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        removeThisNumberFromSpamApi(dialog,last_tendigit_mobile_number,accessToken);
+                        removeThisNumberFromSpamApi(dialog, last_tendigit_mobile_number, accessToken);
                     }
                 });
 
@@ -2589,19 +2581,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void removeThisNumberFromSpamApi(DialogInterface dialog, String last_tendigit_mobile_number, String bearerAccessToken) {
-        apiClient.removeFromSpam(last_tendigit_mobile_number,bearerAccessToken).enqueue(new Callback<SuccessModel>() {
+        apiClient.removeFromSpam(last_tendigit_mobile_number, bearerAccessToken).enqueue(new Callback<SuccessModel>() {
             @Override
             public void onResponse(Call<SuccessModel> call, Response<SuccessModel> response) {
-                if(response.body().getStatus().equals("success")){
+                if (response.body().getStatus().equals("success")) {
                     Toast.makeText(MainActivity.this, "Removed the number from spam. Now add a lead with this number", Toast.LENGTH_SHORT).show();
-                }else {
-                    Toast.makeText(MainActivity.this, ""+response.message(), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(MainActivity.this, "" + response.message(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<SuccessModel> call, Throwable t) {
-                Toast.makeText(MainActivity.this, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
         dialog.dismiss();
@@ -2617,39 +2609,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (b2c_iiml_ba_check.isChecked()) {
             MWbLeadCourseData = IIML_BA_Checked;
         }
-        if(b2c_iiml_pa_check.isChecked()){
+        if (b2c_iiml_pa_check.isChecked()) {
             MWbLeadCourseData = IIML_PA_Checked;
         }
-        if(b2c_iiml_hr_check.isChecked()){
+        if (b2c_iiml_hr_check.isChecked()) {
             MWbLeadCourseData = IIML_HR_Checked;
         }
-        if(b2c_iitr_bf_check.isChecked()){
-            MWbLeadCourseData = IITR_BF_Checked ;
+        if (b2c_iitr_bf_check.isChecked()) {
+            MWbLeadCourseData = IITR_BF_Checked;
 
         }
-        if(b2c_iitr_dbe_check.isChecked()){
+        if (b2c_iitr_dbe_check.isChecked()) {
             MWbLeadCourseData = IITR_DBE_Checked;
         }
-        if(b2c_iiml_fa_check.isChecked() && b2c_iitr_dbe_check.isChecked()){
-            MWbLeadCourseData =IIML_FA_Checked + ","+ IITR_DBE_Checked;
+        if (b2c_iiml_fa_check.isChecked() && b2c_iitr_dbe_check.isChecked()) {
+            MWbLeadCourseData = IIML_FA_Checked + "," + IITR_DBE_Checked;
         }
-        if(b2c_iiml_ba_check.isChecked() && b2c_iitr_dbe_check.isChecked()){
-            MWbLeadCourseData =IIML_BA_Checked + ","+ IITR_DBE_Checked;
+        if (b2c_iiml_ba_check.isChecked() && b2c_iitr_dbe_check.isChecked()) {
+            MWbLeadCourseData = IIML_BA_Checked + "," + IITR_DBE_Checked;
         }
-        if(b2c_iitr_bf_check.isChecked() && b2c_iitr_dbe_check.isChecked()){
-            MWbLeadCourseData =IITR_BF_Checked + ","+ IITR_DBE_Checked;
+        if (b2c_iitr_bf_check.isChecked() && b2c_iitr_dbe_check.isChecked()) {
+            MWbLeadCourseData = IITR_BF_Checked + "," + IITR_DBE_Checked;
         }
-        if(b2c_iiml_fa_check.isChecked() && b2c_iitr_bf_check.isChecked()){
-            MWbLeadCourseData =IIML_FA_Checked + ","+ IITR_BF_Checked;
+        if (b2c_iiml_fa_check.isChecked() && b2c_iitr_bf_check.isChecked()) {
+            MWbLeadCourseData = IIML_FA_Checked + "," + IITR_BF_Checked;
         }
-        if(b2c_iiml_ba_check.isChecked() && b2c_iitr_bf_check.isChecked()){
-            MWbLeadCourseData =IIML_BA_Checked + ","+ IITR_BF_Checked;
+        if (b2c_iiml_ba_check.isChecked() && b2c_iitr_bf_check.isChecked()) {
+            MWbLeadCourseData = IIML_BA_Checked + "," + IITR_BF_Checked;
         }
-        if(b2c_iiml_fa_check.isChecked() && b2c_iiml_pa_check.isChecked()){
-            MWbLeadCourseData =IIML_FA_Checked + ","+ IIML_PA_Checked;
+        if (b2c_iiml_fa_check.isChecked() && b2c_iiml_pa_check.isChecked()) {
+            MWbLeadCourseData = IIML_FA_Checked + "," + IIML_PA_Checked;
         }
-        if(b2c_iiml_ba_check.isChecked() && b2c_iiml_pa_check.isChecked()){
-            MWbLeadCourseData =IIML_BA_Checked + ","+ IIML_PA_Checked;
+        if (b2c_iiml_ba_check.isChecked() && b2c_iiml_pa_check.isChecked()) {
+            MWbLeadCourseData = IIML_BA_Checked + "," + IIML_PA_Checked;
         }
         if (b2c_iiml_ba_check.isChecked() && b2c_iiml_hr_check.isChecked()) {
             MWbLeadCourseData = IIML_BA_Checked + "," + IIML_HR_Checked;
@@ -2661,21 +2653,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             MWbLeadCourseData = IIML_PA_Checked + "," + IIML_HR_Checked;
         }
         if (b2c_cpa_check.isChecked() && b2c_cma_check.isChecked()) {
-           MWbLeadCourseData = CPAChecked_lead + "," + CMAChecked_lead;
+            MWbLeadCourseData = CPAChecked_lead + "," + CMAChecked_lead;
         }
-        if(b2c_iimlfa_check.isChecked() && b2c_iimlsf_check.isChecked()){
-            MWbLeadCourseData = IIML_FA_Checked_lead+ "," + IIML_SF_Checked_lead;;
+        if (b2c_iimlfa_check.isChecked() && b2c_iimlsf_check.isChecked()) {
+            MWbLeadCourseData = IIML_FA_Checked_lead + "," + IIML_SF_Checked_lead;
+            ;
         }
         if (b2c_cpa_check.isChecked()) {
             MWbLeadCourseData = CPAChecked_lead;
         }
-        if ( b2c_cma_check.isChecked()) {
+        if (b2c_cma_check.isChecked()) {
             MWbLeadCourseData = CMAChecked_lead;
         }
-        if(b2c_iimlfa_check.isChecked()){
+        if (b2c_iimlfa_check.isChecked()) {
             MWbLeadCourseData = IIML_FA_Checked_lead;
         }
-        if(b2c_iimlsf_check.isChecked()){
+        if (b2c_iimlsf_check.isChecked()) {
             MWbLeadCourseData = IIML_SF_Checked_lead;
         }
 
@@ -2743,42 +2736,51 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 LeadDetails = direct_reference_cr.getText().toString();
             }
             b2b_cr_progress.setVisibility(View.VISIBLE);
-            apiClient.AddMwbLead(b2bcr_leadname.getText().toString().trim(), "M1", "None", "B2BCR", b2b_cr_lead_company.getText().toString().trim(), b2b_cr_lead_designation.getText().toString().trim(), b2b_cr_lead_experiance.getText().toString().trim(), " ", LEADCity, "", LEADSOURCE, LeadDetails, b2bcr_lead_email.getText().toString(), b2bcr_leadmobile.getText().toString(), b2b_cr_lead_engagement.getText().toString().trim(), nextCallTimeStamp, 0, batteryModel.getBattey_percentage(), batteryModel.getCharging_status(), VERSION_NUMBER, "","",ConnectionStatus,"","Bearer " + accessToken, "application/json").enqueue(new Callback<SuccessModel>() {
-                @Override
-                public void onResponse(Call<SuccessModel> call, Response<SuccessModel> response) {
-                    try {
-                        if (response.body() == null) {
-                            int statusCode = response.raw().code();
-                            if (statusCode > 399 && statusCode < 500) {
-                                ClearSession();
-                            }
-                            dialog.dismiss();
-                        } else {
-                            if (response.body().getStatus().equals("success")) {
-                                showSnakebar(response.body().getMessage());
-                                dialog.dismiss();
-                                b2b_cr_progress.setVisibility(View.GONE);
-                            } else {
-                                showSnakebar(response.body().getMessage());
-                                dialog.dismiss();
-                                b2b_cr_progress.setVisibility(View.GONE);
-                            }
+            apiClient.AddMwbLead(b2bcr_leadname.getText().toString().trim(), "M1",
+                            "None", "B2BCR", b2b_cr_lead_company.getText().toString().trim(),
+                            b2b_cr_lead_designation.getText().toString().trim(),
+                            b2b_cr_lead_experiance.getText().toString().trim(), " ", LEADCity,
+                            "", LEADSOURCE, LeadDetails, b2bcr_lead_email.getText().toString(),
+                            b2bcr_leadmobile.getText().toString(), b2b_cr_lead_engagement.getText().toString().trim(),
+                            nextCallTimeStamp, 0, batteryModel.getBattey_percentage(),
+                            batteryModel.getCharging_status(), VERSION_NUMBER, "", "",
+                            ConnectionStatus, "", "Bearer " + accessToken, "application/json")
+                    .enqueue(new Callback<SuccessModel>() {
+                        @Override
+                        public void onResponse(Call<SuccessModel> call, Response<SuccessModel> response) {
+                            try {
+                                if (response.body() == null) {
+                                    int statusCode = response.raw().code();
+                                    if (statusCode > 399 && statusCode < 500) {
+                                        ClearSession();
+                                    }
+                                    dialog.dismiss();
+                                } else {
+                                    if (response.body().getStatus().equals("success")) {
+                                        showSnakebar(response.body().getMessage());
+                                        dialog.dismiss();
+                                        b2b_cr_progress.setVisibility(View.GONE);
+                                    } else {
+                                        showSnakebar(response.body().getMessage());
+                                        dialog.dismiss();
+                                        b2b_cr_progress.setVisibility(View.GONE);
+                                    }
 
+                                }
+                            } catch (Exception e) {
+                                showSnakebar(e.getMessage());
+                                dialog.dismiss();
+                                b2b_cr_progress.setVisibility(View.GONE);
+                            }
                         }
-                    } catch (Exception e) {
-                        showSnakebar(e.getMessage());
-                        dialog.dismiss();
-                        b2b_cr_progress.setVisibility(View.GONE);
-                    }
-                }
 
-                @Override
-                public void onFailure(Call<SuccessModel> call, Throwable t) {
-                    showSnakebar(t.getMessage());
-                    dialog.dismiss();
-                    b2b_cr_progress.setVisibility(View.GONE);
-                }
-            });
+                        @Override
+                        public void onFailure(Call<SuccessModel> call, Throwable t) {
+                            showSnakebar(t.getMessage());
+                            dialog.dismiss();
+                            b2b_cr_progress.setVisibility(View.GONE);
+                        }
+                    });
         }
     }
 
@@ -2829,50 +2831,99 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         long timeStamp = System.currentTimeMillis();
         Log.d("aync_test", String.valueOf(timeStamp));
         Log.d("aync_test", String.valueOf(s));
-        apiClient.getGeneratedPresignedUrl(s, "Bearer " + Access_token, "application/json").enqueue(new Callback<SuccessModel>() {
-            @Override
-            public void onResponse(Call<SuccessModel> call, Response<SuccessModel> response) {
-                if (response.body().getUrl() != null) {
-                    String URL = response.body().getUrl();
-                    Log.d("aync_test", URL);
+        apiClient.getGeneratedPresignedUrl(s, "Bearer " + Access_token, "application/json")
+                .enqueue(new Callback<SuccessModel>() {
+                    @Override
+                    public void onResponse(Call<SuccessModel> call, Response<SuccessModel> response) {
+                        if (response.body().getUrl() != null) {
+                            String URL = response.body().getUrl();
+                            Log.d("aync_test", URL);
 
-                    if (isConnected()) {
-                        SendFileDataToServer(file, URL);
-                    } else {
-                        Toast.makeText(MainActivity.this, "No Internet Connection Found....!", Toast.LENGTH_SHORT).show();
+                            if (isConnected()) {
+                                SendFileDataToServer(file, URL);
+//                                SendFileDataToServer(Environment.getExternalStorageDirectory() + "/Recordings/Call", URL);
+
+                            } else {
+                                Toast.makeText(MainActivity.this,
+                                        "No Internet Connection Found....!", Toast.LENGTH_SHORT).show();
+                            }
+
+                            //recordsModelArrayList.clear();
+
+                        }
                     }
 
-                    //recordsModelArrayList.clear();
+                    @Override
+                    public void onFailure(Call<SuccessModel> call, Throwable t) {
+                        if (isConnected()) {
+                            Toast.makeText(MainActivity.this, "Some thing went wrong....!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(MainActivity.this, "No Internet Connection Found....!", Toast.LENGTH_SHORT).show();
 
-                }
-            }
-
-            @Override
-            public void onFailure(Call<SuccessModel> call, Throwable t) {
-                if (isConnected()) {
-                    Toast.makeText(MainActivity.this, "Some thing went wrong....!", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(MainActivity.this, "No Internet Connection Found....!", Toast.LENGTH_SHORT).show();
-
-                }
-
-
-            }
-        });
+                        }
+                    }
+                });
     }
 
+    //    private void DeleteFileFromLocal(String file_name) {
+//        Log.d("aync_test", file_name + "");
+//        try {
+//            try {
+//                String pathName = Environment.getExternalStorageDirectory() + "/Recordings/Call";
+//
+//                File directory = new File(pathName);
+//                File[] files = directory.listFiles();
+//
+//                for (int i = 0; i < files.length; i++) {
+//                    Log.d("File_Get_Name",files[i].getName());
+//                    if(files[i].delete()){
+//                        Toast.makeText(this, "File deleted", Toast.LENGTH_SHORT).show();
+//                    } else {
+//                        Toast.makeText(this, "File Unable to deleting 1", Toast.LENGTH_SHORT).show();
+//                    }
+////                    if (files[i].getName().equals(file_name)) {
+////
+////
+//////                        new File(files[i].getName()).delete();
+//////                        ;
+////
+////                    }else{
+////
+////                        Toast.makeText(this, "File Unable to deleting 2", Toast.LENGTH_SHORT).show();
+////
+////                    }
+//                }
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//                    UploadFilesToServer();
+//                }
+//
+//            } catch (Exception e) {
+//                Toast.makeText(this, "Some thing went wrong.Please try after some time", Toast.LENGTH_SHORT).show();
+//            }
+//        } catch (Exception e) {
+//            Toast.makeText(this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
+//        }
+//    }
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void DeleteFileFromLocal(String file_name) {
-        Log.d("aync_test", file_name + "AtDeleting");
+        Log.d("aync_test_path", file_name);
         try {
             try {
-                String fileName = Environment.getExternalStorageDirectory() + "/Call";
+                String fileName = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Recordings/Call";
                 File directory = new File(fileName);
                 File[] files = directory.listFiles();
                 for (int i = 0; i < files.length; i++) {
-                    if (files[i].toString().equals(file_name)) {
-                        new File(directory, files[i].getName()).delete();
+                    if (files[i].getPath() == file_name) {
+                        if (files[i].exists()) {
+                            files[i].getCanonicalFile().delete();
+                            getApplicationContext().deleteFile(files[i].getName());
+                            Toast.makeText(this, "File deleted.", Toast.LENGTH_SHORT).show();
+
+                        }
+                    } else {
+                        Toast.makeText(this, "File unable to Remove", Toast.LENGTH_SHORT).show();
                     }
+
                 }
                 UploadFilesToServer();
 
@@ -2884,10 +2935,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    //    private void SendFileDataToServer(final String fileName, final String Url) {
     private void SendFileDataToServer(final String fileName, final String Url) {
+
         File file = new File(fileName);
         Log.d("PathlookingUp===>", fileName);
-        Log.d("PathlookingUp===>", file.toString());
 
         RequestBody requestBody = null;
         InputStream in = null;
@@ -2905,6 +2957,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             e.printStackTrace();
         }
         apiClient.UploadBinaryFile(Url, requestBody).enqueue(new Callback<ResponseBody>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.code() == 200) {
@@ -2926,10 +2979,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void UploadFilesToServer() {
         try {
-            String fileNmae = Environment.getExternalStorageDirectory() + "/Call";
+//            String fileNmae = Environment.getExternalStorageDirectory() + "/Recordings";
+            String fileNmae = Environment.getExternalStorageDirectory() + "/Recordings/Call";
+//            Log.d("PathlookingUp===>", fileNmae);
             File directory = new File(fileNmae);
             File[] files = directory.listFiles();
             if (files.length > 0) {
@@ -2964,12 +3020,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         if (filePath != null) {
                             generatePresignedUrl(String.valueOf(file), String.valueOf(createdAt), userToken.getAccessToken());
                         }
-
                     }
                 }
             }
-
-
         } catch (Exception e) {
         }
 

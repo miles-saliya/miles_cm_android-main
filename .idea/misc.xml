@@ -8,7 +8,87 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../layout/custom_preview.xml" value="0.12949640287769784" />
+        <entry key="app/src/main/res/drawable/ic_stack_menu.xml" value="0.1965" />
+        <entry key="app/src/main/res/layout/activity_add_engagement.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/activity_ewbsr.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.24375" />
         <entry key="app/src/main/res/layout/activity_registered_student.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_search_client.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/classes_info_for_cma.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/customadapter.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/drawer_header.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/email_info.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/email_info_layout.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/email_infos_layout.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/emailadd_layout.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/emailadd_layout_emailshow.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/flag_layout.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/fragment_add_new_engagement.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/fragment_call_log.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/fragment_call_log_info.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/fragment_cma.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/fragment_cpa.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/fragment_escalation.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/fragment_flag.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/fragment_flagging_delays.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/fragment_history.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/fragment_iimlnew_engagement.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/fragment_imwaiting_fragement.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/fragment_jobs_for_today.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/fragment_mh.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/fragment_missed_calls_fragments.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/fragment_net_enquire.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/fragment_no_sr.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/fragment_second_level.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/fragment_sr.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/fragment_srcpa_cm.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/fragment_to_update.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/fragment_un_tabbed.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/fragment_untracked.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/fragment_user_info.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/fragment_work_log.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/history_layout.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/iiml_dialog_event.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/include_card_view_search_bar.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/listitems_layout.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/main_email_form.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/mhp_layout.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/missed_call_layout.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/mobile_icon_layout.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/mobile_info_layout.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/mobile_number_info.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/mobile_numer_layout.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/mobilelayout.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/net_enquire.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/netenquiry_numberlayout.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/play_layout.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/referral_layout.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/sample.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/search_client_layout.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/sheet_list.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/student_relation_layout.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/tag_layout.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/testing_layout.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/testingui.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/todays_layout.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/toolbarforaddclass.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/toolbarforewb.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/toolbarforregistredstudent.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/toolbarforsearchclient.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/toolbarfortakeattendance.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/toolbarfrom.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/toolbarfrom_callinfo.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/toupdate_layout.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/untapped_layout.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/untracked_layout.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/untrackednumberlayout.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/waiting_layout.xml" value="0.24375" />
+        <entry key="app/src/main/res/menu/menu_bottom_navigation_basic.xml" value="0.24375" />
+        <entry key="app/src/main/res/menu/navigationmenu.xml" value="0.24375" />
+        <entry key="app/src/main/res/menu/popup_menu.xml" value="0.24375" />
+        <entry key="app/src/main/res/menu/work_options.xml" value="0.24375" />
       </map>
     </option>
   </component>

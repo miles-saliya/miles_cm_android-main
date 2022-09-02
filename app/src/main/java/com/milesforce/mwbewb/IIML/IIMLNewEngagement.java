@@ -274,8 +274,6 @@ public class IIMLNewEngagement extends Fragment implements View.OnClickListener 
                 }
             }
         });
-
-
         if (courses.contains("IIML-BA")) {
             iiml_checked.setChecked(true);
 

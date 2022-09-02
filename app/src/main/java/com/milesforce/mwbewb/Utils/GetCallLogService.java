@@ -199,11 +199,13 @@ public class GetCallLogService {
             public void onResponse(Call<SuccessModel> call, Response<SuccessModel> response) {
                 try {
                     if (response.body() == null) {
+                        Log.d("PrintBody",response.body().toString());
                         int statusCode = response.raw().code();
                         if (statusCode > 399 && statusCode < 500) {
                             Toast.makeText(context, "Yours Session is Expired.Please Try after Login..", Toast.LENGTH_SHORT).show();
                         }
                     } else {
+                        Log.d("PrintBody",response.body().toString());
                         if (response.body().getResult().equals("success")) {
                             editor.putString(UpdatedTimeRecord, String.valueOf(getTodayTimestamp()));
                             Log.d("newShared", String.valueOf(getTodayTimestamp()));
