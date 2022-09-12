@@ -3,18 +3,23 @@ package com.milesforce.mwbewb.Activities;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.PendingIntent;
+import android.app.RecoverableSecurityException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.media.AudioManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,6 +44,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -95,6 +101,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -363,6 +370,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     static LinearLayout iiml_course_layout, ba_course_layout;
 
+
+    String directoryPath;
+    int currentapiVersion = android.os.Build.VERSION.SDK_INT;
+    int versioncode = android.os.Build.VERSION_CODES.R;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -532,7 +545,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void SendCallRecordingForEveryTenMinutes() {
         callRecordingHandler = new Handler();
         callRecordingHandler.postDelayed(callRecordingRunnable = new Runnable() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void run() {
                 //  CallRecordingAsync callRecordingAsync = new CallRecordingAsync();
@@ -700,7 +712,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     case R.id.take_attendance:
                         startActivity(new Intent(MainActivity.this, TakeAttendance.class));
                         break;
-
 
                 }
 
@@ -2904,38 +2915,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //            Toast.makeText(this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
 //        }
 //    }
-    @RequiresApi(api = Build.VERSION_CODES.O)
+
+
     private void DeleteFileFromLocal(String file_name) {
         Log.d("aync_test_path", file_name);
-        try {
-            try {
-                String fileName = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Recordings/Call";
-                File directory = new File(fileName);
-                File[] files = directory.listFiles();
-                for (int i = 0; i < files.length; i++) {
-                    if (files[i].getPath() == file_name) {
-                        if (files[i].exists()) {
-                            files[i].getCanonicalFile().delete();
-                            getApplicationContext().deleteFile(files[i].getName());
-                            Toast.makeText(this, "File deleted.", Toast.LENGTH_SHORT).show();
-
-                        }
-                    } else {
-                        Toast.makeText(this, "File unable to Remove", Toast.LENGTH_SHORT).show();
-                    }
-
-                }
-                UploadFilesToServer();
-
-            } catch (Exception e) {
-                Toast.makeText(this, "Some thing went wrong.Please try after some time", Toast.LENGTH_SHORT).show();
-            }
-        } catch (Exception e) {
-            Toast.makeText(this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
+        Log.d("currentapiVersion", String.valueOf(currentapiVersion));
+        Log.d("versioncode", String.valueOf(versioncode));
+        if (currentapiVersion >= versioncode && currentapiVersion != versioncode) {
+            directoryPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Recordings/Call";
+        } else {
+            directoryPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Call";
         }
+        Log.d("directoryPath", directoryPath);
+        try {
+            File directory = new File(directoryPath);
+            File[] files = directory.listFiles();
+            for (int i = 0; i < files.length; i++) {
+                if (files[i].toString().equals(file_name)) {
+                    new File(directory, files[i].getName()).delete();
+                }
+            }
+
+            UploadFilesToServer();
+
+        } catch (Exception e) {
+            Toast.makeText(this, "Some thing went wrong.Please try after some time", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
-    //    private void SendFileDataToServer(final String fileName, final String Url) {
     private void SendFileDataToServer(final String fileName, final String Url) {
 
         File file = new File(fileName);
@@ -2957,7 +2965,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             e.printStackTrace();
         }
         apiClient.UploadBinaryFile(Url, requestBody).enqueue(new Callback<ResponseBody>() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.code() == 200) {
@@ -2965,6 +2972,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     try {
                         Log.d("aync_test", "upload Successfully");
                         DeleteFileFromLocal(fileName);
+
                     } catch (Exception e) {
                         Log.d("aync_test", "upload failed" + e.getMessage());
                     }
@@ -2977,16 +2985,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Log.d("aync_test", "upload failed" + t.getMessage());
             }
         });
-    }
+        }
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void UploadFilesToServer() {
         try {
-//            String fileNmae = Environment.getExternalStorageDirectory() + "/Recordings";
-            String fileNmae = Environment.getExternalStorageDirectory() + "/Recordings/Call";
-//            Log.d("PathlookingUp===>", fileNmae);
-            File directory = new File(fileNmae);
+            Log.d("currentapiVersion", String.valueOf(currentapiVersion));
+            Log.d("versioncode", String.valueOf(versioncode));
+            if (currentapiVersion >= versioncode && currentapiVersion != versioncode) {
+                directoryPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Recordings/Call";
+            } else {
+                directoryPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Call";
+            }
+            Log.d("directoryPath===>", directoryPath);
+            File directory = new File(directoryPath);
             File[] files = directory.listFiles();
             if (files.length > 0) {
                 Log.d("aync_test", String.valueOf(files.length));
@@ -3025,7 +3038,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         } catch (Exception e) {
         }
-
     }
 
 }

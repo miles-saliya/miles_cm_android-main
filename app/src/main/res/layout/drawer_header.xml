@@ -9,7 +9,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:src="@drawable/miles_logo" />
+        android:src="@drawable/new_miles_logo" />
 
     <TextView
         android:id="@+id/email_header_view"

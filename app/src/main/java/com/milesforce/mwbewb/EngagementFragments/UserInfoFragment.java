@@ -48,6 +48,8 @@ import com.milesforce.mwbewb.Model.MobileNumberModel;
 import com.milesforce.mwbewb.R;
 import com.milesforce.mwbewb.Retrofit.ApiClient;
 import com.milesforce.mwbewb.Retrofit.ApiUtills;
+import com.milesforce.mwbewb.Retrofit.CommanApiClient;
+import com.milesforce.mwbewb.Retrofit.CommanApiUtills;
 import com.milesforce.mwbewb.Retrofit.SuccessModel;
 import com.milesforce.mwbewb.Utils.BatterPercentage;
 import com.milesforce.mwbewb.Utils.BatteryModel;
@@ -71,9 +73,9 @@ import static com.milesforce.mwbewb.Utils.ConstantUtills.ZOOM_INVITATION;
  */
 public class UserInfoFragment extends Fragment implements View.OnClickListener, MultiSelectionSpinner.OnMultipleItemsSelectedListener {
 
-    AppCompatCheckBox cpa_check, cma_checkBox,iiml_fa_check,iiml_ba_check,iiml_pa_check,iiml_hr_check,iitr_bf_check,iitr_dbe_check,iimlfa_check,iimlsf_checkBox;
+    AppCompatCheckBox cpa_check, cma_checkBox, iiml_fa_check, iiml_ba_check, iiml_pa_check, iiml_hr_check, iitr_bf_check, iitr_dbe_check, iimlfa_check, iimlsf_checkBox;
     ImageView add_phone, add_email, mobile_icon, email_icon;
-    EditText  textView_company, textview_designation, textview_experiance;
+    EditText textView_company, textview_designation, textview_experiance;
     TextView triggerToCall, person_name, visibleNumber, delete_number, masked_email_, visible_email, delete_email, education_details, person_Info_details;
     AppCompatSpinner city_info_spinner, eligibility_info_spinner, loan_assistance_info_spinner;
     ArrayList<String> cityArrayList = new ArrayList<>();
@@ -86,6 +88,8 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener, 
     String personName, education, company, designation, experiance, documents_submitted;
     RecyclerView userMobileNumbers_info, userEmail_info;
     ApiClient apiClient = ApiUtills.getAPIService();
+    static CommanApiClient commanApiClient = CommanApiUtills.getAPIService();
+
     ArrayList<MobileNumberModel> mobileNumberModelArrayList;
     MobileIconAdapter mobileIconAdapter;
     EmailAdapter emailAdapter;
@@ -112,8 +116,8 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener, 
     String[] tags_fromResponce;
     MultiSelectionSpinner education_tags_info_spinner;
     String EducationTagsUpdate;
-    LinearLayout iiml_team_courses,CA_team_courses;
-    RelativeLayout updated_experiance,updated_designation,updated_company,invite_webinar;
+    LinearLayout iiml_team_courses, CA_team_courses;
+    RelativeLayout updated_experiance, updated_designation, updated_company, invite_webinar;
 
     public UserInfoFragment() {
         // Required empty public constructor
@@ -204,10 +208,10 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener, 
         education_details.setText(education);
         invite_webinar = view.findViewById(R.id.invite_webinar);
         invite_webinar.setOnClickListener(this);
-        if(IIML_TAB_CHANGE_CODE == 0 ){
+        if (IIML_TAB_CHANGE_CODE == 0) {
             invite_webinar.setVisibility(View.VISIBLE);
         }
-        if(IIML_TAB_CHANGE_CODE == 1 ){
+        if (IIML_TAB_CHANGE_CODE == 1) {
             invite_webinar.setVisibility(View.VISIBLE);
         }
 
@@ -263,8 +267,6 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener, 
         });
 
 
-
-
         try {
             textView_company.setText(company);
             textview_experiance.setText(experiance);
@@ -277,7 +279,6 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener, 
         cma_checkBox = view.findViewById(R.id.cma_checkBox);
         iimlfa_check = view.findViewById(R.id.iimlfa_check);
         iimlsf_checkBox = view.findViewById(R.id.iimlsf_checkBox);
-
 
 
         if (Courses.contains("CPA")) {
@@ -298,16 +299,14 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener, 
 
         cpa_check.setEnabled(false);
         cma_checkBox.setEnabled(false);
-        iimlfa_check.setEnabled(false) ;
+        iimlfa_check.setEnabled(false);
         iimlsf_checkBox.setEnabled(false);
-        updated_experiance  = view.findViewById(R.id.updated_experiance);
+        updated_experiance = view.findViewById(R.id.updated_experiance);
         updated_experiance.setOnClickListener(this);
-        updated_designation  = view.findViewById(R.id.updated_designation);
+        updated_designation = view.findViewById(R.id.updated_designation);
         updated_designation.setOnClickListener(this);
-        updated_company  = view.findViewById(R.id.updated_company);
+        updated_company = view.findViewById(R.id.updated_company);
         updated_company.setOnClickListener(this);
-
-
 
 
         add_phone = view.findViewById(R.id.add_phone);
@@ -346,7 +345,7 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener, 
         updated_layout_for_loan_.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                apiClient.AddApplyForLoan(mwb_id, person_id, LoadAssistance, AppliedForLoan, batteryModel.getBattey_percentage(), batteryModel.getCharging_status(),VERSION_NUMBER, "Bearer " + AccessToken, "application/json").enqueue(new Callback<SuccessModel>() {
+                apiClient.AddApplyForLoan(mwb_id, person_id, LoadAssistance, AppliedForLoan, batteryModel.getBattey_percentage(), batteryModel.getCharging_status(), VERSION_NUMBER, "Bearer " + AccessToken, "application/json").enqueue(new Callback<SuccessModel>() {
                     @Override
                     public void onResponse(Call<SuccessModel> call, Response<SuccessModel> response) {
                         try {
@@ -382,7 +381,7 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener, 
         updated_layout_.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                apiClient.AddEligibility(mwb_id, person_id, Eligibility, DOCUMENTS_SUBMITTED, batteryModel.getBattey_percentage(), batteryModel.getCharging_status(), VERSION_NUMBER,"Bearer " + AccessToken, "application/json").enqueue(new Callback<SuccessModel>() {
+                apiClient.AddEligibility(mwb_id, person_id, Eligibility, DOCUMENTS_SUBMITTED, batteryModel.getBattey_percentage(), batteryModel.getCharging_status(), VERSION_NUMBER, "Bearer " + AccessToken, "application/json").enqueue(new Callback<SuccessModel>() {
                     @Override
                     public void onResponse(Call<SuccessModel> call, Response<SuccessModel> response) {
                         try {
@@ -467,48 +466,46 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener, 
             loadAssistacne_submitted.setChecked(false);
         }
 
-        iiml_team_courses=view.findViewById(R.id.iiml_team_courses);
-        CA_team_courses= view.findViewById(R.id.CA_team_courses);
+        iiml_team_courses = view.findViewById(R.id.iiml_team_courses);
+        CA_team_courses = view.findViewById(R.id.CA_team_courses);
         iiml_fa_check = view.findViewById(R.id.iiml_fa_check);
         iiml_ba_check = view.findViewById(R.id.iiml_ba_check);
         iiml_pa_check = view.findViewById(R.id.iiml_pa_check);
         iiml_hr_check = view.findViewById(R.id.iiml_hr_check);
         iitr_bf_check = view.findViewById(R.id.iitr_bf_check);
         iitr_dbe_check = view.findViewById(R.id.iitr_dbe_check);
-        if(IIML_TAB_CHANGE_CODE == 1){
+        if (IIML_TAB_CHANGE_CODE == 1) {
             iiml_team_courses.setVisibility(View.VISIBLE);
             CA_team_courses.setVisibility(View.GONE);
         }
-        if(IIML_TAB_CHANGE_CODE == 0){
+        if (IIML_TAB_CHANGE_CODE == 0) {
             iiml_team_courses.setVisibility(View.GONE);
             CA_team_courses.setVisibility(View.VISIBLE);
 
         }
-         if(Courses.contains("IIML-BA")){
-             iiml_ba_check.setChecked(true);
+        if (Courses.contains("IIML-BA")) {
+            iiml_ba_check.setChecked(true);
 
-         }
-        if(Courses.contains("IIML-FA")){
+        }
+        if (Courses.contains("IIML-FA")) {
             iiml_fa_check.setChecked(true);
 
         }
-        if(Courses.contains("IIML-PM")){
+        if (Courses.contains("IIML-PM")) {
             iiml_pa_check.setChecked(true);
 
         }
-        if(Courses.contains("IIML-HR")){
+        if (Courses.contains("IIML-HR")) {
             iiml_hr_check.setChecked(true);
 
         }
-        if(Courses.contains("IITR-BF")){
+        if (Courses.contains("IITR-BF")) {
             iitr_bf_check.setChecked(true);
 
         }
-        if(Courses.contains("IITR-DB")){
+        if (Courses.contains("IITR-DB")) {
             iitr_dbe_check.setChecked(true);
         }
-
-
 
 
     }
@@ -517,6 +514,8 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener, 
     private void getUserEmails() {
         emailModelArrayList = new ArrayList<>();
         apiClient.getUserEmails(person_id, "Bearer " + AccessToken, "application/json").enqueue(new Callback<List<EmailModel>>() {
+//        commanApiClient.getCommanUserEmails(person_id, "Bearer " + AccessToken).enqueue(new Callback<List<EmailModel>>() {
+
             @Override
             public void onResponse(Call<List<EmailModel>> call, Response<List<EmailModel>> response) {
                 try {
@@ -526,6 +525,8 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener, 
                             openAertDialog();
                         }
                     } else {
+                        Log.d("onResponsessss", response.body().toString());
+
                         List<EmailModel> getEmailModelList = response.body();
                         for (int i = 0; i < getEmailModelList.size(); i++) {
                             EmailModel emailModel = new EmailModel();
@@ -552,6 +553,7 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener, 
 
             @Override
             public void onFailure(Call<List<EmailModel>> call, Throwable t) {
+                Log.d("onFailureaaa", t.getMessage());
 
             }
         });
@@ -560,9 +562,10 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener, 
     /*Get User Mobiles */
     private void getUserMobileNumber() {
         mobileNumberModelArrayList = new ArrayList<>();
-        apiClient.getClientMobileNumbers(person_id, "Bearer " + AccessToken, "application/json").enqueue(new Callback<List<MobileNumberModel>>() {
+        apiClient.getClientMobileNumbers(person_id, "Bearer " + AccessToken,"application/json").enqueue(new Callback<List<MobileNumberModel>>() {
             @Override
             public void onResponse(Call<List<MobileNumberModel>> call, Response<List<MobileNumberModel>> response) {
+
                 try {
                     if (response.body() == null) {
                         int statusCode = response.raw().code();
@@ -593,7 +596,6 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener, 
                 } catch (Exception e) {
 
                 }
-
             }
 
             @Override
@@ -601,6 +603,7 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener, 
 
             }
         });
+
 
     }
 
@@ -638,7 +641,7 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener, 
             case R.id.updated_company:
                 UpdateCompany(mwb_id, person_id);
                 break;
-            case  R.id.invite_webinar:
+            case R.id.invite_webinar:
                 InviteHimToWebinar(mwb_id);
                 break;
            /* case R.id.textView_company:
@@ -669,14 +672,12 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener, 
                 break;*/
 
 
-
-
-
         }
 
     }
+
     private void InviteHimToWebinar(int mwb_id) {
-        apiClient.inviteToWebinar(ZOOM_INVITATION,mwb_id,"Bearer "+AccessToken).enqueue(new Callback<SuccessModel>() {
+        apiClient.inviteToWebinar(ZOOM_INVITATION, mwb_id, "Bearer " + AccessToken).enqueue(new Callback<SuccessModel>() {
             @Override
             public void onResponse(Call<SuccessModel> call, Response<SuccessModel> response) {
                 try {
@@ -701,7 +702,7 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener, 
     }
 
     private void UpdateCompany(int mwb_id, int person_id) {
-        apiClient.editCompany(textView_company.getText().toString(),mwb_id,person_id,"Bearer "+AccessToken).enqueue(new Callback<SuccessModel>() {
+        apiClient.editCompany(textView_company.getText().toString(), mwb_id, person_id, "Bearer " + AccessToken).enqueue(new Callback<SuccessModel>() {
             @Override
             public void onResponse(Call<SuccessModel> call, Response<SuccessModel> response) {
                 try {
@@ -728,7 +729,7 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener, 
     }
 
     private void UpdateDesignation(int mwb_id, int person_id) {
-        apiClient.editDesignation(textview_designation.getText().toString(),mwb_id,person_id,"Bearer "+AccessToken).enqueue(new Callback<SuccessModel>() {
+        apiClient.editDesignation(textview_designation.getText().toString(), mwb_id, person_id, "Bearer " + AccessToken).enqueue(new Callback<SuccessModel>() {
             @Override
             public void onResponse(Call<SuccessModel> call, Response<SuccessModel> response) {
                 try {
@@ -755,7 +756,7 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener, 
     }
 
     private void UpdateExperiance(int mwb_id, int person_id) {
-        apiClient.editExperiance(textview_experiance.getText().toString(),mwb_id,person_id,"Bearer "+AccessToken).enqueue(new Callback<SuccessModel>() {
+        apiClient.editExperiance(textview_experiance.getText().toString(), mwb_id, person_id, "Bearer " + AccessToken).enqueue(new Callback<SuccessModel>() {
             @Override
             public void onResponse(Call<SuccessModel> call, Response<SuccessModel> response) {
                 try {
@@ -782,15 +783,8 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener, 
     }
 
 
-
-
-
-
-
-
-
     private void UpdateEducationTags(int mwb_id, int person_id) {
-        apiClient.UpdateEducation(mwb_id, person_id, EducationTagsUpdate, batteryModel.getBattey_percentage(), batteryModel.getCharging_status(), VERSION_NUMBER,"Bearer " + AccessToken, "application/json").enqueue(new Callback<SuccessModel>() {
+        apiClient.UpdateEducation(mwb_id, person_id, EducationTagsUpdate, batteryModel.getBattey_percentage(), batteryModel.getCharging_status(), VERSION_NUMBER, "Bearer " + AccessToken, "application/json").enqueue(new Callback<SuccessModel>() {
             @Override
             public void onResponse(Call<SuccessModel> call, Response<SuccessModel> response) {
                 try {
@@ -889,7 +883,7 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener, 
 
     /*Edited User Email Address*/
     private void EditUserEmailAddress(final Dialog dialog, int id) {
-        apiClient.EditUserEmailAddress(id, edit_email.getText().toString().trim(), batteryModel.getBattey_percentage(), batteryModel.getCharging_status(), VERSION_NUMBER,"Bearer " + AccessToken, "application/json").enqueue(new Callback<AddMobileEmailInfo>() {
+        apiClient.EditUserEmailAddress(id, edit_email.getText().toString().trim(), batteryModel.getBattey_percentage(), batteryModel.getCharging_status(), VERSION_NUMBER, "Bearer " + AccessToken, "application/json").enqueue(new Callback<AddMobileEmailInfo>() {
             @Override
             public void onResponse(Call<AddMobileEmailInfo> call, Response<AddMobileEmailInfo> response) {
                 try {
@@ -1057,7 +1051,7 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener, 
 
     /*Edited User Mobile Number*/
     private void EditUserMobileNUmber(final Dialog dialog, int id) {
-        apiClient.EditUserMobileNumber(id, edit_number.getText().toString().trim(), "", batteryModel.getBattey_percentage(), batteryModel.getCharging_status(), VERSION_NUMBER,"Bearer " + AccessToken, "application/json").enqueue(new Callback<AddMobileEmailInfo>() {
+        apiClient.EditUserMobileNumber(id, edit_number.getText().toString().trim(), "", batteryModel.getBattey_percentage(), batteryModel.getCharging_status(), VERSION_NUMBER, "Bearer " + AccessToken, "application/json").enqueue(new Callback<AddMobileEmailInfo>() {
             @Override
             public void onResponse(Call<AddMobileEmailInfo> call, Response<AddMobileEmailInfo> response) {
                 try {
@@ -1180,12 +1174,12 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener, 
                                 mobileNumberModelArrayList.clear();
                             }
                             getUserMobileNumber();
-                        }if (response.body().getStatus().equals("error")) {
+                        }
+                        if (response.body().getStatus().equals("error")) {
                             dialog_mobile.dismiss();
                             add_mobile_progress.setVisibility(View.GONE);
                             showSnakebar(response.body().getMessage());
-                        }
-                        else {
+                        } else {
                             showSnakebar(response.body().getMessage());
                         }
 

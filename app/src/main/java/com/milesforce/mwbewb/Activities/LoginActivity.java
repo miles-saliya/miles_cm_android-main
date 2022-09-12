@@ -1,6 +1,7 @@
 package com.milesforce.mwbewb.Activities;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
@@ -74,6 +75,7 @@ public class LoginActivity extends AppCompatActivity {
     GoogleSignInClient mGoogleSignInClient;
     public static final int RC_SIGN_IN = 0;
 
+    @RequiresApi(api = Build.VERSION_CODES.R)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -126,7 +128,7 @@ public class LoginActivity extends AppCompatActivity {
                     ActivityCompat.requestPermissions(this,
                             new String[]{Manifest.permission.CALL_PRIVILEGED},
                             PERMISSIONS_REQUEST_CALL_PRIVILEGED);
-                  }
+                }
             }
         }
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -149,7 +151,6 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             LoginWithUserNameAndPassword();
         }
-
 
     }
 
@@ -196,6 +197,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.R)
     private boolean checkAndRequestPermissions() {
 
         int permissionSendMessage = ContextCompat.checkSelfPermission(this,
@@ -218,7 +220,8 @@ public class LoginActivity extends AppCompatActivity {
         int Record_audio = ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO);
         int modifiedState = ContextCompat.checkSelfPermission(this, Manifest.permission.MODIFY_PHONE_STATE);
         int camera_permission = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
-
+        int manage_external = ContextCompat.checkSelfPermission(this, Manifest.permission.MANAGE_EXTERNAL_STORAGE
+        );
 
         List<String> listPermissionsNeeded = new ArrayList<>();
 
@@ -256,7 +259,9 @@ public class LoginActivity extends AppCompatActivity {
         if (camera_permission != PackageManager.PERMISSION_GRANTED) {
             listPermissionsNeeded.add(Manifest.permission.CAMERA);
         }
-
+        if (manage_external != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(Manifest.permission.MANAGE_EXTERNAL_STORAGE);
+        }
         if (!listPermissionsNeeded.isEmpty()) {
             ActivityCompat.requestPermissions(this,
                     listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]),

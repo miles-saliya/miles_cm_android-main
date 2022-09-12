@@ -4,10 +4,10 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class EmailModel {
-    @SerializedName("email")
+    @SerializedName("email_id")
     @Expose
     private String email;
-    @SerializedName("masked_email")
+    @SerializedName("masked_email_id")
     @Expose
     private String masked_email;
     @SerializedName("id")

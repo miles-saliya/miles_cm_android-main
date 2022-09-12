@@ -73,6 +73,11 @@ public class LocalCallRecordingsActivity extends AppCompatActivity {
     int NUMNER_OF_FILES = 0;
     int UPLOADED_NUMBER_OF_FILES = 0;
     int INDEX_OF_FILE = 0;
+    String directoryPath;
+    int currentapiVersion = android.os.Build.VERSION.SDK_INT;
+    int versioncode = android.os.Build.VERSION_CODES.R;
+
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -104,8 +109,15 @@ public class LocalCallRecordingsActivity extends AppCompatActivity {
             recordsModelArrayList.clear();
         }
         try {
-            String fileNmae = Environment.getExternalStorageDirectory() + "/Recordings/Call";
-            File directory = new File(fileNmae);
+            Log.d("currentapiVersion", String.valueOf(currentapiVersion));
+            Log.d("versioncode", String.valueOf(versioncode));
+            if (currentapiVersion >= versioncode && currentapiVersion!=versioncode) {
+                directoryPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Recordings/Call";
+            } else {
+                directoryPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Call";
+            }
+            Log.d("directoryPath===>", directoryPath);
+            File directory = new File(directoryPath);
             File[] files = directory.listFiles();
             Log.d("Files", "Size: " + files.length);
             for (int i = 0; i < files.length; i++) {
@@ -321,8 +333,15 @@ public class LocalCallRecordingsActivity extends AppCompatActivity {
     private void DeleteFileFromLocal(String file_name) {
         try {
             try {
-                String fileName = Environment.getExternalStorageDirectory() + "/Recordings/Call";
-                File directory = new File(fileName);
+                Log.d("currentapiVersion", String.valueOf(currentapiVersion));
+                Log.d("versioncode", String.valueOf(versioncode));
+                if (currentapiVersion >= versioncode && currentapiVersion!=versioncode) {
+                    directoryPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Recordings/Call";
+                } else {
+                    directoryPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Call";
+                }
+                Log.d("directoryPath===>", directoryPath);
+                File directory = new File(directoryPath);
                 File[] files = directory.listFiles();
                 for (int i = 0; i < files.length; i++) {
                     if (files[i].toString().equals(file_name)) {
@@ -474,8 +493,17 @@ public class LocalCallRecordingsActivity extends AppCompatActivity {
     private void DeleteAllLocalFiles() {
         try {
             try {
-                String fileName = Environment.getExternalStorageDirectory() + "/Recordings/Call";
-                File directory = new File(fileName);
+                Log.d("currentapiVersion", String.valueOf(currentapiVersion));
+                Log.d("versioncode", String.valueOf(versioncode));
+                if (currentapiVersion >= versioncode && currentapiVersion!=versioncode) {
+                    directoryPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Recordings/Call";
+                } else {
+                    directoryPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Call";
+                }
+                Log.d("directoryPath===>", directoryPath);
+
+
+                File directory = new File(directoryPath);
                 File[] files = directory.listFiles();
                 for (int i = 0; i < files.length; i++) {
                     new File(directory, files[i].getName()).delete();

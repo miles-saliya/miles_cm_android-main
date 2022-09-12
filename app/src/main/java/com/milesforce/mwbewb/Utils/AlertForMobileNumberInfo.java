@@ -17,6 +17,8 @@ import com.milesforce.mwbewb.Model.MobileNumberModel;
 import com.milesforce.mwbewb.R;
 import com.milesforce.mwbewb.Retrofit.ApiClient;
 import com.milesforce.mwbewb.Retrofit.ApiUtills;
+import com.milesforce.mwbewb.Retrofit.CommanApiClient;
+import com.milesforce.mwbewb.Retrofit.CommanApiUtills;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +30,7 @@ import retrofit2.Response;
 public class AlertForMobileNumberInfo {
     static RecyclerView mobile_recycelr_view;
     static ApiClient apiClient = ApiUtills.getAPIService();
+
     static ArrayList<MobileNumberModel> mobileNumberModelArrayList;
     static MobileAdapter mobileAdapter;
     static WindowManager.LayoutParams lp;
@@ -55,11 +58,14 @@ public class AlertForMobileNumberInfo {
         // dialog.show();
 
     }
-
+//    getCommanClientMobileNumbers
+//            commanApiClient
     private static void getMobileNumnbers(int id, String accessToken, final Context context, final Dialog dialog) {
         mobileNumberModelArrayList = new ArrayList<>();
         apiClient.getClientMobileNumbers(id, "Bearer " + accessToken, "application/json").enqueue(new Callback<List<MobileNumberModel>>() {
-            @Override
+//        commanApiClient.getCommanClientMobileNumbers(id, "Bearer " + accessToken, "application/json").enqueue(new Callback<List<MobileNumberModel>>() {
+
+        @Override
             public void onResponse(Call<List<MobileNumberModel>> call, Response<List<MobileNumberModel>> response) {
                 try {
                     List<MobileNumberModel> mobileNumberModels = response.body();

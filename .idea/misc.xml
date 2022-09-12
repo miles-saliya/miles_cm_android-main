@@ -9,15 +9,43 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.12949640287769784" />
+        <entry key="app/src/main/res/drawable/btnshapeblue.xml" value="0.1995" />
+        <entry key="app/src/main/res/drawable/edit_text_round_bg_gray_50.xml" value="0.1995" />
         <entry key="app/src/main/res/drawable/ic_stack_menu.xml" value="0.1965" />
+        <entry key="app/src/main/res/layout/activity_add_class.xml" value="0.24375" />
         <entry key="app/src/main/res/layout/activity_add_engagement.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/activity_attendence.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/activity_call_info.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/activity_event_trigger.xml" value="0.24375" />
         <entry key="app/src/main/res/layout/activity_ewbsr.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/activity_local_call_recordings.xml" value="0.24375" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.24375" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/activity_my_call_records.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/activity_recording_testing.xml" value="0.24375" />
         <entry key="app/src/main/res/layout/activity_registered_student.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_resume_work.xml" value="0.24375" />
         <entry key="app/src/main/res/layout/activity_search_client.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/activity_start_work.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/activity_take_attendance.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/add_leadforb2b_ir.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/add_poa.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/add_poa_cma.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/add_referal_form.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/addleadfor_btb_cr.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/addleadpopup.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/attendance_layout.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/call_log_layout.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/class_layout.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/classes_info_aud.xml" value="0.24375" />
         <entry key="app/src/main/res/layout/classes_info_for_cma.xml" value="0.24375" />
         <entry key="app/src/main/res/layout/customadapter.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/delays_layout.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/dialog_add_engagementform.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/dialog_event.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/dialog_event_email.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/dialog_event_for_visit.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/dialog_event_whatsup.xml" value="0.24375" />
         <entry key="app/src/main/res/layout/drawer_header.xml" value="0.24375" />
         <entry key="app/src/main/res/layout/email_info.xml" value="0.24375" />
         <entry key="app/src/main/res/layout/email_info_layout.xml" value="0.24375" />
