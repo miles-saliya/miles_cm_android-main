@@ -40,6 +40,7 @@ public class SyncAllMyCallRecords {
     ApiClient apiClient;
     Realm realm;
     UserToken userToken;
+
     public void SyncMyCallLog(Context context, String AccessToken) {
         this.context = context;
         apiClient = ApiUtills.getAPIService();
@@ -167,7 +168,7 @@ public class SyncAllMyCallRecords {
     }
 
     private void sendDataToServer(String accessToken, JSONArray jArray) {
-        apiClient.SendAllCallLogData(jArray, "Bearer " + AccessToken, "application/json").enqueue(new Callback<SuccessModel>() {
+        apiClient.SendAllCallLogData(jArray, "Bearer " + accessToken, "application/json").enqueue(new Callback<SuccessModel>() {
             @Override
             public void onResponse(Call<SuccessModel> call, Response<SuccessModel> response) {
                 try {

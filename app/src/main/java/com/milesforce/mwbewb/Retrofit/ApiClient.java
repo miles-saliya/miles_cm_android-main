@@ -232,7 +232,6 @@ public interface ApiClient {
     @FormUrlEncoded
     Call<SuccessModel>AddReferrelPersonTocandidate(@Field("person_id") int person_id, @Field("mwb_id") int mwb_id, @Field("bank_details") String back_details, @Field("reference_given_date") String reference_given_date, @Field("referred_person_id") int referred_person_id, @Field("referred_person_name") String referred_person_name, @Field("referred_mwb_id") int referred_mwb_id,@Header("Authorization") String s, @Header("Accept") String s1);
 
-
     @GET("checkCallRecordingExistence")
     Call<SuccessModel>checkCallRecordingExistance(@Query("timestamp") String timestamp,@Header("Authorization") String s, @Header("Accept") String s1);
 

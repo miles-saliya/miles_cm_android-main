@@ -28,6 +28,8 @@ import com.milesforce.mwbewb.Model.GetRecords;
 import com.milesforce.mwbewb.Model.UserToken;
 import com.milesforce.mwbewb.Retrofit.ApiClient;
 import com.milesforce.mwbewb.Retrofit.ApiUtills;
+import com.milesforce.mwbewb.Retrofit.CommanApiClient;
+import com.milesforce.mwbewb.Retrofit.CommanApiUtills;
 import com.milesforce.mwbewb.Retrofit.SuccessModel;
 
 import java.io.File;
@@ -58,6 +60,8 @@ public class LocalCallRecordingsActivity extends AppCompatActivity {
     ArrayList<String> FilesName = new ArrayList<>();
     TextView testing_check;
     ApiClient apiClient;
+     CommanApiClient commanApiClient ;
+
     Realm realm;
     ArrayList<BussinessCallRecorderModel> bussinessCallRecorderModels;
     ArrayList<GetRecords> getRecordsArrayList;
@@ -78,7 +82,6 @@ public class LocalCallRecordingsActivity extends AppCompatActivity {
     int versioncode = android.os.Build.VERSION_CODES.R;
 
 
-
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +89,8 @@ public class LocalCallRecordingsActivity extends AppCompatActivity {
         realm = Realm.getDefaultInstance();
         setContentView(R.layout.activity_local_call_recordings);
         apiClient = ApiUtills.getAPIService();
+      commanApiClient  = CommanApiUtills.getAPIService();
+
         snake_bar = findViewById(R.id.snake_bar);
         upload_status_fileInfo = findViewById(R.id.upload_status_fileInfo);
         myRecordsRecyclerview = findViewById(R.id.myRecordsRecyclerview);
@@ -111,10 +116,10 @@ public class LocalCallRecordingsActivity extends AppCompatActivity {
         try {
             Log.d("currentapiVersion", String.valueOf(currentapiVersion));
             Log.d("versioncode", String.valueOf(versioncode));
-            if (currentapiVersion >= versioncode && currentapiVersion!=versioncode) {
-                directoryPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Recordings/Call";
+            if (currentapiVersion >= versioncode && currentapiVersion != versioncode) {
+                directoryPath = Environment.getExternalStorageDirectory() + "/Recordings/Call";
             } else {
-                directoryPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Call";
+                directoryPath = Environment.getExternalStorageDirectory() + "/Call";
             }
             Log.d("directoryPath===>", directoryPath);
             File directory = new File(directoryPath);
@@ -272,8 +277,18 @@ public class LocalCallRecordingsActivity extends AppCompatActivity {
     private void UPLOAD_FILE_TO_SERVER(int index_of_file) {
         if (isConnected()) {
             upload_progress_bar.setVisibility(View.VISIBLE);
-            CheckFileIsExisting(GetAllLocalReorderData.get(index_of_file).getFile_name(), index_of_file, GetAllLocalReorderData.get(index_of_file).getTime());
-            //  generatePresignedUrl(GetAllLocalReorderData.get(i).getFile_name(), i, GetAllLocalReorderData.get(i).getTime());
+
+            Log.d("GetAllLocalReorderData", GetAllLocalReorderData.get(index_of_file).getFile_name());
+
+
+            String beforeExtension = GetAllLocalReorderData.get(index_of_file).getFile_name();
+
+            String extension = beforeExtension.substring(beforeExtension.indexOf(".") - 0);
+
+            Log.d("extension", extension);
+
+            CheckFileIsExisting(GetAllLocalReorderData.get(index_of_file).getFile_name(), extension, index_of_file,
+                    GetAllLocalReorderData.get(index_of_file).getTime());
         } else {
             Snackbar snackbar = Snackbar
                     .make(snake_bar, "No Internet Connection Found....!.", Snackbar.LENGTH_LONG);
@@ -282,49 +297,52 @@ public class LocalCallRecordingsActivity extends AppCompatActivity {
 
     }
 
-    private void CheckFileIsExisting(final String file_name, final int index, final String time) {
+    private void CheckFileIsExisting(final String file_name, final String extension, final int index, final String time) {
         try {
-            Log.d("call_quee",file_name);
-            Log.d("call_quee",""+index);
-            Log.d("call_quee",""+time);
+            Log.d("call_quee", file_name);
+            Log.d("call_quee", "" + index);
+            Log.d("call_quee", "" + time);
 
-        }catch (Exception e){
-            Log.d("call_quee",file_name+e.getMessage());
+        } catch (Exception e) {
+            Log.d("call_quee", file_name + e.getMessage());
         }
+//        apiClient.checkCallRecordingExistance(time, "Bearer " + Access_token, "application/json").enqueue(new Callback<SuccessModel>() {
 
-        apiClient.checkCallRecordingExistance(time, "Bearer " + Access_token, "application/json").enqueue(new Callback<SuccessModel>() {
+        commanApiClient.checkCallRecordingExistance(time, extension,"Bearer " + Access_token, "application/json").enqueue(new Callback<SuccessModel>() {
             @Override
             public void onResponse(Call<SuccessModel> call, Response<SuccessModel> response) {
                 try {
                     if (response.code() == 200) {
                         if (response.body().getExists().equals("no")) {
-                            generatePresignedUrl(file_name, index, time);
+
+                            generatePresignedUrl(file_name, extension, index, time);
+
                             UPLOADED_NUMBER_OF_FILES = UPLOADED_NUMBER_OF_FILES + 1;
-                            Log.d("call_quee",String.valueOf(INDEX_OF_FILE)+"Success");
+                            Log.d("call_quee", String.valueOf(INDEX_OF_FILE) + "Success");
                         }
                         if (response.body().getExists().equals("yes")) {
                             DeleteFileFromLocal(file_name);
-                            INDEX_OF_FILE = INDEX_OF_FILE+1;
+                            INDEX_OF_FILE = INDEX_OF_FILE + 1;
                             UPLOAD_FILE_TO_SERVER(INDEX_OF_FILE);
                             UPLOADED_NUMBER_OF_FILES = UPLOADED_NUMBER_OF_FILES + 1;
-                            Log.d("call_quee",String.valueOf(INDEX_OF_FILE)+"Error");
+                            Log.d("call_quee", String.valueOf(INDEX_OF_FILE) + "Error");
                         }
 
                     } else {
                         Toast.makeText(LocalCallRecordingsActivity.this, "Some thing went wrong", Toast.LENGTH_SHORT).show();
-                        Log.d("call_quee",String.valueOf(INDEX_OF_FILE)+"Error in else");
+                        Log.d("call_quee", String.valueOf(INDEX_OF_FILE) + "Error in else");
                     }
 
                     Log.d("checkFile", response.body().toString());
                 } catch (Exception e) {
                     e.printStackTrace();
-                    Log.d("call_quee",String.valueOf(INDEX_OF_FILE)+"Error in catch"+e.getMessage());
+                    Log.d("call_quee", String.valueOf(INDEX_OF_FILE) + "Error in catch" + e.getMessage());
                 }
             }
 
             @Override
             public void onFailure(Call<SuccessModel> call, Throwable t) {
-                Log.d("call_quee",String.valueOf(INDEX_OF_FILE)+"Error in failure"+t.getMessage());
+                Log.d("call_quee", String.valueOf(INDEX_OF_FILE) + "Error in failure" + t.getMessage());
                 Toast.makeText(LocalCallRecordingsActivity.this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -335,10 +353,10 @@ public class LocalCallRecordingsActivity extends AppCompatActivity {
             try {
                 Log.d("currentapiVersion", String.valueOf(currentapiVersion));
                 Log.d("versioncode", String.valueOf(versioncode));
-                if (currentapiVersion >= versioncode && currentapiVersion!=versioncode) {
-                    directoryPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Recordings/Call";
+                if (currentapiVersion >= versioncode && currentapiVersion != versioncode) {
+                    directoryPath = Environment.getExternalStorageDirectory() + "/Recordings/Call";
                 } else {
-                    directoryPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Call";
+                    directoryPath = Environment.getExternalStorageDirectory() + "/Call";
                 }
                 Log.d("directoryPath===>", directoryPath);
                 File directory = new File(directoryPath);
@@ -355,6 +373,7 @@ public class LocalCallRecordingsActivity extends AppCompatActivity {
             } catch (Exception e) {
                 Toast.makeText(this, "Some thing went wrong.Please try after some time", Toast.LENGTH_SHORT).show();
             }
+
         } catch (Exception e) {
             Toast.makeText(this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
@@ -380,17 +399,19 @@ public class LocalCallRecordingsActivity extends AppCompatActivity {
         return false;
     }
 
-    private void generatePresignedUrl(final String file, final int index, String s) {
+    private void generatePresignedUrl(final String file, String extension, final int index, String s) {
         long timeStamp = System.currentTimeMillis();
         Log.d("time_stamp", String.valueOf(timeStamp));
         Log.d("PresignedUrl", String.valueOf(s));
-        apiClient.getGeneratedPresignedUrl(s, "Bearer " + Access_token, "application/json").enqueue(new Callback<SuccessModel>() {
+//        apiClient.getGeneratedPresignedUrl(s, "Bearer " + Access_token, "application/json").enqueue(new Callback<SuccessModel>() {
+
+        commanApiClient.getGeneratedPresignedUrl(s, extension,"Bearer " + Access_token, "application/json").enqueue(new Callback<SuccessModel>() {
             @Override
             public void onResponse(Call<SuccessModel> call, Response<SuccessModel> response) {
                 if (response.body().getUrl() != null) {
                     String URL = response.body().getUrl();
                     Log.d("PresignedUrl", URL);
-                    Log.d("call_quee","pre signed"+""+URL);
+                    Log.d("call_quee", "pre signed" + "" + URL);
 
                     if (isConnected()) {
                         SendFileDataToServer(file, URL, index);
@@ -424,7 +445,8 @@ public class LocalCallRecordingsActivity extends AppCompatActivity {
 
     private void SendFileDataToServer(final String fileName, final String Url, final int index) {
         File file = new File(fileName);
-        Log.d("aync_test",fileName);
+        Log.d("aync_test", fileName);
+
         RequestBody requestBody = null;
         InputStream in = null;
         try {
@@ -448,16 +470,15 @@ public class LocalCallRecordingsActivity extends AppCompatActivity {
                     upload_status_fileInfo.setText(UPLOADED_NUMBER_OF_FILES + " out of " + String.valueOf(NUMNER_OF_FILES));
                     position = position + 1;
                     try {
-
-                        INDEX_OF_FILE = INDEX_OF_FILE+1;
-                        Log.d("FileUploading ",String.valueOf(INDEX_OF_FILE));
+                        INDEX_OF_FILE = INDEX_OF_FILE + 1;
+                        Log.d("FileUploading ", String.valueOf(INDEX_OF_FILE));
                         UPLOAD_FILE_TO_SERVER(INDEX_OF_FILE);
                         GetAllLocalReorderData.remove(INDEX_OF_FILE);
                         playListAdapter.notifyItemRemoved(INDEX_OF_FILE);
                         upload_progress_bar.setVisibility(View.GONE);
-                        Log.d("call_quee",Url+INDEX_OF_FILE);
+                        Log.d("call_quee", Url + INDEX_OF_FILE);
                     } catch (Exception e) {
-                        Log.d("call_quee",Url+INDEX_OF_FILE+e.getMessage());
+                        Log.d("call_quee", Url + INDEX_OF_FILE + e.getMessage());
                     }
                     /*if (NUMNER_OF_FILES==UPLOADED_NUMBER_OF_FILES){
                         DeleteAllLocalFiles();
@@ -470,7 +491,7 @@ public class LocalCallRecordingsActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.d("call_quee",Url+INDEX_OF_FILE+t.getMessage());
+                Log.d("call_quee", Url + INDEX_OF_FILE + t.getMessage());
                 t.printStackTrace();
                 if (fileArrayList.size() == 0) {
                 } else {
@@ -495,14 +516,12 @@ public class LocalCallRecordingsActivity extends AppCompatActivity {
             try {
                 Log.d("currentapiVersion", String.valueOf(currentapiVersion));
                 Log.d("versioncode", String.valueOf(versioncode));
-                if (currentapiVersion >= versioncode && currentapiVersion!=versioncode) {
-                    directoryPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Recordings/Call";
+                if (currentapiVersion >= versioncode && currentapiVersion != versioncode) {
+                    directoryPath = Environment.getExternalStorageDirectory() + "/Recordings/Call";
                 } else {
-                    directoryPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Call";
+                    directoryPath = Environment.getExternalStorageDirectory() + "/Call";
                 }
                 Log.d("directoryPath===>", directoryPath);
-
-
                 File directory = new File(directoryPath);
                 File[] files = directory.listFiles();
                 for (int i = 0; i < files.length; i++) {

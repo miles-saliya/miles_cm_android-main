@@ -513,8 +513,8 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener, 
     /*Get User  Emails*/
     private void getUserEmails() {
         emailModelArrayList = new ArrayList<>();
-        apiClient.getUserEmails(person_id, "Bearer " + AccessToken, "application/json").enqueue(new Callback<List<EmailModel>>() {
-//        commanApiClient.getCommanUserEmails(person_id, "Bearer " + AccessToken).enqueue(new Callback<List<EmailModel>>() {
+//        apiClient.getUserEmails(person_id, "Bearer " + AccessToken, "application/json").enqueue(new Callback<List<EmailModel>>() {
+        commanApiClient.getCommanUserEmails(person_id, "Bearer " + AccessToken,"application/json").enqueue(new Callback<List<EmailModel>>() {
 
             @Override
             public void onResponse(Call<List<EmailModel>> call, Response<List<EmailModel>> response) {
@@ -525,7 +525,7 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener, 
                             openAertDialog();
                         }
                     } else {
-                        Log.d("onResponsessss", response.body().toString());
+                        Log.d("onResponse_Email", response.body().toString());
 
                         List<EmailModel> getEmailModelList = response.body();
                         for (int i = 0; i < getEmailModelList.size(); i++) {
@@ -553,7 +553,7 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener, 
 
             @Override
             public void onFailure(Call<List<EmailModel>> call, Throwable t) {
-                Log.d("onFailureaaa", t.getMessage());
+                Log.d("onFailure_Email", t.getMessage());
 
             }
         });
@@ -562,7 +562,9 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener, 
     /*Get User Mobiles */
     private void getUserMobileNumber() {
         mobileNumberModelArrayList = new ArrayList<>();
-        apiClient.getClientMobileNumbers(person_id, "Bearer " + AccessToken,"application/json").enqueue(new Callback<List<MobileNumberModel>>() {
+//        apiClient.getClientMobileNumbers(person_id, "Bearer " + AccessToken,"application/json").enqueue(new Callback<List<MobileNumberModel>>() {
+        commanApiClient.getCommanClientMobileNumbers(person_id, "Bearer " + AccessToken,"application/json").enqueue(new Callback<List<MobileNumberModel>>() {
+
             @Override
             public void onResponse(Call<List<MobileNumberModel>> call, Response<List<MobileNumberModel>> response) {
 
@@ -573,6 +575,8 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener, 
                             openAertDialog();
                         }
                     } else {
+                        Log.d("onResponse_Mobile", response.body().toString());
+
                         List<MobileNumberModel> mobileNumberModels = response.body();
                         for (int i = 0; i < mobileNumberModels.size(); i++) {
                             MobileNumberModel mobileNumberModel = new MobileNumberModel();
@@ -600,6 +604,7 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener, 
 
             @Override
             public void onFailure(Call<List<MobileNumberModel>> call, Throwable t) {
+                Log.d("onFailure_Mobile", t.getMessage());
 
             }
         });

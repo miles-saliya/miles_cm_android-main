@@ -10,11 +10,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.media.AudioManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -75,6 +78,8 @@ import com.milesforce.mwbewb.Model.UserToken;
 import com.milesforce.mwbewb.R;
 import com.milesforce.mwbewb.Retrofit.ApiClient;
 import com.milesforce.mwbewb.Retrofit.ApiUtills;
+import com.milesforce.mwbewb.Retrofit.CommanApiClient;
+import com.milesforce.mwbewb.Retrofit.CommanApiUtills;
 import com.milesforce.mwbewb.Retrofit.SpocUtilizationModel;
 import com.milesforce.mwbewb.Retrofit.SuccessModel;
 import com.milesforce.mwbewb.LocalCallRecordingsActivity;
@@ -138,6 +143,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     AppCompatSpinner appconpact_spinner_levels;
     ArrayList<LevelsModel> spinnerLevelList;
     EditText date_picker_;
+    TextView txtversion;
     Calendar myCalendar, LeadsCalendar;
     AppCompatImageButton bt_menu_back_from_caller, addLeadForm, search_icon, work_status;
     ImageView endCall_btn, addEngagementForm;
@@ -155,6 +161,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ArrayList<String> ConnectionTypeArrayList = new ArrayList<>();
     CallRecord callRecord;
     ApiClient apiClient;
+    CommanApiClient commanApiClient;
     SharedPreferences sharedPreferences, localTimeSharedPreference;
     String bde_user_id;
     Handler pusherHandler;
@@ -381,7 +388,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         realm = Realm.getDefaultInstance();
         setContentView(R.layout.activity_main);
+//        txtversion = findViewById(R.id.txtversion);
+
         apiClient = ApiUtills.getAPIService();
+        commanApiClient = CommanApiUtills.getAPIService();
         sharedPreferences = getApplicationContext().getSharedPreferences(SaveToken, MODE_PRIVATE);
         localTimeSharedPreference = getApplicationContext().getSharedPreferences("timestamp", MODE_PRIVATE);
         accessToken = sharedPreferences.getString(AccessToken, null);
@@ -547,9 +557,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         callRecordingHandler.postDelayed(callRecordingRunnable = new Runnable() {
             @Override
             public void run() {
-                //  CallRecordingAsync callRecordingAsync = new CallRecordingAsync();
-                // callRecordingAsync.execute();
-                UploadFilesToServer();
+//                CallRecordingAsync callRecordingAsync = new CallRecordingAsync();
+//                callRecordingAsync.execute();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    UploadFilesToServer();
+                }
                 callRecordingHandler.postDelayed(callRecordingRunnable, 180000);
 
             }
@@ -742,7 +754,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onFailure(Call<SuccessModel> call, Throwable t) {
-                t.getMessage();
+                Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -2628,7 +2640,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         if (b2c_iitr_bf_check.isChecked()) {
             MWbLeadCourseData = IITR_BF_Checked;
-
         }
         if (b2c_iitr_dbe_check.isChecked()) {
             MWbLeadCourseData = IITR_DBE_Checked;
@@ -2796,71 +2807,84 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-   /* private class CallRecordingAsync extends AsyncTask<Void,String,String> {
-        @RequiresApi(api = Build.VERSION_CODES.O)
-        @Override
-        protected String doInBackground(Void... strings) {
-            Path filePath = null;
-            try {
-                String fileNmae = Environment.getExternalStorageDirectory() + "/Call";
-                File directory = new File(fileNmae);
-                File[] files = directory.listFiles();
-                Log.d("Files", "Size: " + files.length);
-                File file = new File(files[0].getPath());
-                Date lastModDate = new Date(file.lastModified());
-                filePath = file.toPath();
-                BasicFileAttributes attr = Files.readAttributes(filePath, BasicFileAttributes.class);
-                long createdAt = attr.creationTime().toMillis();
-                Log.d("aync_test", String.valueOf(createdAt));
-                Log.d("aync_test", "Pre signed Url Start");
-                generatePresignedUrl(String.valueOf(filePath.getFileName()), String.valueOf(createdAt), userToken.getAccessToken());
-                Log.d("aync_test", "Pre signed Url Start");
-//                if (filePath !=  null){
+//    private class CallRecordingAsync extends AsyncTask<Void, String, String> {
+//        @RequiresApi(api = Build.VERSION_CODES.O)
+//        protected String doInBackground(Void... strings) {
+//            Path filePath = null;
+//            try {
+//                if (currentapiVersion >= versioncode && currentapiVersion != versioncode) {
+//                    directoryPath = Environment.getExternalStorageDirectory() + "/Recordings/Call";
+//                } else {
+//                    directoryPath = Environment.getExternalStorageDirectory() + "/Call";
+//                }
+//
+//
+//                File directory = new File(directoryPath);
+//                File[] files = directory.listFiles();
+//                Log.d("Files", "Size: " + files.length);
+//                File file = new File(files[0].getPath());
+//                Date lastModDate = new Date(file.lastModified());
+//                filePath = file.toPath();
+//                Log.d("filePath", filePath.toString());
+//
+//
+//
+//
+//                Log.d("extension", extension);
+//                BasicFileAttributes attr = Files.readAttributes(filePath, BasicFileAttributes.class);
+//                long createdAt = attr.creationTime().toMillis();
+//                Log.d("aync_test", String.valueOf(createdAt));
+//                Log.d("aync_test", "Pre signed Url Start");
+//                generatePresignedUrl(String.valueOf(filePath.getFileName()), String.valueOf(createdAt), userToken.getAccessToken());
+//                Log.d("aync_test", "Pre signed Url Start");
+//                if (filePath != null) {
 //                    return String.valueOf(filePath.getFileName());
 //                }
-
-            } catch (Exception e) {
-            }
-
-            return  null;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            try {
-                DeleteFileFromLocal(s);
-                Log.d("aync_test",s+"PostExecute");
-            }catch (Exception e){
-
-            }
-
-        }
-    }*/
+//
+//            } catch (Exception e) {
+//            }
+//
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(String s) {
+//            super.onPostExecute(s);
+//            try {
+//                DeleteFileFromLocal(s);
+//                Log.d("aync_test", s + "PostExecute");
+//            } catch (Exception e) {
+//
+//            }
+//
+//        }
+//    }
 
     private void generatePresignedUrl(final String file, String s, final String Access_token) {
         long timeStamp = System.currentTimeMillis();
         Log.d("aync_test", String.valueOf(timeStamp));
         Log.d("aync_test", String.valueOf(s));
-        apiClient.getGeneratedPresignedUrl(s, "Bearer " + Access_token, "application/json")
+
+
+        Log.d("extension", file);
+        String extension = file.substring(file.indexOf(".") - 0);
+        Log.d("extension", extension);
+
+//        apiClient.getGeneratedPresignedUrl(s, "Bearer " + Access_token, "application/json")
+        commanApiClient.getGeneratedPresignedUrl(s, extension, "Bearer " + Access_token, "application/json")
+
                 .enqueue(new Callback<SuccessModel>() {
                     @Override
                     public void onResponse(Call<SuccessModel> call, Response<SuccessModel> response) {
                         if (response.body().getUrl() != null) {
                             String URL = response.body().getUrl();
                             Log.d("aync_test", URL);
-
                             if (isConnected()) {
                                 SendFileDataToServer(file, URL);
-//                                SendFileDataToServer(Environment.getExternalStorageDirectory() + "/Recordings/Call", URL);
-
                             } else {
                                 Toast.makeText(MainActivity.this,
                                         "No Internet Connection Found....!", Toast.LENGTH_SHORT).show();
                             }
-
-                            //recordsModelArrayList.clear();
-
                         }
                     }
 
@@ -2922,9 +2946,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Log.d("currentapiVersion", String.valueOf(currentapiVersion));
         Log.d("versioncode", String.valueOf(versioncode));
         if (currentapiVersion >= versioncode && currentapiVersion != versioncode) {
-            directoryPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Recordings/Call";
+            directoryPath = Environment.getExternalStorageDirectory() + "/Recordings/Call";
         } else {
-            directoryPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Call";
+            directoryPath = Environment.getExternalStorageDirectory() + "/Call";
         }
         Log.d("directoryPath", directoryPath);
         try {
@@ -2948,7 +2972,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         File file = new File(fileName);
         Log.d("PathlookingUp===>", fileName);
-
         RequestBody requestBody = null;
         InputStream in = null;
         try {
@@ -2956,25 +2979,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             byte[] buf;
             buf = new byte[in.available()];
             while (in.read(buf) != -1) ;
-            requestBody = RequestBody
-                    .create(MediaType.parse("application/octet-stream"), buf);
+            requestBody = RequestBody.create(MediaType.parse("application/octet-stream"), buf);
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        Log.d("UploadBinaryFileBody", String.valueOf(requestBody));
+        Log.d("UploadBinaryFileURL", Url);
+
         apiClient.UploadBinaryFile(Url, requestBody).enqueue(new Callback<ResponseBody>() {
+
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.code() == 200) {
                     Toast.makeText(MainActivity.this, "Uploaded Successfully....!!", Toast.LENGTH_SHORT).show();
                     try {
-                        Log.d("aync_test", "upload Successfully");
+                        Log.d("SendFileDataToServer", String.valueOf(response.body()));
                         DeleteFileFromLocal(fileName);
 
                     } catch (Exception e) {
-                        Log.d("aync_test", "upload failed" + e.getMessage());
+                        Log.d("uploadfailed", e.getMessage());
                     }
 
                 }
@@ -2982,23 +3008,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.d("aync_test", "upload failed" + t.getMessage());
+                Log.d("aync_test", "uploadfailed" + t.getMessage());
             }
         });
-        }
-
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void UploadFilesToServer() {
         try {
-            Log.d("currentapiVersion", String.valueOf(currentapiVersion));
-            Log.d("versioncode", String.valueOf(versioncode));
             if (currentapiVersion >= versioncode && currentapiVersion != versioncode) {
-                directoryPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Recordings/Call";
+                directoryPath = Environment.getExternalStorageDirectory() + "/Recordings/Call";
             } else {
-                directoryPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Call";
+                directoryPath = Environment.getExternalStorageDirectory() + "/Call";
             }
-            Log.d("directoryPath===>", directoryPath);
             File directory = new File(directoryPath);
             File[] files = directory.listFiles();
             if (files.length > 0) {
@@ -3009,8 +3031,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     if (files.length > 2) {
                         Log.d("aync_test", String.valueOf("OnCall" + files.length));
                         File file = new File(files[1].getPath());
+                        Log.d("testing_file1", file.toString());
                         Date lastModDate = new Date(file.lastModified());
                         Path filePath = file.toPath();
+                        Log.d("testing_file2", filePath.toString());
                         BasicFileAttributes attr = Files.readAttributes(filePath, BasicFileAttributes.class);
                         long createdAt = attr.creationTime().toMillis();
                         Log.d("aync_test", String.valueOf(createdAt));
@@ -3027,7 +3051,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Path filePath = file.toPath();
                         BasicFileAttributes attr = Files.readAttributes(filePath, BasicFileAttributes.class);
                         long createdAt = attr.creationTime().toMillis();
-
                         Log.d("aync_test", String.valueOf(createdAt));
                         Log.d("aync_test", "Pre signed Url Start");
                         if (filePath != null) {
@@ -3037,7 +3060,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
         } catch (Exception e) {
+            Log.d("UploadFilesToServer", e.getMessage());
         }
-    }
 
+    }
 }

@@ -24,6 +24,8 @@ import com.milesforce.mwbewb.LocalCallRecordingsActivity;
 import com.milesforce.mwbewb.R;
 import com.milesforce.mwbewb.Retrofit.ApiClient;
 import com.milesforce.mwbewb.Retrofit.ApiUtills;
+import com.milesforce.mwbewb.Retrofit.CommanApiClient;
+import com.milesforce.mwbewb.Retrofit.CommanApiUtills;
 import com.milesforce.mwbewb.Retrofit.SuccessModel;
 import com.milesforce.mwbewb.Utils.ConstantUtills;
 
@@ -57,6 +59,10 @@ public class MyCallRecordsActivity extends AppCompatActivity {
     RecyclerView.LayoutManager layoutManager;
 
     ApiClient apiClient;
+    CommanApiClient commanApiClient;
+    String extension;
+
+
     SharedPreferences sharedPreferences, TimeSharedPreference;
     String accessToken;
     String FILE;
@@ -82,8 +88,9 @@ public class MyCallRecordsActivity extends AppCompatActivity {
         upload_progress_bar = findViewById(R.id.upload_progress_bar);
         myRecordsRecyclerview.setLayoutManager(new LinearLayoutManager(this));
         apiClient = ApiUtills.getAPIService();
-        getFilesFromDirectory();
+        commanApiClient = CommanApiUtills.getAPIService();
 
+        getFilesFromDirectory();
 
     }
 
@@ -231,6 +238,15 @@ public class MyCallRecordsActivity extends AppCompatActivity {
             upload_progress_bar.setVisibility(View.VISIBLE);
             for (int i = 0; i < GetAllLocalReorderData.size(); i++) {
                 if (isConnected()) {
+
+                    Log.d("GetAllLocalReorderData", GetAllLocalReorderData.get(i).getFile_name());
+
+
+                    String beforeExtension = GetAllLocalReorderData.get(i).getFile_name();
+
+                    String extension = beforeExtension.substring(beforeExtension.indexOf(".") - 0);
+
+                    Log.d("extension", extension);
                     CheckFileIsExisting(GetAllLocalReorderData.get(i).getFilename(), i, GetAllLocalReorderData.get(i).getTime());
 
                     //  generatePresignedUrl(GetAllLocalReorderData.get(i).getFilename(), i, GetAllLocalReorderData.get(i).getTime());
@@ -248,12 +264,15 @@ public class MyCallRecordsActivity extends AppCompatActivity {
         }
     }
 
-    private void generatePresignedUrl(final String file, final int index, String s) {
+    private void generatePresignedUrl(final String file,String extension, final int index, String s) {
         long timeStamp = System.currentTimeMillis();
         Log.d("time_stamp", String.valueOf(timeStamp));
         Log.d("PresignedUrl", String.valueOf(s));
-        apiClient.getGeneratedPresignedUrl(s, "Bearer " + accessToken, "application/json").enqueue(new Callback<SuccessModel>() {
-            @Override
+
+
+//        apiClient.getGeneratedPresignedUrl(s, "Bearer " + accessToken, "application/json").enqueue(new Callback<SuccessModel>() {
+        commanApiClient.getGeneratedPresignedUrl(s, extension,"Bearer " + accessToken, "application/json").enqueue(new Callback<SuccessModel>() {
+        @Override
             public void onResponse(Call<SuccessModel> call, Response<SuccessModel> response) {
                 if (response.body().getUrl() != null) {
                     String URL = response.body().getUrl();
@@ -397,13 +416,18 @@ public class MyCallRecordsActivity extends AppCompatActivity {
     }
 
     private void CheckFileIsExisting(final String file_name, final int index, final String time) {
-        apiClient.checkCallRecordingExistance(time, "Bearer " + accessToken, "application/json").enqueue(new Callback<SuccessModel>() {
+        Log.d("CheckFileIsExisting", file_name);
+         extension = file_name.substring(file_name.indexOf(".") - 0);
+        Log.d("CheckFileIsExisting", extension);
+//        apiClient.checkCallRecordingExistance(time, "Bearer " + accessToken, "application/json").enqueue(new Callback<SuccessModel>() {
+        commanApiClient.checkCallRecordingExistance(time, extension,"Bearer " + accessToken, "application/json").enqueue(new Callback<SuccessModel>() {
+
             @Override
             public void onResponse(Call<SuccessModel> call, Response<SuccessModel> response) {
                 try {
                     if (response.code() == 200) {
                         if (response.body().getExists().equals("no")) {
-                            generatePresignedUrl(file_name, index, time);
+                            generatePresignedUrl(file_name,extension, index, time);
                             UPLOADED_NUMBER_OF_FILES = UPLOADED_NUMBER_OF_FILES + 1;
                         }
                         if (response.body().getExists().equals("yes")) {

@@ -13,14 +13,16 @@ import retrofit2.http.Query;
 
 public interface CommanApiClient {
 
-
-    /*Getting Client mobile number request Api*/
     @GET("getPersonMobile")
-    Call<List<MobileNumberModel>> getCommanClientMobileNumbers(@Query("person_id") int id, @Header("Authorization") String s);
-    /*Getting Client Emails request Api*/
+    Call<List<MobileNumberModel>> getCommanClientMobileNumbers(@Query("person_id") int id, @Header("Authorization") String s, @Header("Accept") String s1);
 
     @GET("getPersonEmail")
-    Call<List<EmailModel>> getCommanUserEmails(@Query("person_id") int id, @Header("Authorization") String s);
+    Call<List<EmailModel>> getCommanUserEmails(@Query("person_id") int id, @Header("Authorization") String s, @Header("Accept") String s1);
 
+    @GET("checkCallRecordingExistence")
+    Call<SuccessModel>checkCallRecordingExistance(@Query("timestamp") String timestamp,@Query("extension") String strextension,@Header("Authorization") String s, @Header("Accept") String s1);
+
+    @GET("generatePresignedUrl")
+    Call<SuccessModel> getGeneratedPresignedUrl(@Query("timestamp") String url, @Query("extension") String strextension,@Header("Authorization") String s, @Header("Accept") String s1);
 
 }
