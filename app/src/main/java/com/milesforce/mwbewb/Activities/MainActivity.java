@@ -2872,7 +2872,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 //        apiClient.getGeneratedPresignedUrl(s, "Bearer " + Access_token, "application/json")
         commanApiClient.getGeneratedPresignedUrl(s, extension, "Bearer " + Access_token, "application/json")
-
                 .enqueue(new Callback<SuccessModel>() {
                     @Override
                     public void onResponse(Call<SuccessModel> call, Response<SuccessModel> response) {
@@ -2940,7 +2939,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        }
 //    }
 
-
     private void DeleteFileFromLocal(String file_name) {
         Log.d("aync_test_path", file_name);
         Log.d("currentapiVersion", String.valueOf(currentapiVersion));
@@ -2954,6 +2952,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         try {
             File directory = new File(directoryPath);
             File[] files = directory.listFiles();
+
             for (int i = 0; i < files.length; i++) {
                 if (files[i].toString().equals(file_name)) {
                     new File(directory, files[i].getName()).delete();
@@ -2961,6 +2960,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
 
             UploadFilesToServer();
+
 
         } catch (Exception e) {
             Toast.makeText(this, "Some thing went wrong.Please try after some time", Toast.LENGTH_SHORT).show();
