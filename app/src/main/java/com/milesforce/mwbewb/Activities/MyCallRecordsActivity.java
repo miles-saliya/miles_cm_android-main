@@ -190,6 +190,7 @@ public class MyCallRecordsActivity extends AppCompatActivity {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 Arrays.sort(files, Comparator.comparingLong(File::lastModified).reversed());
             }
+
             Log.d("Files", "Size: " + files.length);
             for (int i = 0; i < files.length; i++) {
                 RecordsModel recordsModel = new RecordsModel();
