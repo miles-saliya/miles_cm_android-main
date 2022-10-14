@@ -185,6 +185,7 @@ public class LocalCallRecordingsActivity extends AppCompatActivity {
                     }
 
                 } catch (Exception e) {
+
                 }
 
             }
@@ -314,9 +315,7 @@ public class LocalCallRecordingsActivity extends AppCompatActivity {
                 try {
                     if (response.code() == 200) {
                         if (response.body().getExists().equals("no")) {
-
                             generatePresignedUrl(file_name, extension, index, time);
-
                             UPLOADED_NUMBER_OF_FILES = UPLOADED_NUMBER_OF_FILES + 1;
                             Log.d("call_quee", String.valueOf(INDEX_OF_FILE) + "Success");
                         }

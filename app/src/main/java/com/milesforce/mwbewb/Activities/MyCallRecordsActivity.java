@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -35,6 +36,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 import okhttp3.MediaType;
@@ -184,6 +187,9 @@ public class MyCallRecordsActivity extends AppCompatActivity {
             String fileNmae = Environment.getExternalStorageDirectory() + "/MilesForceMwb";
             File directory = new File(fileNmae);
             File[] files = directory.listFiles();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                Arrays.sort(files, Comparator.comparingLong(File::lastModified).reversed());
+            }
             Log.d("Files", "Size: " + files.length);
             for (int i = 0; i < files.length; i++) {
                 RecordsModel recordsModel = new RecordsModel();

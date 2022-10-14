@@ -117,8 +117,10 @@ public class LoginActivity extends AppCompatActivity {
         login_progressbar = findViewById(R.id.login_progressbar);
         loginsnakebar = findViewById(R.id.loginsnakebar);
 
-        if (checkAndRequestPermissions()) {
-            // carry on the normal flow, as the case of  permissions  granted.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            if (checkAndRequestPermissions()) {
+                // carry on the normal flow, as the case of  permissions  granted.
+            }
         }
 
         if (Build.VERSION.SDK_INT >= 23) {
@@ -138,10 +140,6 @@ public class LoginActivity extends AppCompatActivity {
                 .setHostedDomain("mileseducation.com")
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
-
-
-
     }
 
     public void NavigateMainActivity(View view) {
