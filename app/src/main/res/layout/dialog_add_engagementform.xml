@@ -95,11 +95,13 @@
                             android:background="@drawable/edit_text_round_bg_gray_50"
                             android:orientation="vertical"
                             android:visibility="gone">
+
                             <LinearLayout
                                 android:layout_width="match_parent"
-                                android:weightSum="2"
+                                android:layout_height="wrap_content"
                                 android:orientation="horizontal"
-                                android:layout_height="wrap_content">
+                                android:weightSum="2">
+
                                 <androidx.appcompat.widget.AppCompatCheckBox
                                     android:id="@+id/b2c_iiml_fa_check"
                                     android:layout_width="0dp"
@@ -114,17 +116,20 @@
                                     android:layout_weight="1"
                                     android:text="IIML-BA" />
                             </LinearLayout>
+
                             <LinearLayout
                                 android:layout_width="match_parent"
-                                android:weightSum="2"
+                                android:layout_height="wrap_content"
                                 android:orientation="horizontal"
-                                android:layout_height="wrap_content">
+                                android:weightSum="2">
+
                                 <androidx.appcompat.widget.AppCompatCheckBox
                                     android:id="@+id/b2c_iiml_pa_check"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:text="IIML-PM" />
+
                                 <androidx.appcompat.widget.AppCompatCheckBox
                                     android:id="@+id/b2c_iiml_hr_check"
                                     android:layout_width="0dp"
@@ -132,17 +137,20 @@
                                     android:layout_weight="1"
                                     android:text="IIML-HR" />
                             </LinearLayout>
+
                             <LinearLayout
                                 android:layout_width="match_parent"
-                                android:weightSum="2"
+                                android:layout_height="wrap_content"
                                 android:orientation="horizontal"
-                                android:layout_height="wrap_content">
+                                android:weightSum="2">
+
                                 <androidx.appcompat.widget.AppCompatCheckBox
                                     android:id="@+id/b2c_iitr_bf_check"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:text="IITR-BF" />
+
                                 <androidx.appcompat.widget.AppCompatCheckBox
                                     android:id="@+id/b2c_iitr_dbe_check"
                                     android:layout_width="0dp"
@@ -157,8 +165,9 @@
                         <LinearLayout
                             android:id="@+id/ba_course_layout"
                             android:layout_width="match_parent"
-                            android:orientation="vertical"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -182,6 +191,7 @@
 
 
                             </LinearLayout>
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -204,6 +214,45 @@
                                     android:text="IIML-SF" />
                             </LinearLayout>
 
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/edit_text_round_bg_gray_50"
+                                android:orientation="horizontal"
+                                android:weightSum="2">
+
+                                <androidx.appcompat.widget.AppCompatCheckBox
+                                    android:id="@+id/b2c_CFA_check"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="CFA" />
+
+                                <androidx.appcompat.widget.AppCompatCheckBox
+                                    android:id="@+id/b2c_FRM_check"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="FRM" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/edit_text_round_bg_gray_50"
+                                android:orientation="horizontal"
+                                android:weightSum="2">
+
+                                <androidx.appcompat.widget.AppCompatCheckBox
+                                    android:id="@+id/b2c_USP_check"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="USP" />
+
+
+                            </LinearLayout>
+
 
                         </LinearLayout>
 
@@ -221,13 +270,14 @@
                             android:id="@+id/M_levels_spinner"
                             style="@style/EditText.Flat.Grey"
                             android:layout_width="match_parent"
-                            android:minHeight="?attr/actionBarSize"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/spacing_medium"
                             android:background="@drawable/edit_text_round_bg_gray_50"
                             android:hint="Mobile"
+                            android:minHeight="?attr/actionBarSize"
                             android:paddingLeft="@dimen/spacing_middle"
                             android:paddingRight="@dimen/spacing_middle" />
+
                         <TextView
                             style="@style/EditText.Flat.Grey"
                             android:layout_width="match_parent"
@@ -239,11 +289,11 @@
                             android:id="@+id/U_levels_spinner"
                             style="@style/EditText.Flat.Grey"
                             android:layout_width="match_parent"
-                            android:minHeight="?attr/actionBarSize"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/spacing_medium"
                             android:background="@drawable/edit_text_round_bg_gray_50"
                             android:hint="Mobile"
+                            android:minHeight="?attr/actionBarSize"
                             android:paddingLeft="@dimen/spacing_middle"
                             android:paddingRight="@dimen/spacing_middle" />
                     </LinearLayout>
@@ -319,42 +369,110 @@
                             android:background="@drawable/edit_text_round_bg_gray_50"
                             android:paddingLeft="@dimen/spacing_middle"
                             android:paddingRight="@dimen/spacing_middle" />
-                        <TextView
-                            style="@style/EditText.Flat.Grey"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/spacing_large"
-                            android:text="International City" />
+                        <!--                        <TextView-->
+                        <!--                            style="@style/EditText.Flat.Grey"-->
+                        <!--                            android:layout_width="match_parent"-->
+                        <!--                            android:layout_height="wrap_content"-->
+                        <!--                            android:layout_marginTop="@dimen/spacing_large"-->
+                        <!--                            android:text="International City" />-->
 
-                        <EditText
-                            android:id="@+id/international_city"
-                            style="@style/EditText.Flat.Grey"
-                            android:layout_width="match_parent"
-                            android:layout_height="45dp"
-                            android:layout_marginTop="@dimen/spacing_medium"
-                            android:background="@drawable/edit_text_round_bg_gray_50"
-                            android:paddingLeft="@dimen/spacing_middle"
-                            android:paddingRight="@dimen/spacing_middle" />
-                        <TextView
-                            style="@style/EditText.Flat.Grey"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/spacing_large"
-                            android:text="Country" />
+                        <!--                        <EditText-->
+                        <!--                            android:id="@+id/international_city"-->
+                        <!--                            style="@style/EditText.Flat.Grey"-->
+                        <!--                            android:layout_width="match_parent"-->
+                        <!--                            android:layout_height="45dp"-->
+                        <!--                            android:layout_marginTop="@dimen/spacing_medium"-->
+                        <!--                            android:background="@drawable/edit_text_round_bg_gray_50"-->
+                        <!--                            android:paddingLeft="@dimen/spacing_middle"-->
+                        <!--                            android:paddingRight="@dimen/spacing_middle" />-->
+                        <!--                        <TextView-->
+                        <!--                            style="@style/EditText.Flat.Grey"-->
+                        <!--                            android:layout_width="match_parent"-->
+                        <!--                            android:layout_height="wrap_content"-->
+                        <!--                            android:layout_marginTop="@dimen/spacing_large"-->
+                        <!--                            android:text="Country" />-->
 
-                        <EditText
-                            android:id="@+id/country"
-                            style="@style/EditText.Flat.Grey"
-                            android:layout_width="match_parent"
-                            android:layout_height="45dp"
-                            android:layout_marginTop="@dimen/spacing_medium"
-                            android:background="@drawable/edit_text_round_bg_gray_50"
-                            android:paddingLeft="@dimen/spacing_middle"
-                            android:paddingRight="@dimen/spacing_middle" />
+                        <!--                        <EditText-->
+                        <!--                            android:id="@+id/country"-->
+                        <!--                            style="@style/EditText.Flat.Grey"-->
+                        <!--                            android:layout_width="match_parent"-->
+                        <!--                            android:layout_height="45dp"-->
+                        <!--                            android:layout_marginTop="@dimen/spacing_medium"-->
+                        <!--                            android:background="@drawable/edit_text_round_bg_gray_50"-->
+                        <!--                            android:paddingLeft="@dimen/spacing_middle"-->
+                        <!--                            android:paddingRight="@dimen/spacing_middle" />-->
 
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
+
+                <!--                <androidx.cardview.widget.CardView-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:background="@android:color/white"-->
+                <!--                    app:cardCornerRadius="2dp"-->
+                <!--                    app:cardElevation="2dp"-->
+                <!--                    app:cardUseCompatPadding="true">-->
+
+                <!--                    <LinearLayout-->
+                <!--                        android:layout_width="match_parent"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        android:layout_margin="5dp"-->
+                <!--                        android:orientation="vertical"-->
+                <!--                        android:padding="2dp">-->
+
+                <!--                        <TextView-->
+                <!--                            style="@style/EditText.Flat.Grey"-->
+                <!--                            android:layout_width="match_parent"-->
+                <!--                            android:layout_height="wrap_content"-->
+                <!--                            android:layout_marginTop="@dimen/spacing_large"-->
+                <!--                            android:text="Professional Info :" />-->
+
+                <!--                        <EditText-->
+                <!--                            android:id="@+id/b2c_lead_education"-->
+                <!--                            style="@style/EditText.Flat.Grey"-->
+                <!--                            android:layout_width="match_parent"-->
+                <!--                            android:layout_height="45dp"-->
+                <!--                            android:layout_marginTop="@dimen/spacing_large"-->
+                <!--                            android:background="@drawable/edit_text_round_bg_gray_50"-->
+                <!--                            android:hint="Education"-->
+                <!--                            android:paddingLeft="@dimen/spacing_middle"-->
+                <!--                            android:paddingRight="@dimen/spacing_middle" />-->
+
+                <!--                        <EditText-->
+                <!--                            android:id="@+id/b2c_lead_company"-->
+                <!--                            style="@style/EditText.Flat.Grey"-->
+                <!--                            android:layout_width="match_parent"-->
+                <!--                            android:layout_height="45dp"-->
+                <!--                            android:layout_marginTop="@dimen/spacing_large"-->
+                <!--                            android:background="@drawable/edit_text_round_bg_gray_50"-->
+                <!--                            android:hint="Company"-->
+                <!--                            android:paddingLeft="@dimen/spacing_middle"-->
+                <!--                            android:paddingRight="@dimen/spacing_middle" />-->
+
+                <!--                        <EditText-->
+                <!--                            android:id="@+id/b2c_lead_designation"-->
+                <!--                            style="@style/EditText.Flat.Grey"-->
+                <!--                            android:layout_width="match_parent"-->
+                <!--                            android:layout_height="45dp"-->
+                <!--                            android:layout_marginTop="@dimen/spacing_large"-->
+                <!--                            android:background="@drawable/edit_text_round_bg_gray_50"-->
+                <!--                            android:hint="Designation"-->
+                <!--                            android:paddingLeft="@dimen/spacing_middle"-->
+                <!--                            android:paddingRight="@dimen/spacing_middle" />-->
+
+                <!--                        <EditText-->
+                <!--                            android:id="@+id/b2c_lead_experiance"-->
+                <!--                            style="@style/EditText.Flat.Grey"-->
+                <!--                            android:layout_width="match_parent"-->
+                <!--                            android:layout_height="45dp"-->
+                <!--                            android:layout_marginTop="@dimen/spacing_large"-->
+                <!--                            android:background="@drawable/edit_text_round_bg_gray_50"-->
+                <!--                            android:hint="Experience"-->
+                <!--                            android:paddingLeft="@dimen/spacing_middle"-->
+                <!--                            android:paddingRight="@dimen/spacing_middle" />-->
+                <!--                    </LinearLayout>-->
+                <!--                </androidx.cardview.widget.CardView>-->
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
@@ -371,73 +489,6 @@
                         android:orientation="vertical"
                         android:padding="2dp">
 
-                        <TextView
-                            style="@style/EditText.Flat.Grey"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/spacing_large"
-                            android:text="Professional Info :" />
-
-                        <EditText
-                            android:id="@+id/b2c_lead_education"
-                            style="@style/EditText.Flat.Grey"
-                            android:layout_width="match_parent"
-                            android:layout_height="45dp"
-                            android:layout_marginTop="@dimen/spacing_large"
-                            android:background="@drawable/edit_text_round_bg_gray_50"
-                            android:hint="Education"
-                            android:paddingLeft="@dimen/spacing_middle"
-                            android:paddingRight="@dimen/spacing_middle" />
-
-                        <EditText
-                            android:id="@+id/b2c_lead_company"
-                            style="@style/EditText.Flat.Grey"
-                            android:layout_width="match_parent"
-                            android:layout_height="45dp"
-                            android:layout_marginTop="@dimen/spacing_large"
-                            android:background="@drawable/edit_text_round_bg_gray_50"
-                            android:hint="Company"
-                            android:paddingLeft="@dimen/spacing_middle"
-                            android:paddingRight="@dimen/spacing_middle" />
-
-                        <EditText
-                            android:id="@+id/b2c_lead_designation"
-                            style="@style/EditText.Flat.Grey"
-                            android:layout_width="match_parent"
-                            android:layout_height="45dp"
-                            android:layout_marginTop="@dimen/spacing_large"
-                            android:background="@drawable/edit_text_round_bg_gray_50"
-                            android:hint="Designation"
-                            android:paddingLeft="@dimen/spacing_middle"
-                            android:paddingRight="@dimen/spacing_middle" />
-
-                        <EditText
-                            android:id="@+id/b2c_lead_experiance"
-                            style="@style/EditText.Flat.Grey"
-                            android:layout_width="match_parent"
-                            android:layout_height="45dp"
-                            android:layout_marginTop="@dimen/spacing_large"
-                            android:background="@drawable/edit_text_round_bg_gray_50"
-                            android:hint="Experience"
-                            android:paddingLeft="@dimen/spacing_middle"
-                            android:paddingRight="@dimen/spacing_middle" />
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/white"
-                    app:cardCornerRadius="2dp"
-                    app:cardElevation="2dp"
-                    app:cardUseCompatPadding="true">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:orientation="vertical"
-                        android:padding="2dp">
                         <TextView
                             style="@style/EditText.Flat.Grey"
                             android:layout_width="match_parent"
@@ -449,11 +500,11 @@
                             android:id="@+id/appconpact_spinner_connectionstatus"
                             style="@style/EditText.Flat.Grey"
                             android:layout_width="match_parent"
-                            android:minHeight="?attr/actionBarSize"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/spacing_medium"
                             android:background="@drawable/edit_text_round_bg_gray_50"
                             android:hint="Connection Status"
+                            android:minHeight="?attr/actionBarSize"
                             android:paddingLeft="@dimen/spacing_middle"
                             android:paddingRight="@dimen/spacing_middle" />
 
@@ -462,7 +513,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
-                            android:visibility="gone">
+                            android:visibility="visible">
 
                             <TextView
                                 android:layout_width="match_parent"
@@ -1237,7 +1288,6 @@
                                 android:weightSum="3">
 
 
-
                                 <RadioButton
                                     android:id="@+id/referal_radio"
                                     android:layout_width="0dp"
@@ -1246,48 +1296,62 @@
                                     android:text="Referral" />
 
                                 <RadioButton
-                                    android:id="@+id/direct_radio"
+                                    android:id="@+id/IncomingCals_radio"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:text="Direct" />
+                                    android:text="Incoming Calls" />
+
                                 <RadioButton
-                                    android:id="@+id/netenquiery"
+                                    android:id="@+id/IVR_radio"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:visibility="invisible"
-                                    android:text="Net enquiry" />
+                                    android:text="IVR" />
+
+                                <!--                                <RadioButton-->
+                                <!--                                    android:id="@+id/direct_radio"-->
+                                <!--                                    android:layout_width="0dp"-->
+                                <!--                                    android:layout_height="wrap_content"-->
+                                <!--                                    android:layout_weight="1"-->
+                                <!--                                    android:text="Direct" />-->
+                                <!--                                <RadioButton-->
+                                <!--                                    android:id="@+id/netenquiery"-->
+                                <!--                                    android:layout_width="0dp"-->
+                                <!--                                    android:layout_height="wrap_content"-->
+                                <!--                                    android:layout_weight="1"-->
+                                <!--                                    android:visibility="invisible"-->
+                                <!--                                    android:text="Net enquiry" />-->
                             </LinearLayout>
 
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="@drawable/edit_text_round_bg_gray_50"
-                                android:gravity="center"
-                                android:orientation="horizontal"
-                                android:weightSum="3">
+<!--                            <LinearLayout-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:background="@drawable/edit_text_round_bg_gray_50"-->
+<!--                                android:gravity="center"-->
+<!--                                android:orientation="horizontal"-->
+<!--                                android:weightSum="3">-->
 
-                                <RadioButton
-                                    android:id="@+id/corporate"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:text="Corporate" />
+<!--                                <RadioButton-->
+<!--                                    android:id="@+id/corporate"-->
+<!--                                    android:layout_width="0dp"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:layout_weight="1"-->
+<!--                                    android:text="Corporate" />-->
 
-                                <RadioButton
-                                    android:id="@+id/university"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:text="University" />
+<!--                                <RadioButton-->
+<!--                                    android:id="@+id/university"-->
+<!--                                    android:layout_width="0dp"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:layout_weight="1"-->
+<!--                                    android:text="University" />-->
 
-                                <RadioButton
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:visibility="invisible" />
-                            </LinearLayout>
+<!--                                <RadioButton-->
+<!--                                    android:layout_width="0dp"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:layout_weight="1"-->
+<!--                                    android:visibility="invisible" />-->
+<!--                            </LinearLayout>-->
                         </LinearLayout>
 
                         <LinearLayout
@@ -1443,61 +1507,65 @@
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
+
                 <androidx.cardview.widget.CardView
                     android:id="@+id/source_info_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@android:color/white"
+                    android:visibility="gone"
                     app:cardCornerRadius="2dp"
                     app:cardElevation="2dp"
-                    android:visibility="gone"
                     app:cardUseCompatPadding="true">
+
                     <LinearLayout
                         android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:padding="2dp"
-                        android:layout_height="wrap_content">
+                        android:padding="2dp">
+
                         <LinearLayout
                             android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:weightSum="2"
-                            android:layout_height="wrap_content">
+                            android:weightSum="2">
+
                             <TextView
-                                android:layout_width="0dp"
-                                android:layout_weight="1"
-                                android:text="Source : "
                                 style="@style/EditText.Flat.Grey"
-                                android:layout_height="wrap_content">
-                            </TextView>
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Source : "></TextView>
+
                             <TextView
                                 android:id="@+id/Source_test"
-                                android:layout_width="0dp"
-                                android:layout_weight="1"
-                                android:text=""
                                 style="@style/EditText.Flat.Grey"
-                                android:layout_height="wrap_content">
-                            </TextView>
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text=""></TextView>
                         </LinearLayout>
+
                         <LinearLayout
                             android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:weightSum="2"
-                            android:layout_height="wrap_content">
+                            android:weightSum="2">
+
                             <TextView
-                                android:layout_width="0dp"
-                                android:layout_weight="1"
                                 style="@style/EditText.Flat.Grey"
-                                android:text="Source ID : "
-                                android:layout_height="wrap_content">
-                            </TextView>
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Source ID : "></TextView>
+
                             <TextView
                                 android:id="@+id/Source_id"
-                                android:layout_width="0dp"
-                                android:layout_weight="1"
-                                android:text=""
                                 style="@style/EditText.Flat.Grey"
-                                android:layout_height="wrap_content">
-                            </TextView>
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text=""></TextView>
                         </LinearLayout>
 
 

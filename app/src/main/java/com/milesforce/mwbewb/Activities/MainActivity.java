@@ -345,7 +345,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     AppCompatCheckBox b2c_cpa_check, b2c_cma_check,
             b2c_iiml_fa_check,
             b2c_iiml_ba_check, b2c_iiml_pa_check, b2c_iiml_hr_check, b2c_iitr_bf_check,
-            b2c_iitr_dbe_check, b2c_iimlfa_check, b2c_iimlsf_check;
+            b2c_iitr_dbe_check, b2c_iimlfa_check, b2c_iimlsf_check, b2c_CFA_check, b2c_FRM_check, b2c_USP_check;
 
     static String CPAChecked = " ";
     static String CPMChecked = " ";
@@ -358,10 +358,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     static String IIML_HR_Checked = " ";
     static String IITR_BF_Checked = " ";
     static String IITR_DBE_Checked = " ";
-
-
+    static String CFA_Checked = " ";
+    static String FRM_Checked = " ";
+    static String USP_Checked = " ";
     static String CoursesData = null;
     int person_id, can_id, Mobile_id;
+
     String previousEngagement, courses, levels, user_name, person_name;
     EditText latestEngagement;
     LinearLayout nextTimeLayout, engagement_main_form;
@@ -377,7 +379,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ProgressBar add_b2b_progresss, b2b_cr_progress, b2b_ir_progress;
     String other_check_radio_text;
 
-    RadioButton netenquiery, referal_radio, direct_radio, corporate, university;
+    RadioButton IncomingCals_radio, referal_radio, IVR_radio;
     LevelsCustomAdapter levelsCustomAdapter;
     UserToken userToken;
     GetCallLogService getCallLogService;
@@ -405,6 +407,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     EditText work_Ex_profiling, company_Name, work_Experience;
+    LinearLayout current_location;
     TextView indian_Professional, global_Professional_Qualification, ug_Graduate_Qualification, pg_Graduate_Qualification;
     boolean[] selectedIndian_Professional, selectGlobal_Professional, selectUG_Graduate_Qualification, selectPG_Graduate_Qualification;
     ArrayList<Integer> indianProfessionalLangList = new ArrayList<>();
@@ -486,6 +489,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     List<ULevelModel> uLevelListModel = new ArrayList<>();
     final String[] uLevelList = {
+            " ",
             "U0-Not interested in US/Canda",
             "U1-Interest expressed, dropped out",
             "U1+-Interest expressed, yet to graduate",
@@ -508,9 +512,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             "U9 - Started program in USA",
             "U10 - Completed program in USA",
     };
-
-
-
 
 
     @Override
@@ -1399,12 +1400,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     case R.id.b2c:
                         openAddLeadForm();
                         break;
-                    case R.id.b2b_cr:
-                        //  openAddLeadForB2BCr();
-                        break;
-                    case R.id.b2b_ir:
-                        //  openAddLeadFormFroB2bIr();
-                        break;
+//                    case R.id.b2b_cr:
+//                        //  openAddLeadForB2BCr();
+//                        break;
+//                    case R.id.b2b_ir:
+//                        //  openAddLeadFormFroB2bIr();
+//                        break;
 
 
                 }
@@ -1425,11 +1426,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
         dialog.setContentView(R.layout.add_leadforb2b_ir);
         dialog.setCancelable(true);
-        netenquiery = dialog.findViewById(R.id.netenquiery);
         referal_radio = dialog.findViewById(R.id.referal_radio);
-        direct_radio = dialog.findViewById(R.id.direct_radio);
-        corporate = dialog.findViewById(R.id.corporate);
-        university = dialog.findViewById(R.id.university);
+        IVR_radio = dialog.findViewById(R.id.IVR_radio);
+        IncomingCals_radio = dialog.findViewById(R.id.IncomingCals_radio);
+
         corporate_company = dialog.findViewById(R.id.corporate_company_b2b_ir);
 
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
@@ -1479,7 +1479,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        netenquiery.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        IncomingCals_radio.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
@@ -1487,10 +1487,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     direct.setVisibility(View.GONE);
                     reference_layout_spinner.setVisibility(View.GONE);
                     LEADSOURCE = "Net Enquiry";
-                    direct_radio.setChecked(false);
-                    corporate.setChecked(false);
+                    IVR_radio.setChecked(false);
                     referal_radio.setChecked(false);
-                    university.setChecked(false);
                     corporate_company.setVisibility(View.GONE);
                 }
             }
@@ -1502,15 +1500,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     referal.setVisibility(View.VISIBLE);
                     direct.setVisibility(View.GONE);
                     LEADSOURCE = "Referral";
-                    direct_radio.setChecked(false);
-                    corporate.setChecked(false);
-                    netenquiery.setChecked(false);
-                    university.setChecked(false);
+                    IVR_radio.setChecked(false);
+
                     corporate_company.setVisibility(View.GONE);
                 }
             }
         });
-        direct_radio.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        IVR_radio.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
@@ -1518,50 +1514,48 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     direct.setVisibility(View.VISIBLE);
                     reference_layout_spinner.setVisibility(View.GONE);
                     LEADSOURCE = "Direct";
-                    netenquiery.setChecked(false);
-                    corporate.setChecked(false);
+
                     referal_radio.setChecked(false);
-                    university.setChecked(false);
                     corporate_company.setVisibility(View.GONE);
                 }
             }
         });
-        corporate.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    referal.setVisibility(View.GONE);
-                    direct.setVisibility(View.GONE);
-                    reference_layout_spinner.setVisibility(View.GONE);
-                    LEADSOURCE = "Corporate";
-                    netenquiery.setChecked(false);
-                    direct_radio.setChecked(false);
-                    referal_radio.setChecked(false);
-                    university.setChecked(false);
-                    corporate_company.setVisibility(View.VISIBLE);
-                    autoCompleteText_mwb_b2c.setText("");
-                    getAutoCompleteData();
-                }
-            }
-        });
-        university.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    referal.setVisibility(View.GONE);
-                    direct.setVisibility(View.GONE);
-                    reference_layout_spinner.setVisibility(View.GONE);
-                    LEADSOURCE = "University";
-                    netenquiery.setChecked(false);
-                    direct_radio.setChecked(false);
-                    referal_radio.setChecked(false);
-                    corporate.setChecked(false);
-                    corporate_company.setVisibility(View.VISIBLE);
-                    autoCompleteText_mwb_b2c.setText("");
-                    getUniversitiesData();
-                }
-            }
-        });
+//        corporate.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if (isChecked) {
+//                    referal.setVisibility(View.GONE);
+//                    direct.setVisibility(View.GONE);
+//                    reference_layout_spinner.setVisibility(View.GONE);
+//                    LEADSOURCE = "Corporate";
+//                    netenquiery.setChecked(false);
+//                    direct_radio.setChecked(false);
+//                    referal_radio.setChecked(false);
+//                    university.setChecked(false);
+//                    corporate_company.setVisibility(View.VISIBLE);
+//                    autoCompleteText_mwb_b2c.setText("");
+//                    getAutoCompleteData();
+//                }
+//            }
+//        });
+//        university.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if (isChecked) {
+//                    referal.setVisibility(View.GONE);
+//                    direct.setVisibility(View.GONE);
+//                    reference_layout_spinner.setVisibility(View.GONE);
+//                    LEADSOURCE = "University";
+//                    netenquiery.setChecked(false);
+//                    direct_radio.setChecked(false);
+//                    referal_radio.setChecked(false);
+//                    corporate.setChecked(false);
+//                    corporate_company.setVisibility(View.VISIBLE);
+//                    autoCompleteText_mwb_b2c.setText("");
+//                    getUniversitiesData();
+//                }
+//            }
+//        });
         radioGroupForReference.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -1690,7 +1684,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 LeadDetails = lead_b2b_ir_reference.getText().toString();
             }
             b2b_ir_progress.setVisibility(View.VISIBLE);
-            apiClient.AddMwbLead(lead_b2b_ir_name.getText().toString().trim(), "M1", "None", "B2BIR", lead_b2b_ir_institute.getText().toString().trim(), lead_b2b_ir_designation.getText().toString().trim(), " ", " ", LEADCity, "", LEADSOURCE, LeadDetails, lead_b2b_ir_email.getText().toString(), lead_b2b_ir_mobile.getText().toString(), lead_b2b_ir_engagement.getText().toString().trim(), nextCallTimeStamp, 0, batteryModel.getBattey_percentage(), batteryModel.getCharging_status(), VERSION_NUMBER, "", "", ConnectionStatus, "", "Bearer " + accessToken, "application/json").enqueue(new Callback<SuccessModel>() {
+            apiClient.AddMwbLead(lead_b2b_ir_name.getText().toString().trim(), "M1", "None", "B2BIR", lead_b2b_ir_institute.getText().toString().trim(), lead_b2b_ir_designation.getText().toString().trim(), " ", " ", LEADCity, "", LEADSOURCE, LeadDetails, lead_b2b_ir_email.getText().toString(), lead_b2b_ir_mobile.getText().toString(), lead_b2b_ir_engagement.getText().toString().trim(), nextCallTimeStamp, 0, batteryModel.getBattey_percentage(), batteryModel.getCharging_status(), VERSION_NUMBER, "", "", ConnectionStatus, "",
+                    U_levels_spinner.getSelectedItem().toString(), "Bearer " + accessToken, "application/json").enqueue(new Callback<SuccessModel>() {
                 @Override
                 public void onResponse(Call<SuccessModel> call, Response<SuccessModel> response) {
                     try {
@@ -1756,12 +1751,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         dialog.show();
         dialog.getWindow().setAttributes(lp);
-        netenquiery = dialog.findViewById(R.id.netenquiery);
+        IncomingCals_radio = dialog.findViewById(R.id.IncomingCals_radio);
         referal_radio = dialog.findViewById(R.id.referal_radio);
-        direct_radio = dialog.findViewById(R.id.direct_radio);
+        IVR_radio = dialog.findViewById(R.id.IVR_radio);
+
         corporate_company = dialog.findViewById(R.id.corporate_company_b2b_cr);
-        corporate = dialog.findViewById(R.id.corporate);
-        university = dialog.findViewById(R.id.university);
+//        corporate = dialog.findViewById(R.id.corporate);
+//        university = dialog.findViewById(R.id.university);
         referal = dialog.findViewById(R.id.reference_layout);
         direct = dialog.findViewById(R.id.direct_layout);
         radioGroupForReference = dialog.findViewById(R.id.reference_radio_group);
@@ -1775,9 +1771,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         b2bcr_leadname = dialog.findViewById(R.id.b2bcr_leadname);
         b2bcr_leadmobile = dialog.findViewById(R.id.b2bcr_leadmobile);
         b2bcr_lead_email = dialog.findViewById(R.id.b2bcr_lead_email);
-        b2b_cr_lead_company = dialog.findViewById(R.id.b2b_cr_lead_company);
-        b2b_cr_lead_designation = dialog.findViewById(R.id.b2b_cr_lead_designation);
-        b2b_cr_lead_experiance = dialog.findViewById(R.id.b2b_cr_lead_experiance);
+//        b2b_cr_lead_company = dialog.findViewById(R.id.b2b_cr_lead_company);
+//        b2b_cr_lead_designation = dialog.findViewById(R.id.b2b_cr_lead_designation);
+//        b2b_cr_lead_experiance = dialog.findViewById(R.id.b2b_cr_lead_experiance);
         b2b_cr_lead_engagement = dialog.findViewById(R.id.b2b_cr_lead_engagement);
         b2c_lead_nextCall_picker_ = dialog.findViewById(R.id.date_picker_);
         b2b_cr_progress = dialog.findViewById(R.id.b2b_cr_progress);
@@ -1796,18 +1792,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        netenquiery.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        IncomingCals_radio.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     referal.setVisibility(View.GONE);
                     direct.setVisibility(View.GONE);
                     reference_layout_spinner.setVisibility(View.GONE);
-                    LEADSOURCE = "Net Enquiry";
-                    direct_radio.setChecked(false);
-                    corporate.setChecked(false);
+                    LEADSOURCE = "Incoming Cals";
+                    IVR_radio.setChecked(false);
                     referal_radio.setChecked(false);
-                    university.setChecked(false);
                     corporate_company.setVisibility(View.GONE);
                 }
             }
@@ -1819,67 +1813,64 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     referal.setVisibility(View.VISIBLE);
                     direct.setVisibility(View.GONE);
                     LEADSOURCE = "Referral";
-                    direct_radio.setChecked(false);
-                    corporate.setChecked(false);
-                    netenquiery.setChecked(false);
-                    university.setChecked(false);
-                    corporate_company.setVisibility(View.GONE);
-                }
-            }
-        });
-        direct_radio.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    referal.setVisibility(View.GONE);
-                    direct.setVisibility(View.VISIBLE);
-                    reference_layout_spinner.setVisibility(View.GONE);
-                    LEADSOURCE = "Direct";
-                    netenquiery.setChecked(false);
-                    corporate.setChecked(false);
-                    referal_radio.setChecked(false);
-                    university.setChecked(false);
-                    corporate_company.setVisibility(View.GONE);
-                }
-            }
-        });
-        corporate.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    referal.setVisibility(View.GONE);
-                    direct.setVisibility(View.GONE);
-                    reference_layout_spinner.setVisibility(View.GONE);
-                    LEADSOURCE = "Corporate";
-                    netenquiery.setChecked(false);
-                    direct_radio.setChecked(false);
-                    referal_radio.setChecked(false);
-                    university.setChecked(false);
-                    corporate_company.setVisibility(View.VISIBLE);
-                    autoCompleteText_mwb_b2c.setText("");
-                    getAutoCompleteData();
+                    IVR_radio.setChecked(false);
+                    IncomingCals_radio.setChecked(false);
 
+                    corporate_company.setVisibility(View.GONE);
                 }
             }
         });
-        university.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        IVR_radio.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     referal.setVisibility(View.GONE);
                     direct.setVisibility(View.GONE);
                     reference_layout_spinner.setVisibility(View.GONE);
-                    LEADSOURCE = "University";
-                    netenquiery.setChecked(false);
-                    direct_radio.setChecked(false);
+                    LEADSOURCE = "IVR";
+                    IncomingCals_radio.setChecked(false);
                     referal_radio.setChecked(false);
-                    corporate.setChecked(false);
-                    corporate_company.setVisibility(View.VISIBLE);
-                    autoCompleteText_mwb_b2c.setText("");
-                    getUniversitiesData();
+                    corporate_company.setVisibility(View.GONE);
                 }
             }
         });
+//        corporate.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if (isChecked) {
+//                    referal.setVisibility(View.GONE);
+//                    direct.setVisibility(View.GONE);
+//                    reference_layout_spinner.setVisibility(View.GONE);
+//                    LEADSOURCE = "Corporate";
+//                    netenquiery.setChecked(false);
+//                    direct_radio.setChecked(false);
+//                    referal_radio.setChecked(false);
+//                    university.setChecked(false);
+//                    corporate_company.setVisibility(View.VISIBLE);
+//                    autoCompleteText_mwb_b2c.setText("");
+//                    getAutoCompleteData();
+//
+//                }
+//            }
+//        });
+//        university.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if (isChecked) {
+//                    referal.setVisibility(View.GONE);
+//                    direct.setVisibility(View.GONE);
+//                    reference_layout_spinner.setVisibility(View.GONE);
+//                    LEADSOURCE = "University";
+//                    netenquiery.setChecked(false);
+//                    direct_radio.setChecked(false);
+//                    referal_radio.setChecked(false);
+//                    corporate.setChecked(false);
+//                    corporate_company.setVisibility(View.VISIBLE);
+//                    autoCompleteText_mwb_b2c.setText("");
+//                    getUniversitiesData();
+//                }
+//            }
+//        });
         radioGroupForReference.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -2058,11 +2049,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         appconpact_spinner_graduation_Year.setAdapter(adapter);
 
         dialog.setCancelable(true);
-        netenquiery = dialog.findViewById(R.id.netenquiery);
+//        netenquiery = dialog.findViewById(R.id.netenquiery);
         referal_radio = dialog.findViewById(R.id.referal_radio);
-        direct_radio = dialog.findViewById(R.id.direct_radio);
-        corporate = dialog.findViewById(R.id.corporate);
-        university = dialog.findViewById(R.id.university);
+        IVR_radio = dialog.findViewById(R.id.IVR_radio);
+        IncomingCals_radio = dialog.findViewById(R.id.IncomingCals_radio);
+//        direct_radio = dialog.findViewById(R.id.direct_radio);
+//        corporate = dialog.findViewById(R.id.corporate);
+//        university = dialog.findViewById(R.id.university);
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         lp.copyFrom(dialog.getWindow().getAttributes());
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;
@@ -2113,6 +2106,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         company_Name = dialog.findViewById(R.id.company_Name);
         work_Experience = dialog.findViewById(R.id.work_Experience);
+        current_location=dialog.findViewById(R.id.current_location);
 
         b2c_iiml_fa_check = dialog.findViewById(R.id.b2c_iiml_fa_check);
         b2c_iiml_ba_check = dialog.findViewById(R.id.b2c_iiml_ba_check);
@@ -2121,19 +2115,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         b2c_iitr_bf_check = dialog.findViewById(R.id.b2c_iitr_bf_check);
         b2c_iitr_dbe_check = dialog.findViewById(R.id.b2c_iitr_dbe_check);
         b2c_iimlfa_check = dialog.findViewById(R.id.b2c_iimlfa_check);
+        b2c_CFA_check = dialog.findViewById(R.id.b2c_CFA_check);
+        b2c_FRM_check = dialog.findViewById(R.id.b2c_FRM_check);
+        b2c_USP_check = dialog.findViewById(R.id.b2c_USP_check);
+
         b2c_iimlsf_check = dialog.findViewById(R.id.b2c_iimlsf_check);
         b2c_cpa_check = dialog.findViewById(R.id.b2c_cpa_check);
         b2c_cma_check = dialog.findViewById(R.id.b2c_cma_check);
         b2c_lead_name = dialog.findViewById(R.id.b2c_lead_name);
         b2c_lead_mobile = dialog.findViewById(R.id.b2c_lead_mobile);
         b2c_lead_email = dialog.findViewById(R.id.b2c_lead_email);
-        b2c_lead_education = dialog.findViewById(R.id.b2c_lead_education);
-        b2c_lead_company = dialog.findViewById(R.id.b2c_lead_company);
-        b2c_lead_designation = dialog.findViewById(R.id.b2c_lead_designation);
-        b2c_lead_experiance = dialog.findViewById(R.id.b2c_lead_experiance);
+//        b2c_lead_education = dialog.findViewById(R.id.b2c_lead_education);
+//        b2c_lead_company = dialog.findViewById(R.id.b2c_lead_company);
+//        b2c_lead_designation = dialog.findViewById(R.id.b2c_lead_designation);
+//        b2c_lead_experiance = dialog.findViewById(R.id.b2c_lead_experiance);
         b2c_lead_engagement = dialog.findViewById(R.id.b2c_lead_engagement);
-        b2c_international = dialog.findViewById(R.id.international_city);
-        b2c_country = dialog.findViewById(R.id.country);
+//        b2c_international = dialog.findViewById(R.id.international_city);
+//        b2c_country = dialog.findViewById(R.id.country);
         b2c_lead_nextCall_picker_ = dialog.findViewById(R.id.b2c_lead_nextCall_picker_);
         add_b2b_progresss = dialog.findViewById(R.id.add_b2b_progresss);
         iiml_course_layout = dialog.findViewById(R.id.iiml_course_layout);
@@ -2513,6 +2511,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
+        b2c_CFA_check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    CFA_Checked = "CFA";
+                } else {
+                    CFA_Checked = "";
+                }
+            }
+        });
+        b2c_FRM_check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    FRM_Checked = "CFA";
+                } else {
+                    FRM_Checked = "";
+                }
+            }
+        });
+
+        b2c_USP_check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    USP_Checked = "CFA";
+                } else {
+                    USP_Checked = "";
+                }
+            }
+        });
 
         b2c_iiml_ba_check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -2623,7 +2652,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             }
         });
-        netenquiery.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        IncomingCals_radio.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
@@ -2631,10 +2660,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     direct.setVisibility(View.GONE);
                     reference_layout_spinner.setVisibility(View.GONE);
                     LEADSOURCE = "Net Enquiry";
-                    direct_radio.setChecked(false);
-                    corporate.setChecked(false);
+                    IVR_radio.setChecked(false);
                     referal_radio.setChecked(false);
-                    university.setChecked(false);
                     corporate_company.setVisibility(View.GONE);
                 }
             }
@@ -2646,70 +2673,66 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     referal.setVisibility(View.VISIBLE);
                     direct.setVisibility(View.GONE);
                     LEADSOURCE = "Referral";
-                    direct_radio.setChecked(false);
-                    corporate.setChecked(false);
-                    netenquiery.setChecked(false);
-                    university.setChecked(false);
+                    IncomingCals_radio.setChecked(false);
+                    IVR_radio.setChecked(false);
                     corporate_company.setVisibility(View.GONE);
                 }
             }
         });
-        direct_radio.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        IVR_radio.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     referal.setVisibility(View.GONE);
-                    direct.setVisibility(View.VISIBLE);
+                    direct.setVisibility(View.GONE);
                     reference_layout_spinner.setVisibility(View.GONE);
                     LEADSOURCE = "Direct";
-                    netenquiery.setChecked(false);
-                    corporate.setChecked(false);
+                    IncomingCals_radio.setChecked(false);
                     referal_radio.setChecked(false);
-                    university.setChecked(false);
                     corporate_company.setVisibility(View.GONE);
                 }
             }
         });
-        corporate.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    referal.setVisibility(View.GONE);
-                    direct.setVisibility(View.GONE);
-                    reference_layout_spinner.setVisibility(View.GONE);
-                    LEADSOURCE = "Corporate";
-                    netenquiery.setChecked(false);
-                    direct_radio.setChecked(false);
-                    referal_radio.setChecked(false);
-                    university.setChecked(false);
-                    corporate_company.setVisibility(View.VISIBLE);
-                    autoCompleteText_mwb_b2c.setText("");
-                    getAutoCompleteData();
-                    //  getUniversitiesData();
-
-
-                }
-            }
-        });
-        university.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    referal.setVisibility(View.GONE);
-                    direct.setVisibility(View.GONE);
-                    reference_layout_spinner.setVisibility(View.GONE);
-                    LEADSOURCE = "University";
-                    netenquiery.setChecked(false);
-                    direct_radio.setChecked(false);
-                    referal_radio.setChecked(false);
-                    corporate.setChecked(false);
-                    corporate_company.setVisibility(View.VISIBLE);
-                    autoCompleteText_mwb_b2c.setText("");
-                    getUniversitiesData();
-                    //getAutoCompleteData("getUniversities");
-                }
-            }
-        });
+//        corporate.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if (isChecked) {
+//                    referal.setVisibility(View.GONE);
+//                    direct.setVisibility(View.GONE);
+//                    reference_layout_spinner.setVisibility(View.GONE);
+//                    LEADSOURCE = "Corporate";
+//                    netenquiery.setChecked(false);
+//                    direct_radio.setChecked(false);
+//                    referal_radio.setChecked(false);
+//                    university.setChecked(false);
+//                    corporate_company.setVisibility(View.VISIBLE);
+//                    autoCompleteText_mwb_b2c.setText("");
+//                    getAutoCompleteData();
+//                    //  getUniversitiesData();
+//
+//
+//                }
+//            }
+//        });
+//        university.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if (isChecked) {
+//                    referal.setVisibility(View.GONE);
+//                    direct.setVisibility(View.GONE);
+//                    reference_layout_spinner.setVisibility(View.GONE);
+//                    LEADSOURCE = "University";
+//                    netenquiery.setChecked(false);
+//                    direct_radio.setChecked(false);
+//                    referal_radio.setChecked(false);
+//                    corporate.setChecked(false);
+//                    corporate_company.setVisibility(View.VISIBLE);
+//                    autoCompleteText_mwb_b2c.setText("");
+//                    getUniversitiesData();
+//                    //getAutoCompleteData("getUniversities");
+//                }
+//            }
+//        });
         radioGroupForReference.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -2828,12 +2851,56 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 SELECTED_STATUS = appconpact_spinner_connectionstatus.getSelectedItem().toString();
                 Log.d("SELECTED_STATUS-->", SELECTED_STATUS);
                 if (SELECTED_STATUS.equals("Connected / Discussed")) {
-                    interested_Layout.setVisibility(View.VISIBLE);
-                } else if (SELECTED_STATUS.equals("Connected / Not interested")) {
-                    interested_Layout.setVisibility(View.VISIBLE);
+//                    interested_Layout.setVisibility(View.VISIBLE);
 
+                    interested_Layout.setEnabled(true);
+                    appconpact_spinner_interested_working.setEnabled(true);
+                    looking_job.setEnabled(true);
+                    appconpact_spinner_looking_job.setEnabled(true);
+                    appconpact_spinner_graduation_Year.setEnabled(true);
+                    current_location.setEnabled(true);
+                    work_Ex_profiling.setEnabled(true);
+                    company_Name.setEnabled(true);
+                    work_Experience.setEnabled(true);
+                    indian_Professional.setEnabled(true);
+                    global_Professional_Qualification.setEnabled(true);
+                    ug_Graduate_Qualification.setEnabled(true);
+                    pg_Graduate_Qualification.setEnabled(true);
+                } else if (SELECTED_STATUS.equals("Connected / Not interested")) {
+//                    interested_Layout.setVisibility(View.VISIBLE);
+                    interested_Layout.setEnabled(true);
+                    appconpact_spinner_interested_working.setEnabled(true);
+                    looking_job.setEnabled(true);
+                    appconpact_spinner_looking_job.setEnabled(true);
+                    appconpact_spinner_graduation_Year.setEnabled(true);
+                    current_location.setEnabled(true);
+                    work_Ex_profiling.setEnabled(true);
+                    company_Name.setEnabled(true);
+                    work_Experience.setEnabled(true);
+                    indian_Professional.setEnabled(true);
+                    global_Professional_Qualification.setEnabled(true);
+                    ug_Graduate_Qualification.setEnabled(true);
+                    pg_Graduate_Qualification.setEnabled(true);
                 } else {
-                    interested_Layout.setVisibility(View.GONE);
+//                    interested_Layout.setVisibility(View.GONE);
+                    interested_Layout.setEnabled(false);
+                    appconpact_spinner_interested_working.setEnabled(false);
+                    looking_job.setEnabled(false);
+                    appconpact_spinner_looking_job.setEnabled(false);
+                    appconpact_spinner_graduation_Year.setEnabled(false);
+                    current_location.setEnabled(false);
+                    work_Ex_profiling.setEnabled(false);
+                    company_Name.setEnabled(false);
+                    work_Experience.setEnabled(false);
+                    indian_Professional.setEnabled(false);
+                    global_Professional_Qualification.setEnabled(false);
+                    ug_Graduate_Qualification.setEnabled(false);
+                    pg_Graduate_Qualification.setEnabled(false);
+
+                    //                    for ( int i = 0; i < interested_Layout.getChildCount();  i++ ){
+//                        View view1 = interested_Layout.getChildAt(i);
+//                        view1.setEnabled(false);
+//                    }
 
 
                 }
@@ -3104,9 +3171,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     dialog.dismiss();
                     return;
                 }
-                String international_city = b2c_international.getText().toString();
-                String country_ = b2c_country.getText().toString();
-                apiClient.AddMwbLead(b2c_lead_name.getText().toString().trim(), LeadLevels, MWbLeadCourseData, "B2C", b2c_lead_company.getText().toString(), b2c_lead_designation.getText().toString(), b2c_lead_experiance.getText().toString(), b2c_lead_education.getText().toString(), LEADCity, "", LEADSOURCE, LeadDetails, b2c_lead_email.getText().toString().trim(), LAST_TENDIGIT_MOBILE_NUMBER, b2c_lead_engagement.getText().toString().trim(), nextCallTimeStamp, 0, batteryModel.getBattey_percentage(), batteryModel.getCharging_status(), VERSION_NUMBER, international_city, country_, ConnectionStatus, "", "Bearer " + accessToken, "application/json").enqueue(new Callback<SuccessModel>() {
+//                String international_city = b2c_international.getText().toString();
+//                String country_ = b2c_country.getText().toString();
+                apiClient.AddMwbLead(b2c_lead_name.getText().toString().trim(),
+                        LeadLevels, MWbLeadCourseData,
+                        "B2C",
+                        "b2c_lead_company.getText().toString()",
+                        "b2c_lead_designation.getText().toString()",
+                        "b2c_lead_experiance.getText().toString()",
+                        "  b2c_lead_education.getText().toString(),",
+                        LEADCity,
+                        "", LEADSOURCE, LeadDetails, b2c_lead_email.getText().toString().trim()
+                        , LAST_TENDIGIT_MOBILE_NUMBER, b2c_lead_engagement.getText().toString().trim(),
+                        nextCallTimeStamp, 0, batteryModel.getBattey_percentage(),
+                        batteryModel.getCharging_status(), VERSION_NUMBER, "international_city",
+                        "country_", ConnectionStatus, "", U_levels_spinner.getSelectedItem().toString(), "Bearer " + accessToken, "application/json").enqueue(new Callback<SuccessModel>() {
                     @Override
                     public void onResponse(Call<SuccessModel> call, Response<SuccessModel> response) {
                         try {
@@ -3274,6 +3353,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (b2c_iimlsf_check.isChecked()) {
             MWbLeadCourseData = IIML_SF_Checked_lead;
         }
+        if(b2c_CFA_check.isChecked()){
+            MWbLeadCourseData = CFA_Checked;
+
+        }
+        if(b2c_FRM_check.isChecked()){
+            MWbLeadCourseData = FRM_Checked;
+
+        }
+        if(b2c_USP_check.isChecked()){
+            MWbLeadCourseData = USP_Checked;
+
+        }
+
 
 
 //        if (b2c_cpa_check.isChecked() && b2c_cma_check.isChecked() && b2c_da_check.isChecked()) {
@@ -3347,7 +3439,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             b2bcr_leadmobile.getText().toString(), b2b_cr_lead_engagement.getText().toString().trim(),
                             nextCallTimeStamp, 0, batteryModel.getBattey_percentage(),
                             batteryModel.getCharging_status(), VERSION_NUMBER, "", "",
-                            ConnectionStatus, "", "Bearer " + accessToken, "application/json")
+                            ConnectionStatus, "", U_levels_spinner.getSelectedItem().toString(), "Bearer " + accessToken, "application/json")
                     .enqueue(new Callback<SuccessModel>() {
                         @Override
                         public void onResponse(Call<SuccessModel> call, Response<SuccessModel> response) {

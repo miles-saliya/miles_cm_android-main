@@ -61,6 +61,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 import static com.milesforce.mwbewb.Utils.ConstantUtills.IIML_TAB_CHANGE_CODE;
 import static com.milesforce.mwbewb.Utils.ConstantUtills.VERSION_NUMBER;
 
@@ -293,6 +294,31 @@ public class AlertForAddB2CLeadForml {
     AppCompatAutoCompleteTextView autoCompleteText_mwb_b2c;
     CardView source_layout_layout,source_info_layout;
     TextView souceText ,SourceID;
+    AppCompatSpinner U_levels_spinner;
+    final String[] uLevelList = {
+            "U0-Not interested in US/Canda",
+            "U1-Interest expressed, dropped out",
+            "U1+-Interest expressed, yet to graduate",
+            "U2-Interest expressed, in pipeline (warm)",
+            "U3- -Postponed",
+            "U3 -Interest expressed, in pipeline (hot)",
+            "U3+ -Zoom Attended(Very Hot)",
+            "U3++ -Confirm Prospect for USP",
+            "U4- -Application initiated, dropped out",
+            "U4 -Application Initiate",
+            "U4R - Refunded 20k",
+            "U5 - Application done, I-20 yet to be received",
+            "U5+ -Conditional Offer Received",
+            "U6- -I-20 received, Dropped Out",
+            "U6 - I 20 Rec. Yet to apply for Visa",
+            "U6+ -I 20 Rec. Applied for Visa",
+            "U7- -Visa Received But Dropped out",
+            "U7 - Visa received",
+            "U8 - IIM Indore",
+            "U9 - Started program in USA",
+            "U10 - Completed program in USA",
+    };
+
 
     public void AddB2cLeadForm(final Context context, String accessToken, String callLogs,String email,String name,String source,String sourceId ,int type,String netEnquiryType) {
         NETENQUIRY_TYPE = netEnquiryType;
@@ -307,6 +333,13 @@ public class AlertForAddB2CLeadForml {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
         dialog.setContentView(R.layout.dialog_add_engagementform);
         dialog.setCancelable(true);
+        U_levels_spinner=dialog.findViewById(R.id.U_levels_spinner);
+        ArrayAdapter<String> U_levels_spinner_Adapter = new ArrayAdapter<String>(dialog.getContext(),
+                android.R.layout.simple_spinner_item, uLevelList);
+        U_levels_spinner_Adapter.setDropDownViewResource(
+                android.R.layout
+                        .simple_spinner_dropdown_item);
+        U_levels_spinner.setAdapter(U_levels_spinner_Adapter);
         corporate_company = dialog.findViewById(R.id.corporate_company_b2c);
         netenquiery = dialog.findViewById(R.id.netenquiery);
         referal_radio = dialog.findViewById(R.id.referal_radio);
@@ -337,10 +370,10 @@ public class AlertForAddB2CLeadForml {
         b2c_lead_name = dialog.findViewById(R.id.b2c_lead_name);
         b2c_lead_mobile = dialog.findViewById(R.id.b2c_lead_mobile);
         b2c_lead_email = dialog.findViewById(R.id.b2c_lead_email);
-        b2c_lead_education = dialog.findViewById(R.id.b2c_lead_education);
-        b2c_lead_company = dialog.findViewById(R.id.b2c_lead_company);
-        b2c_lead_designation = dialog.findViewById(R.id.b2c_lead_designation);
-        b2c_lead_experiance = dialog.findViewById(R.id.b2c_lead_experiance);
+//        b2c_lead_education = dialog.findViewById(R.id.b2c_lead_education);
+//        b2c_lead_company = dialog.findViewById(R.id.b2c_lead_company);
+//        b2c_lead_designation = dialog.findViewById(R.id.b2c_lead_designation);
+//        b2c_lead_experiance = dialog.findViewById(R.id.b2c_lead_experiance);
         b2c_lead_engagement = dialog.findViewById(R.id.b2c_lead_engagement);
         b2c_lead_nextCall_picker_ = dialog.findViewById(R.id.b2c_lead_nextCall_picker_);
         b2c_iiml_fa_check = dialog.findViewById(R.id.b2c_iiml_fa_check);
@@ -349,9 +382,9 @@ public class AlertForAddB2CLeadForml {
         b2c_iiml_hr_check = dialog.findViewById(R.id.b2c_iiml_hr_check);
         b2c_iitr_bf_check = dialog.findViewById(R.id.b2c_iitr_bf_check);
         b2c_iitr_dbe_check = dialog.findViewById(R.id.b2c_iitr_dbe_check);
-        b2c_international  =dialog.findViewById(R.id.international_city);
+//        b2c_international  =dialog.findViewById(R.id.international_city);
         connection_status_spinner = dialog.findViewById(R.id.appconpact_spinner_connectionstatus);
-        b2c_country  = dialog.findViewById(R.id.country);
+//        b2c_country  = dialog.findViewById(R.id.country);
         souceText = dialog.findViewById(R.id.Source_test);
         SourceID = dialog.findViewById(R.id.Source_id);
         iiml_course_layout = dialog.findViewById(R.id.iiml_course_layout);
@@ -961,7 +994,7 @@ public class AlertForAddB2CLeadForml {
                 }
                 String international = b2c_international.getText().toString().trim();
                 String country_intr = b2c_country.getText().toString().trim();
-                apiClient.AddMwbLead(b2c_lead_name.getText().toString().trim(), LeadLevels, MWbLeadCourseData, "B2C", b2c_lead_company.getText().toString(), b2c_lead_designation.getText().toString(), b2c_lead_experiance.getText().toString(), b2c_lead_education.getText().toString(), LEADCity, "", LEADSOURCE, LeadDetails, b2c_lead_email.getText().toString().trim(), LAST_TENDIGIT_MOBILE_NUMBER, b2c_lead_engagement.getText().toString().trim(), nextCallTimeStamp, 0, batteryModel.getBattey_percentage(), batteryModel.getCharging_status(), VERSION_NUMBER,international,country_intr, ConnectionStatus,NETENQUIRY_TYPE,"Bearer " + accessToken, "application/json").enqueue(new Callback<SuccessModel>() {
+                apiClient.AddMwbLead(b2c_lead_name.getText().toString().trim(), LeadLevels, MWbLeadCourseData, "B2C", b2c_lead_company.getText().toString(), b2c_lead_designation.getText().toString(), b2c_lead_experiance.getText().toString(), b2c_lead_education.getText().toString(), LEADCity, "", LEADSOURCE, LeadDetails, b2c_lead_email.getText().toString().trim(), LAST_TENDIGIT_MOBILE_NUMBER, b2c_lead_engagement.getText().toString().trim(), nextCallTimeStamp, 0, batteryModel.getBattey_percentage(), batteryModel.getCharging_status(), VERSION_NUMBER,international,country_intr, ConnectionStatus,NETENQUIRY_TYPE,U_levels_spinner.getSelectedItem().toString(),"Bearer " + accessToken, "application/json").enqueue(new Callback<SuccessModel>() {
                     @Override
                     public void onResponse(Call<SuccessModel> call, Response<SuccessModel> response) {
                         try {

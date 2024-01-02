@@ -3,10 +3,10 @@
     <item
         android:id="@+id/b2c"
         android:title="B2C" />
-    <item
-        android:id="@+id/b2b_cr"
-        android:title="B2B (CR)" />
-    <item
-        android:id="@+id/b2b_ir"
-        android:title="B2B (IR)" />
+<!--    <item-->
+<!--        android:id="@+id/b2b_cr"-->
+<!--        android:title="B2B (CR)" />-->
+<!--    <item-->
+<!--        android:id="@+id/b2b_ir"-->
+<!--        android:title="B2B (IR)" />-->
 </menu>

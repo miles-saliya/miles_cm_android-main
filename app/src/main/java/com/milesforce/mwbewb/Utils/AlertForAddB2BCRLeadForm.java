@@ -307,9 +307,10 @@ public class AlertForAddB2BCRLeadForm {
         b2bcr_leadname = dialog.findViewById(R.id.b2bcr_leadname);
         b2bcr_leadmobile = dialog.findViewById(R.id.b2bcr_leadmobile);
         b2bcr_lead_email = dialog.findViewById(R.id.b2bcr_lead_email);
-        b2b_cr_lead_company = dialog.findViewById(R.id.b2b_cr_lead_company);
-        b2b_cr_lead_designation = dialog.findViewById(R.id.b2b_cr_lead_designation);
-        b2b_cr_lead_experiance = dialog.findViewById(R.id.b2b_cr_lead_experiance);
+//        b2b_cr_lead_company = dialog.findViewById(R.id.b2b_cr_lead_company);
+//        b2b_cr_lead_designation = dialog.findViewById(R.id.b2b_cr_lead_designation);
+//        b2b_cr_lead_experiance = dialog.findViewById(R.id.b2b_cr_lead_experiance);
+
         b2b_cr_lead_engagement = dialog.findViewById(R.id.b2b_cr_lead_engagement);
         b2c_lead_nextCall_picker_ = dialog.findViewById(R.id.date_picker_);
         b2b_cr_progress = dialog.findViewById(R.id.b2b_cr_progress);
@@ -640,7 +641,7 @@ public class AlertForAddB2BCRLeadForm {
                 LeadDetails = direct_reference_cr.getText().toString();
             }
             b2b_cr_progress.setVisibility(View.VISIBLE);
-            apiClient.AddMwbLead(b2bcr_leadname.getText().toString().trim(), "M1", "None", "B2BCR", b2b_cr_lead_company.getText().toString().trim(), b2b_cr_lead_designation.getText().toString().trim(), b2b_cr_lead_experiance.getText().toString().trim(), " ", LEADCity, "", LEADSOURCE, LeadDetails, b2bcr_lead_email.getText().toString(), b2bcr_leadmobile.getText().toString(), b2b_cr_lead_engagement.getText().toString().trim(), nextCallTimeStamp, 0, batteryModel.getBattey_percentage(), batteryModel.getCharging_status(), VERSION_NUMBER,"","","","","Bearer " + accessToken, "application/json").enqueue(new Callback<SuccessModel>() {
+            apiClient.AddMwbLead(b2bcr_leadname.getText().toString().trim(), "M1", "None", "B2BCR", b2b_cr_lead_company.getText().toString().trim(), b2b_cr_lead_designation.getText().toString().trim(), b2b_cr_lead_experiance.getText().toString().trim(), " ", LEADCity, "", LEADSOURCE, LeadDetails, b2bcr_lead_email.getText().toString(), b2bcr_leadmobile.getText().toString(), b2b_cr_lead_engagement.getText().toString().trim(), nextCallTimeStamp, 0, batteryModel.getBattey_percentage(), batteryModel.getCharging_status(), VERSION_NUMBER,"","","","","","Bearer " + accessToken, "application/json").enqueue(new Callback<SuccessModel>() {
                 @Override
                 public void onResponse(Call<SuccessModel> call, Response<SuccessModel> response) {
                     try {

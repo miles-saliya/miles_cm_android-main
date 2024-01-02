@@ -150,53 +150,53 @@
                     app:cardElevation="2dp"
                     app:cardUseCompatPadding="true">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:orientation="vertical"
-                        android:padding="2dp">
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_margin="5dp"-->
+<!--                        android:orientation="vertical"-->
+<!--                        android:padding="2dp">-->
 
-                        <TextView
-                            style="@style/EditText.Flat.Grey"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/spacing_large"
-                            android:text="Professional Info :" />
+<!--                        <TextView-->
+<!--                            style="@style/EditText.Flat.Grey"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginTop="@dimen/spacing_large"-->
+<!--                            android:text="Professional Info :" />-->
 
-                        <EditText
-                            android:id="@+id/b2b_cr_lead_company"
-                            style="@style/EditText.Flat.Grey"
-                            android:layout_width="match_parent"
-                            android:layout_height="45dp"
-                            android:layout_marginTop="@dimen/spacing_large"
-                            android:background="@drawable/edit_text_round_bg_gray_50"
-                            android:hint="Company"
-                            android:paddingLeft="@dimen/spacing_middle"
-                            android:paddingRight="@dimen/spacing_middle" />
+<!--                        <EditText-->
+<!--                            android:id="@+id/b2b_cr_lead_company"-->
+<!--                            style="@style/EditText.Flat.Grey"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="45dp"-->
+<!--                            android:layout_marginTop="@dimen/spacing_large"-->
+<!--                            android:background="@drawable/edit_text_round_bg_gray_50"-->
+<!--                            android:hint="Company"-->
+<!--                            android:paddingLeft="@dimen/spacing_middle"-->
+<!--                            android:paddingRight="@dimen/spacing_middle" />-->
 
-                        <EditText
-                            android:id="@+id/b2b_cr_lead_designation"
-                            style="@style/EditText.Flat.Grey"
-                            android:layout_width="match_parent"
-                            android:layout_height="45dp"
-                            android:layout_marginTop="@dimen/spacing_large"
-                            android:background="@drawable/edit_text_round_bg_gray_50"
-                            android:hint="Designation"
-                            android:paddingLeft="@dimen/spacing_middle"
-                            android:paddingRight="@dimen/spacing_middle" />
+<!--                        <EditText-->
+<!--                            android:id="@+id/b2b_cr_lead_designation"-->
+<!--                            style="@style/EditText.Flat.Grey"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="45dp"-->
+<!--                            android:layout_marginTop="@dimen/spacing_large"-->
+<!--                            android:background="@drawable/edit_text_round_bg_gray_50"-->
+<!--                            android:hint="Designation"-->
+<!--                            android:paddingLeft="@dimen/spacing_middle"-->
+<!--                            android:paddingRight="@dimen/spacing_middle" />-->
 
-                        <EditText
-                            android:id="@+id/b2b_cr_lead_experiance"
-                            style="@style/EditText.Flat.Grey"
-                            android:layout_width="match_parent"
-                            android:layout_height="45dp"
-                            android:layout_marginTop="@dimen/spacing_large"
-                            android:background="@drawable/edit_text_round_bg_gray_50"
-                            android:hint="Experience"
-                            android:paddingLeft="@dimen/spacing_middle"
-                            android:paddingRight="@dimen/spacing_middle" />
-                    </LinearLayout>
+<!--                        <EditText-->
+<!--                            android:id="@+id/b2b_cr_lead_experiance"-->
+<!--                            style="@style/EditText.Flat.Grey"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="45dp"-->
+<!--                            android:layout_marginTop="@dimen/spacing_large"-->
+<!--                            android:background="@drawable/edit_text_round_bg_gray_50"-->
+<!--                            android:hint="Experience"-->
+<!--                            android:paddingLeft="@dimen/spacing_middle"-->
+<!--                            android:paddingRight="@dimen/spacing_middle" />-->
+<!--                    </LinearLayout>-->
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
@@ -343,48 +343,51 @@
                                     android:text="Referral" />
 
                                 <RadioButton
-                                    android:id="@+id/direct_radio"
+                                    android:id="@+id/Incoming_Calls"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:text="Direct" />
+                                    android:visibility="visible"
+                                    android:text="Incoming Calls" />
+
                                 <RadioButton
-                                    android:id="@+id/netenquiery"
+                                    android:id="@+id/IVR_radio"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:visibility="invisible"
-                                    android:text="Net enquiry" />
+                                    android:text="IVR" />
+
+
                             </LinearLayout>
 
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="@drawable/edit_text_round_bg_gray_50"
-                                android:gravity="center"
-                                android:orientation="horizontal"
-                                android:weightSum="3">
+<!--                            <LinearLayout-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:background="@drawable/edit_text_round_bg_gray_50"-->
+<!--                                android:gravity="center"-->
+<!--                                android:orientation="horizontal"-->
+<!--                                android:weightSum="3">-->
 
-                                <RadioButton
-                                    android:id="@+id/corporate"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:text="Corporate" />
+<!--                                <RadioButton-->
+<!--                                    android:id="@+id/corporate"-->
+<!--                                    android:layout_width="0dp"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:layout_weight="1"-->
+<!--                                    android:text="Corporate" />-->
 
-                                <RadioButton
-                                    android:id="@+id/university"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:text="University" />
+<!--                                <RadioButton-->
+<!--                                    android:id="@+id/university"-->
+<!--                                    android:layout_width="0dp"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:layout_weight="1"-->
+<!--                                    android:text="University" />-->
 
-                                <RadioButton
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:visibility="invisible" />
-                            </LinearLayout>
+<!--                                <RadioButton-->
+<!--                                    android:layout_width="0dp"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:layout_weight="1"-->
+<!--                                    android:visibility="invisible" />-->
+<!--                            </LinearLayout>-->
                         </LinearLayout>
 
                         <LinearLayout
