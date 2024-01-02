@@ -84,7 +84,7 @@ public class AlertForAddB2CLeadForml {
     public static final int PERMISSION_ACCESS_CALL_PHONE = 20;
     RadioGroup radioGroup, radioGroupForReference;
     LinearLayout referal, direct, referal_layout, reference_layout_spinner;
-    AppCompatSpinner ewbspinner, mwbspinner, levels_spinner, city_spinner, direct_spinner, milesSpos_spinner,connection_status_spinner;
+    AppCompatSpinner ewbspinner, mwbspinner, M_levels_spinner, city_spinner, direct_spinner, milesSpos_spinner,connection_status_spinner;
     EditText direct_reference;
     ArrayList<String> levelsArrayList = new ArrayList<>();
     ArrayList<String> ewbArraylist = new ArrayList<>();
@@ -329,7 +329,7 @@ public class AlertForAddB2CLeadForml {
         direct_reference = dialog.findViewById(R.id.direct_reference);
         direct_spinner = dialog.findViewById(R.id.direct_spinner);
         city_spinner = dialog.findViewById(R.id.city_spinner);
-        levels_spinner = dialog.findViewById(R.id.levels_spinner);
+        M_levels_spinner = dialog.findViewById(R.id.M_levels_spinner);
         b2c_cpa_check = dialog.findViewById(R.id.b2c_cpa_check);
         b2c_cma_check = dialog.findViewById(R.id.b2c_cma_check);
         b2c_iimlfa_check = dialog.findViewById(R.id.b2c_iimlfa_check);
@@ -350,7 +350,7 @@ public class AlertForAddB2CLeadForml {
         b2c_iitr_bf_check = dialog.findViewById(R.id.b2c_iitr_bf_check);
         b2c_iitr_dbe_check = dialog.findViewById(R.id.b2c_iitr_dbe_check);
         b2c_international  =dialog.findViewById(R.id.international_city);
-        connection_status_spinner = dialog.findViewById(R.id.connection_status_spinner);
+        connection_status_spinner = dialog.findViewById(R.id.appconpact_spinner_connectionstatus);
         b2c_country  = dialog.findViewById(R.id.country);
         souceText = dialog.findViewById(R.id.Source_test);
         SourceID = dialog.findViewById(R.id.Source_id);
@@ -437,7 +437,7 @@ public class AlertForAddB2CLeadForml {
 
         add_b2b_progresss = dialog.findViewById(R.id.add_b2b_progresss);
         b2c_lead_mobile.setText(callLogs);
-       // b2c_lead_mobile.setFocusable(false);
+        // b2c_lead_mobile.setFocusable(false);
         b2c_lead_email.setText(email);
         b2c_lead_name.setText(name);
         if(type == 1){
@@ -714,8 +714,8 @@ public class AlertForAddB2CLeadForml {
 
         levelsCustomAdapter = new LevelsCustomAdapter(context, R.layout.listitems_layout, R.id.levels_items,
                 spinnerLevelList);
-        levels_spinner.setAdapter(levelsCustomAdapter);
-        levels_spinner.setEnabled(false);
+        M_levels_spinner.setAdapter(levelsCustomAdapter);
+        M_levels_spinner.setEnabled(false);
         apiClient.getSpocCity("Bearer "+accessToken).enqueue(new Callback<SuccessModel>() {
             @Override
             public void onResponse(Call<SuccessModel> call, Response<SuccessModel> response) {
@@ -746,14 +746,14 @@ public class AlertForAddB2CLeadForml {
         levelsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // attaching data adapter to spinner
         levels_spinner.setAdapter(levelsAdapter);*/
-        levels_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        M_levels_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                 LevelsModel levelsModel = spinnerLevelList.get(position);
                 LeadLevels = levelsModel.getLevelCode();
                 Toast.makeText(context, LeadLevels, Toast.LENGTH_SHORT).show();
-               // Toast.makeText(context, LeadLevels, Toast.LENGTH_SHORT).show();
+                // Toast.makeText(context, LeadLevels, Toast.LENGTH_SHORT).show();
 
                 /*LeadLevels = levels_spinner.getSelectedItem().toString();
                 Toast.makeText(context,LeadLevels, Toast.LENGTH_SHORT).show();*/
@@ -991,7 +991,7 @@ public class AlertForAddB2CLeadForml {
                                 }
 
                                 else {
-                                 //   dialog.dismiss();
+                                    //   dialog.dismiss();
                                     Toast.makeText(context, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                                     add_b2b_progresss.setVisibility(View.GONE);
                                 }

@@ -116,21 +116,24 @@
                                 android:text="VISIT" />
 
                         </RadioGroup>
+
                         <RelativeLayout
                             android:id="@+id/invite_webinar"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="end"
-                            android:visibility="gone"
-                            android:layout_marginTop="5dp">
+                            android:layout_marginTop="5dp"
+                            android:visibility="gone">
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="5dp"
-                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
                                 android:background="@drawable/strip_background"
-                                android:text="Invite To Webinar" />
+                                android:text="Invite To Webinar"
+                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2" />
                         </RelativeLayout>
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -170,158 +173,853 @@
                             android:layout_height="?attr/actionBarSize"
                             android:background="@drawable/edit_text_round_bg_white"
                             android:spinnerMode="dialog" />
+
+
                         <LinearLayout
-                            android:id="@+id/level_layout_"
-                            android:layout_width="match_parent"
-                            android:orientation="vertical"
-                            android:layout_height="wrap_content">
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Levels:"
-                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
-                                android:textSize="18sp" />
-
-                            <androidx.appcompat.widget.AppCompatSpinner
-                                android:id="@+id/appconpact_spinner_levels"
-                                style="@style/Base.Widget.AppCompat.Spinner.Underlined"
-                                android:layout_width="match_parent"
-                                android:minHeight="?attr/actionBarSize"
-                                android:layout_height="wrap_content"
-                                android:spinnerMode="dialog" />
-
-                        </LinearLayout>
-
-<!--ttesa[dvslvjslkdj-->
-                        <LinearLayout
-                            android:id="@+id/engagement_main_form"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Response:"
-                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
-                                android:textSize="18sp" />
-
-                            <RadioGroup
-                                android:id="@+id/responce_radio_group"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/spacing_large"
-                                android:background="@drawable/edit_text_round_bg_white"
-                                android:gravity="center"
-                                android:orientation="horizontal"
-                                android:weightSum="2">
-
-                                <RadioButton
-                                    android:id="@+id/new_"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:checked="true"
-                                    android:text="New" />
-
-                                <RadioButton
-                                    android:id="@+id/same_response"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:text="Same Response" />
-
-
-                            </RadioGroup>
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/spacing_large"
-                                android:text="Engagement:"
-                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
-                                android:textSize="18sp" />
-
-                            <EditText
-                                android:id="@+id/engagement_description"
-                                style="@style/EditText.Flat.Grey"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/spacing_large"
-                                android:background="@drawable/edit_text_round_bg_white"
-                                android:gravity="start"
-                                android:hint="Engagement"
-                                android:inputType="textCapSentences"
-                                android:maxHeight="100dp"
-                                android:minHeight="80dp"
-                                android:paddingLeft="@dimen/spacing_middle" />
-
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="@dimen/spacing_large" />
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="@dimen/spacing_large" />
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Courses:"
-                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
-                                android:textSize="18sp" />
+                            android:orientation="vertical"
+                            android:paddingTop="20dp">
 
                             <LinearLayout
+                                android:id="@+id/interested_Layout"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:background="@drawable/edit_text_round_bg_white"
-                                android:orientation="horizontal"
-                                android:weightSum="2">
+                                android:orientation="vertical"
+                                android:visibility="gone">
 
-                                <androidx.appcompat.widget.AppCompatCheckBox
-                                    android:id="@+id/cpa_checked"
-                                    android:layout_width="0dp"
+                                <TextView
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:text="CPA"
-                                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                                    android:textColor="@color/grey_60" />
+                                    android:text="Pathway Profiling:"
+                                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                                    android:textSize="18sp" />
 
-                                <androidx.appcompat.widget.AppCompatCheckBox
-                                    android:id="@+id/cma_checked"
-                                    android:layout_width="0dp"
+                                <LinearLayout
+                                    android:id="@+id/interested_working"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:text="CMA"
-                                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                                    android:textColor="@color/grey_60" />
+                                    android:orientation="vertical"
+                                    android:paddingTop="20dp">
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text=" Are you interested in working in the US for 3 years?"
+                                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                                        android:textSize="14sp" />
+
+                                    <androidx.appcompat.widget.AppCompatSpinner
+                                        android:id="@+id/appconpact_spinner_interested_working"
+                                        style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:minHeight="?attr/actionBarSize"
+                                        android:spinnerMode="dialog" />
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:id="@+id/looking_job"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:paddingTop="20dp">
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="Are you looking at job change in India right now ?"
+                                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                                        android:textSize="14sp" />
+
+                                    <androidx.appcompat.widget.AppCompatSpinner
+                                        android:id="@+id/appconpact_spinner_looking_job"
+                                        style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:minHeight="?attr/actionBarSize"
+                                        android:spinnerMode="dialog" />
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:id="@+id/graduation_Year"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:paddingTop="20dp">
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="Graduation Year*"
+                                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                                        android:textSize="14sp" />
+
+                                    <androidx.appcompat.widget.AppCompatSpinner
+                                        android:id="@+id/appconpact_spinner_graduation_Year"
+                                        style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:minHeight="?attr/actionBarSize"
+                                        android:spinnerMode="dialog" />
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:id="@+id/current_location"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:paddingTop="20dp">
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="Current Location *"
+                                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                                        android:textSize="14sp" />
+
+                                    <!--        <androidx.appcompat.widget.AppCompatSpinner-->
+                                    <!--            android:id="@+id/appconpact_spinner_current_location"-->
+                                    <!--            style="@style/Base.Widget.AppCompat.Spinner.Underlined"-->
+                                    <!--            android:layout_width="match_parent"-->
+                                    <!--            android:layout_height="wrap_content"-->
+                                    <!--            android:minHeight="?attr/actionBarSize"-->
+                                    <!--            android:spinnerMode="dialog" />-->
+                                    <EditText
+                                        android:id="@+id/current_location"
+                                        style="@style/EditText.Flat.Grey"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="50dp"
+                                        android:layout_marginTop="@dimen/spacing_large"
+                                        android:background="@drawable/edit_text_round_bg_gray_50"
+                                        android:hint="please type location"
+                                        android:paddingLeft="@dimen/spacing_middle"
+                                        android:paddingRight="@dimen/spacing_middle"
+                                        android:paddingBottom="20dp" />
+
+
+                                </LinearLayout>
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:paddingTop="2dp"
+                                    android:text="Work Ex Profiling:"
+                                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                                    android:textSize="18sp" />
+
+                                <EditText
+                                    android:id="@+id/work_Ex_profiling"
+                                    style="@style/EditText.Flat.Grey"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="45dp"
+                                    android:layout_marginTop="@dimen/spacing_large"
+                                    android:background="@drawable/edit_text_round_bg_gray_50"
+                                    android:editable="false"
+                                    android:hint="Work Ex Profiling"
+                                    android:paddingLeft="@dimen/spacing_middle"
+                                    android:paddingRight="@dimen/spacing_middle" />
+
+                                <EditText
+                                    android:id="@+id/company_Name"
+                                    style="@style/EditText.Flat.Grey"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="45dp"
+                                    android:layout_marginTop="@dimen/spacing_large"
+                                    android:background="@drawable/edit_text_round_bg_gray_50"
+                                    android:hint="Company Name *"
+                                    android:paddingLeft="@dimen/spacing_middle"
+                                    android:paddingRight="@dimen/spacing_middle" />
+
+                                <EditText
+                                    android:id="@+id/work_Experience"
+                                    style="@style/EditText.Flat.Grey"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="45dp"
+                                    android:layout_marginTop="@dimen/spacing_large"
+                                    android:background="@drawable/edit_text_round_bg_gray_50"
+                                    android:hint="No of Years of Work Experience *"
+                                    android:inputType="number"
+                                    android:maxLength="2"
+                                    android:paddingLeft="@dimen/spacing_middle"
+                                    android:paddingRight="@dimen/spacing_middle" />
+
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:paddingTop="20dp"
+                                    android:text="Professional Qualification Profiling"
+                                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                                    android:textSize="18sp" />
+
+                                <LinearLayout
+                                    android:id="@+id/indian_Professional_Qualification"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:paddingTop="20dp">
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="Indian Professional Qualification *"
+                                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                                        android:textSize="14sp" />
+
+                                    <!--                                    <androidx.appcompat.widget.AppCompatSpinner-->
+                                    <!--                                        android:id="@+id/appconpact_spinner_indian_Professional_Qualification"-->
+                                    <!--                                        style="@style/Base.Widget.AppCompat.Spinner.Underlined"-->
+                                    <!--                                        android:layout_width="match_parent"-->
+                                    <!--                                        android:layout_height="wrap_content"-->
+                                    <!--                                        android:minHeight="?attr/actionBarSize"-->
+                                    <!--                                        android:spinnerMode="dialog" />-->
+                                    <TextView
+                                        android:id="@+id/indian_Professional"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerInParent="true"
+                                        android:background="@android:drawable/editbox_background"
+                                        android:drawableRight="@android:drawable/arrow_down_float"
+                                        android:drawablePadding="16dp"
+                                        android:hint="Select indian Professional"
+                                        android:padding="12dp" />
+
+                                    <LinearLayout
+                                        android:id="@+id/global_Professional_Qualification_layout"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="vertical"
+                                        android:paddingTop="20dp">
+
+                                        <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:text="Global Professional Qualification *"
+                                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                                            android:textSize="14sp" />
+
+                                        <!--                                        <androidx.appcompat.widget.AppCompatSpinner-->
+                                        <!--                                            android:id="@+id/appconpact_spinner_global_Professional_Qualification"-->
+                                        <!--                                            style="@style/Base.Widget.AppCompat.Spinner.Underlined"-->
+                                        <!--                                            android:layout_width="match_parent"-->
+                                        <!--                                            android:layout_height="wrap_content"-->
+                                        <!--                                            android:minHeight="?attr/actionBarSize"-->
+                                        <!--                                            android:spinnerMode="dialog" />-->
+                                        <TextView
+                                            android:id="@+id/global_Professional_Qualification"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_centerInParent="true"
+                                            android:background="@android:drawable/editbox_background"
+                                            android:drawableRight="@android:drawable/arrow_down_float"
+                                            android:drawablePadding="16dp"
+                                            android:hint="Select Global Professional"
+                                            android:padding="12dp" />
+
+                                    </LinearLayout>
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="Other"
+                                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                                        android:textSize="18sp" />
+
+                                    <LinearLayout
+                                        android:id="@+id/ug_Graduate_Qualification_layout"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="vertical"
+                                        android:paddingTop="20dp">
+
+                                        <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:text="UG Graduate Qualification*"
+                                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                                            android:textSize="14sp" />
+
+                                        <!--                                        <androidx.appcompat.widget.AppCompatSpinner-->
+                                        <!--                                            android:id="@+id/appconpact_spinner_UG_Qualification"-->
+                                        <!--                                            style="@style/Base.Widget.AppCompat.Spinner.Underlined"-->
+                                        <!--                                            android:layout_width="match_parent"-->
+                                        <!--                                            android:layout_height="wrap_content"-->
+                                        <!--                                            android:minHeight="?attr/actionBarSize"-->
+                                        <!--                                            android:spinnerMode="dialog" />-->
+
+                                        <TextView
+                                            android:id="@+id/ug_Graduate_Qualification"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_centerInParent="true"
+                                            android:background="@android:drawable/editbox_background"
+                                            android:drawableRight="@android:drawable/arrow_down_float"
+                                            android:drawablePadding="16dp"
+                                            android:hint="Select Global Professional"
+                                            android:padding="12dp" />
+
+                                        <LinearLayout
+                                            android:id="@+id/global_PG_Qualification_layout"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:orientation="vertical"
+                                            android:paddingTop="20dp">
+
+                                            <TextView
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:text="PG Qualification*"
+                                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                                                android:textSize="14sp" />
+
+                                            <!--                                            <androidx.appcompat.widget.AppCompatSpinner-->
+                                            <!--                                                android:id="@+id/appconpact_spinner_PG_Qualification"-->
+                                            <!--                                                style="@style/Base.Widget.AppCompat.Spinner.Underlined"-->
+                                            <!--                                                android:layout_width="match_parent"-->
+                                            <!--                                                android:layout_height="wrap_content"-->
+                                            <!--                                                android:minHeight="?attr/actionBarSize"-->
+                                            <!--                                                android:spinnerMode="dialog" />-->
+
+                                            <TextView
+                                                android:id="@+id/pg_Graduate_Qualification"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:layout_centerInParent="true"
+                                                android:background="@android:drawable/editbox_background"
+                                                android:drawableRight="@android:drawable/arrow_down_float"
+                                                android:drawablePadding="16dp"
+                                                android:hint="Select Global Professional"
+                                                android:padding="12dp" />
+                                        </LinearLayout>
+
+
+                                        <!--                                        &lt;!&ndash;ttesa[dvslvjslkdj&ndash;&gt;-->
+                                        <!--                                        <LinearLayout-->
+                                        <!--                                            android:id="@+id/engagement_main_form"-->
+                                        <!--                                            android:layout_width="match_parent"-->
+                                        <!--                                            android:layout_height="wrap_content"-->
+                                        <!--                                            android:orientation="vertical">-->
+
+                                        <!--                                            <TextView-->
+                                        <!--                                                android:layout_width="match_parent"-->
+                                        <!--                                                android:layout_height="wrap_content"-->
+                                        <!--                                                android:text="Response:"-->
+                                        <!--                                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"-->
+                                        <!--                                                android:textSize="18sp" />-->
+
+                                        <!--                                            <RadioGroup-->
+                                        <!--                                                android:id="@+id/responce_radio_group"-->
+                                        <!--                                                android:layout_width="match_parent"-->
+                                        <!--                                                android:layout_height="wrap_content"-->
+                                        <!--                                                android:layout_marginTop="@dimen/spacing_large"-->
+                                        <!--                                                android:background="@drawable/edit_text_round_bg_white"-->
+                                        <!--                                                android:gravity="center"-->
+                                        <!--                                                android:orientation="horizontal"-->
+                                        <!--                                                android:weightSum="2">-->
+
+                                        <!--                                                <RadioButton-->
+                                        <!--                                                    android:id="@+id/new_"-->
+                                        <!--                                                    android:layout_width="0dp"-->
+                                        <!--                                                    android:layout_height="wrap_content"-->
+                                        <!--                                                    android:layout_weight="1"-->
+                                        <!--                                                    android:checked="true"-->
+                                        <!--                                                    android:text="New" />-->
+
+                                        <!--                                                <RadioButton-->
+                                        <!--                                                    android:id="@+id/same_response"-->
+                                        <!--                                                    android:layout_width="0dp"-->
+                                        <!--                                                    android:layout_height="wrap_content"-->
+                                        <!--                                                    android:layout_weight="1"-->
+                                        <!--                                                    android:text="Same Response" />-->
+
+
+                                        <!--                                            </RadioGroup>-->
+
+                                        <!--                                            <TextView-->
+                                        <!--                                                android:layout_width="match_parent"-->
+                                        <!--                                                android:layout_height="wrap_content"-->
+                                        <!--                                                android:layout_marginTop="@dimen/spacing_large"-->
+                                        <!--                                                android:text="Engagement:"-->
+                                        <!--                                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"-->
+                                        <!--                                                android:textSize="18sp" />-->
+
+                                        <!--                                            <EditText-->
+                                        <!--                                                android:id="@+id/engagement_description"-->
+                                        <!--                                                style="@style/EditText.Flat.Grey"-->
+                                        <!--                                                android:layout_width="match_parent"-->
+                                        <!--                                                android:layout_height="wrap_content"-->
+                                        <!--                                                android:layout_marginTop="@dimen/spacing_large"-->
+                                        <!--                                                android:background="@drawable/edit_text_round_bg_white"-->
+                                        <!--                                                android:gravity="start"-->
+                                        <!--                                                android:hint="Engagement"-->
+                                        <!--                                                android:inputType="textCapSentences"-->
+                                        <!--                                                android:maxHeight="100dp"-->
+                                        <!--                                                android:minHeight="80dp"-->
+                                        <!--                                                android:paddingLeft="@dimen/spacing_middle" />-->
+
+                                        <!--                                            <View-->
+                                        <!--                                                android:layout_width="match_parent"-->
+                                        <!--                                                android:layout_height="@dimen/spacing_large" />-->
+
+                                        <!--                                            <View-->
+                                        <!--                                                android:layout_width="match_parent"-->
+                                        <!--                                                android:layout_height="@dimen/spacing_large" />-->
+
+                                        <!--                                            <TextView-->
+                                        <!--                                                android:layout_width="match_parent"-->
+                                        <!--                                                android:layout_height="wrap_content"-->
+                                        <!--                                                android:text="Courses:"-->
+                                        <!--                                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"-->
+                                        <!--                                                android:textSize="18sp" />-->
+
+                                        <!--                                            <LinearLayout-->
+                                        <!--                                                android:layout_width="match_parent"-->
+                                        <!--                                                android:layout_height="wrap_content"-->
+                                        <!--                                                android:background="@drawable/edit_text_round_bg_white"-->
+                                        <!--                                                android:orientation="horizontal"-->
+                                        <!--                                                android:weightSum="2">-->
+
+                                        <!--                                                <androidx.appcompat.widget.AppCompatCheckBox-->
+                                        <!--                                                    android:id="@+id/cpa_checked"-->
+                                        <!--                                                    android:layout_width="0dp"-->
+                                        <!--                                                    android:layout_height="wrap_content"-->
+                                        <!--                                                    android:layout_weight="1"-->
+                                        <!--                                                    android:text="CPA"-->
+                                        <!--                                                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"-->
+                                        <!--                                                    android:textColor="@color/grey_60" />-->
+
+                                        <!--                                                <androidx.appcompat.widget.AppCompatCheckBox-->
+                                        <!--                                                    android:id="@+id/cma_checked"-->
+                                        <!--                                                    android:layout_width="0dp"-->
+                                        <!--                                                    android:layout_height="wrap_content"-->
+                                        <!--                                                    android:layout_weight="1"-->
+                                        <!--                                                    android:text="CMA"-->
+                                        <!--                                                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"-->
+                                        <!--                                                    android:textColor="@color/grey_60" />-->
+                                        <!--                                            </LinearLayout>-->
+
+                                        <!--                                            <LinearLayout-->
+                                        <!--                                                android:layout_width="match_parent"-->
+                                        <!--                                                android:layout_height="wrap_content"-->
+                                        <!--                                                android:background="@drawable/edit_text_round_bg_white"-->
+                                        <!--                                                android:orientation="horizontal"-->
+                                        <!--                                                android:weightSum="2">-->
+
+                                        <!--                                                <androidx.appcompat.widget.AppCompatCheckBox-->
+                                        <!--                                                    android:id="@+id/iimlfa_checked"-->
+                                        <!--                                                    android:layout_width="0dp"-->
+                                        <!--                                                    android:layout_height="wrap_content"-->
+                                        <!--                                                    android:layout_weight="1"-->
+                                        <!--                                                    android:text="IIML-FA"-->
+                                        <!--                                                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"-->
+                                        <!--                                                    android:textColor="@color/grey_60" />-->
+
+                                        <!--                                                <androidx.appcompat.widget.AppCompatCheckBox-->
+                                        <!--                                                    android:id="@+id/iimlsf_checked"-->
+                                        <!--                                                    android:layout_width="0dp"-->
+                                        <!--                                                    android:layout_height="wrap_content"-->
+                                        <!--                                                    android:layout_weight="1"-->
+                                        <!--                                                    android:text="IIML-SF"-->
+                                        <!--                                                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"-->
+                                        <!--                                                    android:textColor="@color/grey_60" />-->
+                                        <!--                                            </LinearLayout>-->
+
+                                        <!--                                        </LinearLayout>-->
+
+                                        <!--                                        <View-->
+                                        <!--                                            android:layout_width="match_parent"-->
+                                        <!--                                            android:layout_height="@dimen/spacing_large" />-->
+
+
+                                        <!--                                        <LinearLayout-->
+                                        <!--                                            android:id="@+id/nextTimeLayout"-->
+                                        <!--                                            android:layout_width="match_parent"-->
+                                        <!--                                            android:layout_height="match_parent"-->
+                                        <!--                                            android:orientation="vertical"-->
+                                        <!--                                            android:visibility="gone">-->
+
+                                        <!--                                            <TextView-->
+                                        <!--                                                android:layout_width="match_parent"-->
+                                        <!--                                                android:layout_height="wrap_content"-->
+                                        <!--                                                android:text="Next followup date:"-->
+                                        <!--                                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"-->
+                                        <!--                                                android:textSize="18sp" />-->
+
+                                        <!--                                            <EditText-->
+                                        <!--                                                android:id="@+id/date_picker_"-->
+                                        <!--                                                style="@style/EditText.Flat.Grey"-->
+                                        <!--                                                android:layout_width="match_parent"-->
+                                        <!--                                                android:layout_height="45dp"-->
+                                        <!--                                                android:layout_marginTop="@dimen/spacing_large"-->
+                                        <!--                                                android:background="@drawable/edit_text_round_bg_white"-->
+                                        <!--                                                android:clickable="true"-->
+                                        <!--                                                android:editable="false"-->
+                                        <!--                                                android:focusable="false"-->
+                                        <!--                                                android:hint="Select Date"-->
+                                        <!--                                                android:paddingLeft="@dimen/spacing_middle"-->
+                                        <!--                                                android:paddingRight="@dimen/spacing_middle" />-->
+                                        <!--                                        </LinearLayout>-->
+
+                                    </LinearLayout>
+
+
+                                    <!--ttesa[dvslvjslkdj-->
+                                    <LinearLayout
+                                        android:id="@+id/engagement_main_form"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:text="Response:"
+                                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                                            android:textSize="18sp" />
+
+                                        <RadioGroup
+                                            android:id="@+id/responce_radio_group"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="@dimen/spacing_large"
+                                            android:background="@drawable/edit_text_round_bg_white"
+                                            android:gravity="center"
+                                            android:orientation="horizontal"
+                                            android:weightSum="2">
+
+                                            <RadioButton
+                                                android:id="@+id/new_"
+                                                android:layout_width="0dp"
+                                                android:layout_height="wrap_content"
+                                                android:layout_weight="1"
+                                                android:checked="true"
+                                                android:text="New" />
+
+                                            <RadioButton
+                                                android:id="@+id/same_response"
+                                                android:layout_width="0dp"
+                                                android:layout_height="wrap_content"
+                                                android:layout_weight="1"
+                                                android:text="Same Response" />
+
+
+                                        </RadioGroup>
+
+                                        <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="@dimen/spacing_large"
+                                            android:text="Engagement:"
+                                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                                            android:textSize="18sp" />
+
+                                        <EditText
+                                            android:id="@+id/engagement_description"
+                                            style="@style/EditText.Flat.Grey"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="@dimen/spacing_large"
+                                            android:background="@drawable/edit_text_round_bg_white"
+                                            android:gravity="start"
+                                            android:hint="Engagement"
+                                            android:inputType="textCapSentences"
+                                            android:maxHeight="100dp"
+                                            android:minHeight="80dp"
+                                            android:paddingLeft="@dimen/spacing_middle" />
+
+                                        <View
+                                            android:layout_width="match_parent"
+                                            android:layout_height="@dimen/spacing_large" />
+
+                                        <View
+                                            android:layout_width="match_parent"
+                                            android:layout_height="@dimen/spacing_large" />
+
+                                        <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:text="Courses:"
+                                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                                            android:textSize="18sp" />
+
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:background="@drawable/edit_text_round_bg_white"
+                                            android:orientation="horizontal"
+                                            android:weightSum="2">
+
+                                            <androidx.appcompat.widget.AppCompatCheckBox
+                                                android:id="@+id/cpa_checked"
+                                                android:layout_width="0dp"
+                                                android:layout_height="wrap_content"
+                                                android:layout_weight="1"
+                                                android:text="CPA"
+                                                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                                                android:textColor="@color/grey_60" />
+
+                                            <androidx.appcompat.widget.AppCompatCheckBox
+                                                android:id="@+id/cma_checked"
+                                                android:layout_width="0dp"
+                                                android:layout_height="wrap_content"
+                                                android:layout_weight="1"
+                                                android:text="CMA"
+                                                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                                                android:textColor="@color/grey_60" />
+                                        </LinearLayout>
+
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:background="@drawable/edit_text_round_bg_white"
+                                            android:orientation="horizontal"
+                                            android:weightSum="2">
+
+                                            <androidx.appcompat.widget.AppCompatCheckBox
+                                                android:id="@+id/iimlfa_checked"
+                                                android:layout_width="0dp"
+                                                android:layout_height="wrap_content"
+                                                android:layout_weight="1"
+                                                android:text="IIML-FA"
+                                                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                                                android:textColor="@color/grey_60" />
+
+                                            <androidx.appcompat.widget.AppCompatCheckBox
+                                                android:id="@+id/iimlsf_checked"
+                                                android:layout_width="0dp"
+                                                android:layout_height="wrap_content"
+                                                android:layout_weight="1"
+                                                android:text="IIML-SF"
+                                                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                                                android:textColor="@color/grey_60" />
+                                        </LinearLayout>
+
+                                    </LinearLayout>
+
+                                    <View
+                                        android:layout_width="match_parent"
+                                        android:layout_height="@dimen/spacing_large" />
+
+
+                                    <LinearLayout
+                                        android:id="@+id/nextTimeLayout"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:orientation="vertical"
+                                        android:visibility="gone">
+
+                                        <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:text="Next followup date:"
+                                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                                            android:textSize="18sp" />
+
+                                        <EditText
+                                            android:id="@+id/date_picker_"
+                                            style="@style/EditText.Flat.Grey"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="45dp"
+                                            android:layout_marginTop="@dimen/spacing_large"
+                                            android:background="@drawable/edit_text_round_bg_white"
+                                            android:clickable="true"
+                                            android:editable="false"
+                                            android:focusable="false"
+                                            android:hint="Select Date"
+                                            android:paddingLeft="@dimen/spacing_middle"
+                                            android:paddingRight="@dimen/spacing_middle" />
+                                    </LinearLayout>
+
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+
+                            <LinearLayout
+                                android:id="@+id/level_layout_"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="M Levels:"
+                                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                                    android:textSize="18sp" />
+
+                                <androidx.appcompat.widget.AppCompatSpinner
+                                    android:id="@+id/appconpact_spinner_levels"
+                                    style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:minHeight="?attr/actionBarSize"
+                                    android:spinnerMode="dialog" />
+
+
+
                             </LinearLayout>
                             <LinearLayout
+                                android:id="@+id/level_layout_"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:background="@drawable/edit_text_round_bg_white"
-                                android:orientation="horizontal"
-                                android:weightSum="2">
+                                android:orientation="vertical">
 
-                                <androidx.appcompat.widget.AppCompatCheckBox
-                                    android:id="@+id/iimlfa_checked"
-                                    android:layout_width="0dp"
+                                <TextView
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:text="IIML-FA"
-                                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                                    android:textColor="@color/grey_60" />
+                                    android:text="U Levels:"
+                                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                                    android:textSize="18sp" />
 
-                                <androidx.appcompat.widget.AppCompatCheckBox
-                                    android:id="@+id/iimlsf_checked"
-                                    android:layout_width="0dp"
+                                <androidx.appcompat.widget.AppCompatSpinner
+                                    android:id="@+id/appconpact_spinner_U_levels"
+                                    style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:text="IIML-SF"
-                                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                                    android:textColor="@color/grey_60" />
+                                    android:minHeight="?attr/actionBarSize"
+                                    android:spinnerMode="dialog" />
+
                             </LinearLayout>
 
                         </LinearLayout>
+                        <!--ttesa[dvslvjslkdj-->
+                        <!--                        <LinearLayout-->
+                        <!--                            android:id="@+id/engagement_main_form"-->
+                        <!--                            android:layout_width="match_parent"-->
+                        <!--                            android:layout_height="wrap_content"-->
+                        <!--                            android:orientation="vertical">-->
+
+                        <!--                            <TextView-->
+                        <!--                                android:layout_width="match_parent"-->
+                        <!--                                android:layout_height="wrap_content"-->
+                        <!--                                android:text="Response:"-->
+                        <!--                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"-->
+                        <!--                                android:textSize="18sp" />-->
+
+                        <!--                            <RadioGroup-->
+                        <!--                                android:id="@+id/responce_radio_group"-->
+                        <!--                                android:layout_width="match_parent"-->
+                        <!--                                android:layout_height="wrap_content"-->
+                        <!--                                android:layout_marginTop="@dimen/spacing_large"-->
+                        <!--                                android:background="@drawable/edit_text_round_bg_white"-->
+                        <!--                                android:gravity="center"-->
+                        <!--                                android:orientation="horizontal"-->
+                        <!--                                android:weightSum="2">-->
+
+                        <!--                                <RadioButton-->
+                        <!--                                    android:id="@+id/new_"-->
+                        <!--                                    android:layout_width="0dp"-->
+                        <!--                                    android:layout_height="wrap_content"-->
+                        <!--                                    android:layout_weight="1"-->
+                        <!--                                    android:checked="true"-->
+                        <!--                                    android:text="New" />-->
+
+                        <!--                                <RadioButton-->
+                        <!--                                    android:id="@+id/same_response"-->
+                        <!--                                    android:layout_width="0dp"-->
+                        <!--                                    android:layout_height="wrap_content"-->
+                        <!--                                    android:layout_weight="1"-->
+                        <!--                                    android:text="Same Response" />-->
+
+
+                        <!--                            </RadioGroup>-->
+
+                        <!--                            <TextView-->
+                        <!--                                android:layout_width="match_parent"-->
+                        <!--                                android:layout_height="wrap_content"-->
+                        <!--                                android:layout_marginTop="@dimen/spacing_large"-->
+                        <!--                                android:text="Engagement:"-->
+                        <!--                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"-->
+                        <!--                                android:textSize="18sp" />-->
+
+                        <!--                            <EditText-->
+                        <!--                                android:id="@+id/engagement_description"-->
+                        <!--                                style="@style/EditText.Flat.Grey"-->
+                        <!--                                android:layout_width="match_parent"-->
+                        <!--                                android:layout_height="wrap_content"-->
+                        <!--                                android:layout_marginTop="@dimen/spacing_large"-->
+                        <!--                                android:background="@drawable/edit_text_round_bg_white"-->
+                        <!--                                android:gravity="start"-->
+                        <!--                                android:hint="Engagement"-->
+                        <!--                                android:inputType="textCapSentences"-->
+                        <!--                                android:maxHeight="100dp"-->
+                        <!--                                android:minHeight="80dp"-->
+                        <!--                                android:paddingLeft="@dimen/spacing_middle" />-->
+
+                        <!--                            <View-->
+                        <!--                                android:layout_width="match_parent"-->
+                        <!--                                android:layout_height="@dimen/spacing_large" />-->
+
+                        <!--                            <View-->
+                        <!--                                android:layout_width="match_parent"-->
+                        <!--                                android:layout_height="@dimen/spacing_large" />-->
+
+                        <!--                            <TextView-->
+                        <!--                                android:layout_width="match_parent"-->
+                        <!--                                android:layout_height="wrap_content"-->
+                        <!--                                android:text="Courses:"-->
+                        <!--                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"-->
+                        <!--                                android:textSize="18sp" />-->
+
+                        <!--                            <LinearLayout-->
+                        <!--                                android:layout_width="match_parent"-->
+                        <!--                                android:layout_height="wrap_content"-->
+                        <!--                                android:background="@drawable/edit_text_round_bg_white"-->
+                        <!--                                android:orientation="horizontal"-->
+                        <!--                                android:weightSum="2">-->
+
+                        <!--                                <androidx.appcompat.widget.AppCompatCheckBox-->
+                        <!--                                    android:id="@+id/cpa_checked"-->
+                        <!--                                    android:layout_width="0dp"-->
+                        <!--                                    android:layout_height="wrap_content"-->
+                        <!--                                    android:layout_weight="1"-->
+                        <!--                                    android:text="CPA"-->
+                        <!--                                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"-->
+                        <!--                                    android:textColor="@color/grey_60" />-->
+
+                        <!--                                <androidx.appcompat.widget.AppCompatCheckBox-->
+                        <!--                                    android:id="@+id/cma_checked"-->
+                        <!--                                    android:layout_width="0dp"-->
+                        <!--                                    android:layout_height="wrap_content"-->
+                        <!--                                    android:layout_weight="1"-->
+                        <!--                                    android:text="CMA"-->
+                        <!--                                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"-->
+                        <!--                                    android:textColor="@color/grey_60" />-->
+                        <!--                            </LinearLayout>-->
+
+                        <!--                            <LinearLayout-->
+                        <!--                                android:layout_width="match_parent"-->
+                        <!--                                android:layout_height="wrap_content"-->
+                        <!--                                android:background="@drawable/edit_text_round_bg_white"-->
+                        <!--                                android:orientation="horizontal"-->
+                        <!--                                android:weightSum="2">-->
+
+                        <!--                                <androidx.appcompat.widget.AppCompatCheckBox-->
+                        <!--                                    android:id="@+id/iimlfa_checked"-->
+                        <!--                                    android:layout_width="0dp"-->
+                        <!--                                    android:layout_height="wrap_content"-->
+                        <!--                                    android:layout_weight="1"-->
+                        <!--                                    android:text="IIML-FT"-->
+                        <!--                                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"-->
+                        <!--                                    android:textColor="@color/grey_60" />-->
+
+                        <!--                                <androidx.appcompat.widget.AppCompatCheckBox-->
+                        <!--                                    android:id="@+id/iimlsf_checked"-->
+                        <!--                                    android:layout_width="0dp"-->
+                        <!--                                    android:layout_height="wrap_content"-->
+                        <!--                                    android:layout_weight="1"-->
+                        <!--                                    android:text="IIML-SF"-->
+                        <!--                                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"-->
+                        <!--                                    android:textColor="@color/grey_60" />-->
+                        <!--                            </LinearLayout>-->
+
+                        <!--                        </LinearLayout>-->
 
                         <View
                             android:layout_width="match_parent"

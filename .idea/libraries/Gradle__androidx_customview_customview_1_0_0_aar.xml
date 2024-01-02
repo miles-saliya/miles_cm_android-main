@@ -2,7 +2,6 @@
   <library name="Gradle: androidx.customview:customview:1.0.0@aar">
     <CLASSES>
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/93cf6e43218ab80e535fc021bc0b169a/customview-1.0.0/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/93cf6e43218ab80e535fc021bc0b169a/customview-1.0.0/res" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/93cf6e43218ab80e535fc021bc0b169a/customview-1.0.0/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC />
