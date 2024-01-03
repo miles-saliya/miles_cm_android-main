@@ -273,7 +273,6 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/spacing_medium"
                             android:background="@drawable/edit_text_round_bg_gray_50"
-                            android:hint="Mobile"
                             android:minHeight="?attr/actionBarSize"
                             android:paddingLeft="@dimen/spacing_middle"
                             android:paddingRight="@dimen/spacing_middle" />

@@ -186,7 +186,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical"
-                                android:visibility="gone">
+                                android:visibility="visible">
 
                                 <TextView
                                     android:layout_width="match_parent"
@@ -797,7 +797,40 @@
                                                 android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                                                 android:textColor="@color/grey_60" />
                                         </LinearLayout>
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:background="@drawable/edit_text_round_bg_white"
+                                            android:orientation="horizontal"
+                                            android:weightSum="3">
 
+                                            <androidx.appcompat.widget.AppCompatCheckBox
+                                                android:id="@+id/CFA_checked"
+                                                android:layout_width="0dp"
+                                                android:layout_height="wrap_content"
+                                                android:layout_weight="1"
+                                                android:text="CFA"
+                                                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                                                android:textColor="@color/grey_60" />
+
+                                            <androidx.appcompat.widget.AppCompatCheckBox
+                                                android:id="@+id/FRM_checked"
+                                                android:layout_width="0dp"
+                                                android:layout_height="wrap_content"
+                                                android:layout_weight="1"
+                                                android:text="FRM-SF"
+                                                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                                                android:textColor="@color/grey_60" />
+                                            <androidx.appcompat.widget.AppCompatCheckBox
+                                                android:id="@+id/USP_checked"
+                                                android:layout_width="0dp"
+                                                android:layout_height="wrap_content"
+                                                android:layout_weight="1"
+                                                android:text="USP"
+                                                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                                                android:textColor="@color/grey_60" />
+                                        </LinearLayout>
+<!-- CFA, FRM, USP also-->
                                     </LinearLayout>
 
                                     <View

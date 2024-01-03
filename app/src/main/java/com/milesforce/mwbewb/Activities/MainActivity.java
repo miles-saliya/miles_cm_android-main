@@ -513,6 +513,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             "U10 - Completed program in USA",
     };
 
+//      spinnerLevelList.add(new LevelsModel("M3++", "M3++ - Ready to enroll - Not visited"));
+//        spinnerLevelList.add(new LevelsModel("M3+", "M3+ - Called & Coming"));
+//        spinnerLevelList.add(new LevelsModel("M3", "M3 - Called & positive"));
+//        spinnerLevelList.add(new LevelsModel("M2", "M2 - Did not visit & postponed"));
+//        spinnerLevelList.add(new LevelsModel("M1", "M1 - Did not visit & not intersted"));
+
+    final String[] mLevelList = {
+            " ",
+            "M3++ - Ready to enroll - Not visited",
+            "M3+ - Called & Coming",
+            "M3 - Called & positive",
+            "M2 - Did not visit & postponed",
+            "M1 - Did not visit & not intersted",
+    };
+//    narendra.podugu@serialxtech.com
+//    Podugu@1
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -563,17 +579,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 //   showCustomDialog(token_new, levels, courses, previousEngagement);
                 LevelsSelected = levels;
                 CoursesData = courses;
+
             }
         } catch (Exception e) {
 
         }
+
         spinnerLevelList = new ArrayList<>();
        /* spinnerLevelList.add(new LevelsModel("M6", "M6 - Visited & Ready to Enroll"));
         spinnerLevelList.add(new LevelsModel("M5", "M5 - Visited & Positive"));
         spinnerLevelList.add(new LevelsModel("M4", "M4 - Visited but not interested"));
         spinnerLevelList.add(new LevelsModel("M4-", "M4- - Visited but not interested"));
         spinnerLevelList.add(new LevelsModel("M3+", "M3+ - Called & Coming"));*/
+        spinnerLevelList.add(new LevelsModel("M3++", "M3++ - Ready to enroll - Not visited"));
+        spinnerLevelList.add(new LevelsModel("M3+", "M3+ - Called & Coming"));
         spinnerLevelList.add(new LevelsModel("M3", "M3 - Called & positive"));
+        spinnerLevelList.add(new LevelsModel("M2", "M2 - Did not visit & postponed"));
+        spinnerLevelList.add(new LevelsModel("M1", "M1 - Did not visit & not intersted"));
+
       /*  spinnerLevelList.add(new LevelsModel("M2", "M2 - Did not visit & Postponed"));
         spinnerLevelList.add(new LevelsModel("M1", "M1 - Did not visit & not interested"));*/
        /* spinnerLevelList.add(new LevelsModel("L6", "L6 - Visited & Ready to Enroll(last Batch) :but did not join"));
@@ -1486,7 +1509,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     referal.setVisibility(View.GONE);
                     direct.setVisibility(View.GONE);
                     reference_layout_spinner.setVisibility(View.GONE);
-                    LEADSOURCE = "Net Enquiry";
+                    LEADSOURCE = "Incoming Cals";
                     IVR_radio.setChecked(false);
                     referal_radio.setChecked(false);
                     corporate_company.setVisibility(View.GONE);
@@ -1513,7 +1536,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     referal.setVisibility(View.GONE);
                     direct.setVisibility(View.VISIBLE);
                     reference_layout_spinner.setVisibility(View.GONE);
-                    LEADSOURCE = "Direct";
+                    LEADSOURCE = "IVR";
 
                     referal_radio.setChecked(false);
                     corporate_company.setVisibility(View.GONE);
@@ -2074,6 +2097,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         city_spinner = dialog.findViewById(R.id.city_spinner);
         M_levels_spinner = dialog.findViewById(R.id.M_levels_spinner);
 
+        ArrayAdapter<String> M_levels_spinner_Adapter = new ArrayAdapter<String>(getApplicationContext(),
+                android.R.layout.simple_spinner_item, mLevelList);
+        M_levels_spinner_Adapter.setDropDownViewResource(
+                android.R.layout
+                        .simple_spinner_dropdown_item);
+        M_levels_spinner.setAdapter(M_levels_spinner_Adapter);
         appconpact_spinner_connectionstatus = dialog.findViewById(R.id.appconpact_spinner_connectionstatus);
         //my self
         U_levels_spinner = dialog.findViewById(R.id.U_levels_spinner);
@@ -2106,7 +2135,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         company_Name = dialog.findViewById(R.id.company_Name);
         work_Experience = dialog.findViewById(R.id.work_Experience);
-        current_location=dialog.findViewById(R.id.current_location);
+        current_location = dialog.findViewById(R.id.current_location);
 
         b2c_iiml_fa_check = dialog.findViewById(R.id.b2c_iiml_fa_check);
         b2c_iiml_ba_check = dialog.findViewById(R.id.b2c_iiml_ba_check);
@@ -2659,7 +2688,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     referal.setVisibility(View.GONE);
                     direct.setVisibility(View.GONE);
                     reference_layout_spinner.setVisibility(View.GONE);
-                    LEADSOURCE = "Net Enquiry";
+                    LEADSOURCE = "Incoming Cals";
                     IVR_radio.setChecked(false);
                     referal_radio.setChecked(false);
                     corporate_company.setVisibility(View.GONE);
@@ -2686,7 +2715,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     referal.setVisibility(View.GONE);
                     direct.setVisibility(View.GONE);
                     reference_layout_spinner.setVisibility(View.GONE);
-                    LEADSOURCE = "Direct";
+                    LEADSOURCE = "IVR";
                     IncomingCals_radio.setChecked(false);
                     referal_radio.setChecked(false);
                     corporate_company.setVisibility(View.GONE);
@@ -2837,10 +2866,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             }
         });
+        spinnerLevelList = new ArrayList<>();
 
-        levelsCustomAdapter = new LevelsCustomAdapter(this, R.layout.listitems_layout, R.id.levels_items, spinnerLevelList);
-        M_levels_spinner.setAdapter(levelsCustomAdapter);
-        M_levels_spinner.setEnabled(false);
+        spinnerLevelList.add(new LevelsModel("M3++", "M3++ - Ready to enroll - Not visited"));
+        spinnerLevelList.add(new LevelsModel("M3+", "M3+ - Called & Coming"));
+        spinnerLevelList.add(new LevelsModel("M3", "M3 - Called & positive"));
+        spinnerLevelList.add(new LevelsModel("M2", "M2 - Did not visit & postponed"));
+        spinnerLevelList.add(new LevelsModel("M1", "M1 - Did not visit & not intersted"));
+
+//        levelsCustomAdapter = new LevelsCustomAdapter(this, R.layout.listitems_layout, R.id.levels_items, spinnerLevelList);
+//        M_levels_spinner.setAdapter(levelsCustomAdapter);
+//        M_levels_spinner.setEnabled(false);
 
         ArrayAdapter<String> connection_statusAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, ConnectionTypeArrayList);
         connection_statusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -2897,11 +2933,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     ug_Graduate_Qualification.setEnabled(false);
                     pg_Graduate_Qualification.setEnabled(false);
 
-                    //                    for ( int i = 0; i < interested_Layout.getChildCount();  i++ ){
-//                        View view1 = interested_Layout.getChildAt(i);
-//                        view1.setEnabled(false);
-//                    }
-
 
                 }
                 Toast.makeText(MainActivity.this, "" + SELECTED_STATUS, Toast.LENGTH_SHORT).show();
@@ -2915,19 +2946,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
 
-
-       /* ArrayAdapter<String> levelsAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, levelsArrayList);
-        // Drop down layout style - list view with radio button
-        levelsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // attaching data adapter to spinner
-        levels_spinner.setAdapter(levelsAdapter);*/
-
-
         M_levels_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                LevelsModel levelsModel = spinnerLevelList.get(position);
-                LeadLevels = levelsModel.getLevelCode();
+//                LevelsModel levelsModel = spinnerLevelList.get(position);
+//                LeadLevels = levelsModel.getLevelCode();
+                LeadLevels = M_levels_spinner.getSelectedItem().toString();
             }
 
             @Override
@@ -3353,19 +3377,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (b2c_iimlsf_check.isChecked()) {
             MWbLeadCourseData = IIML_SF_Checked_lead;
         }
-        if(b2c_CFA_check.isChecked()){
+        if (b2c_CFA_check.isChecked()) {
             MWbLeadCourseData = CFA_Checked;
 
         }
-        if(b2c_FRM_check.isChecked()){
+        if (b2c_FRM_check.isChecked()) {
             MWbLeadCourseData = FRM_Checked;
 
         }
-        if(b2c_USP_check.isChecked()){
+        if (b2c_USP_check.isChecked()) {
             MWbLeadCourseData = USP_Checked;
 
         }
-
 
 
 //        if (b2c_cpa_check.isChecked() && b2c_cma_check.isChecked() && b2c_da_check.isChecked()) {

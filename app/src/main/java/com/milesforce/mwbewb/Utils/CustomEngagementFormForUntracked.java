@@ -92,6 +92,7 @@ public class CustomEngagementFormForUntracked {
     LevelsCustomAdapter levelsCustomAdapter;
     static String ConnectionStatus=" ";
     static String SELECTED_STATUS=" ";
+    AppCompatSpinner appconpact_spinner_U_levels;
 
     public void addCustomEngagement(DelaysModel delaysModel, final Context context, String AccessToken) {
         CustomDataPOints();
@@ -148,6 +149,7 @@ public class CustomEngagementFormForUntracked {
         responce_radio_group = dialog.findViewById(R.id.responce_radio_group);
         engagement_description = dialog.findViewById(R.id.engagement_description);
         date_picker_ = dialog.findViewById(R.id.date_picker_);
+        appconpact_spinner_U_levels=dialog.findViewById(R.id.appconpact_spinner_U_levels);
 
         cpaCheckbox = dialog.findViewById(R.id.cpa_checked);
         cmaCheckbox = dialog.findViewById(R.id.cma_checked);
@@ -218,7 +220,7 @@ public class CustomEngagementFormForUntracked {
                     }
 
                     add_engagement_progress.setVisibility(View.VISIBLE);
-                    apiClient.AddEngagement(ConnectionStatus,phone_number, can_id, person_id, user_name, LevelsSelected, CoursesData, engagement_description.getText().toString().trim(), "call", 0, nextCallTimeStamp, " ", 0, "No",batteryModel.getBattey_percentage(), batteryModel.getCharging_status(), VERSION_NUMBER, "Bearer " + accesToken, "application/json").enqueue(new Callback<SuccessModel>() {
+                    apiClient.AddEngagement(ConnectionStatus,phone_number, can_id, person_id, user_name, LevelsSelected, CoursesData, engagement_description.getText().toString().trim(), "call", 0, nextCallTimeStamp, " ", 0, "No",batteryModel.getBattey_percentage(), batteryModel.getCharging_status(), VERSION_NUMBER, appconpact_spinner_U_levels.getSelectedItem().toString(),"Bearer " + accesToken, "application/json").enqueue(new Callback<SuccessModel>() {
                         @Override
                         public void onResponse(Call<SuccessModel> call, Response<SuccessModel> response) {
                             try {

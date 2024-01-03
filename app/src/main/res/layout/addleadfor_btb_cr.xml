@@ -343,19 +343,17 @@
                                     android:text="Referral" />
 
                                 <RadioButton
-                                    android:id="@+id/Incoming_Calls"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:visibility="visible"
-                                    android:text="Incoming Calls" />
-
-                                <RadioButton
                                     android:id="@+id/IVR_radio"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:text="IVR" />
+                                <RadioButton
+                                    android:id="@+id/IncomingCals_radio"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="Incoming Cals" />
 
 
                             </LinearLayout>

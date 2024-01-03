@@ -64,6 +64,7 @@ import com.milesforce.mwbewb.Model.DelaysModel;
 import com.milesforce.mwbewb.Model.LevelsModel;
 import com.milesforce.mwbewb.Model.TeamModel;
 import com.milesforce.mwbewb.Model.TokenModel;
+import com.milesforce.mwbewb.Model.ULevelModel;
 import com.milesforce.mwbewb.R;
 import com.milesforce.mwbewb.Retrofit.ApiClient;
 import com.milesforce.mwbewb.Retrofit.ApiUtills;
@@ -110,7 +111,7 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
     private ViewPager view_pager_engagement;
     private TabLayout tab_layoutEngagementform;
     FloatingActionButton call, visit, email, whatsup;
-    AppCompatSpinner appconpact_spinner_levels, appconpact_spinner_U_levels,appconpact_spinner_connectionstatus;
+    AppCompatSpinner appconpact_spinner_levels, appconpact_spinner_U_levels, appconpact_spinner_connectionstatus;
     ArrayList<LevelsModel> spinnerLevelList;
     ArrayList<LevelsModel> spinnerLevelListvisit;
     ArrayList<String> ConnectionTypeArrayList;
@@ -126,11 +127,17 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
     RadioGroup responce_radio_group;
     String RadioBtnResponseType = null;
     EditText engagement_description;
-    AppCompatCheckBox cpaCheckbox, cmaCheckbox, iimlsf_checked, iimlfa_checked;
+    AppCompatCheckBox cpaCheckbox, cmaCheckbox, iimlsf_checked, iimlfa_checked, CFA_checked, FRM_checked, USP_checked;
     static String CPAChecked = " ";
     static String CPMChecked = " ";
     static String IIMLFAChecked = " ";
     static String IIMLSFChecked = " ";
+
+    static String CFAChecked = " ";
+    static String FRMChecked = "";
+    static String USPChecked = "";
+
+
     RelativeLayout invite_webinar;
 
 
@@ -162,7 +169,7 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
 
 
     //my self
-    LinearLayout interested_working, looking_job, graduation_Year, interested_Layout;
+    LinearLayout interested_working, looking_job, graduation_Year, interested_Layout, current_location;
     AppCompatSpinner appconpact_spinner_interested_working, appconpact_spinner_looking_job,
             appconpact_spinner_graduation_Year;
 
@@ -186,8 +193,6 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
 
     List<String> MLevelList = new ArrayList<>();
 //    List<String> uLevelList = new ArrayList<>();
-
-
 
 
     final String[] select_Indian_professional_Qualification = {
@@ -259,6 +264,7 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
     };
 
     final String[] uLevelList = {
+            " ",
             "U0-Not interested in US/Canda",
             "U1-Interest expressed, dropped out",
             "U1+-Interest expressed, yet to graduate",
@@ -281,7 +287,6 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
             "U9 - Started program in USA",
             "U10 - Completed program in USA",
     };
-
 
 
     public AddNewEngagement() {
@@ -487,9 +492,11 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         appconpact_spinner_levels = dialog.findViewById(R.id.appconpact_spinner_levels);
-        appconpact_spinner_U_levels=dialog.findViewById(R.id.appconpact_spinner_U_levels);
+        appconpact_spinner_U_levels = dialog.findViewById(R.id.appconpact_spinner_U_levels);
 //        GetMLevelList(AccessToken);
 //        GetULevelList(AccessToken);
+        interested_working = dialog.findViewById(R.id.interested_working);
+
         ArrayAdapter<String> U_levels_Adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, uLevelList);
         U_levels_Adapter.setDropDownViewResource(
                 android.R.layout
@@ -596,6 +603,7 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
 //        appconpact_spinner_PG_Qualification.setAdapter(PG_Qualification_myAdapter);
 
         interested_Layout = dialog.findViewById(R.id.interested_Layout);
+        current_location = dialog.findViewById(R.id.current_location);
         add_engagement_progress = dialog.findViewById(R.id.add_engagement_progress);
         responce_radio_group = dialog.findViewById(R.id.responce_radio_group);
         engagement_description = dialog.findViewById(R.id.engagement_description);
@@ -603,6 +611,10 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
         invite_webinar.setOnClickListener(this);
         iimlfa_checked = dialog.findViewById(R.id.iimlfa_checked);
         iimlsf_checked = dialog.findViewById(R.id.iimlsf_checked);
+        CFA_checked = dialog.findViewById(R.id.CFA_checked);
+        FRM_checked = dialog.findViewById(R.id.FRM_checked);
+        USP_checked = dialog.findViewById(R.id.USP_checked);
+
 
         cpaCheckbox = dialog.findViewById(R.id.cpa_checked);
         cmaCheckbox = dialog.findViewById(R.id.cma_checked);
@@ -938,8 +950,6 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
         });
 
 
-
-
         cpaCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -947,6 +957,36 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
                     CPAChecked = "CPA";
                 } else {
                     CPAChecked = " ";
+                }
+            }
+        });
+        CFA_checked.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    CFAChecked = "CFA";
+                } else {
+                    CFAChecked = " ";
+                }
+            }
+        });
+        FRM_checked.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    FRMChecked = "FRM";
+                } else {
+                    FRMChecked = " ";
+                }
+            }
+        });
+        USP_checked.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    USPChecked = "USP";
+                } else {
+                    USPChecked = " ";
                 }
             }
         });
@@ -1106,21 +1146,61 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
                 try {
                     nextTimeLayout.setVisibility(View.VISIBLE);
                     SELECTED_STATUS = appconpact_spinner_connectionstatus.getSelectedItem().toString();
-//                    GetMLevelList(AccessToken);
-//                    GetULevelList(AccessToken);
+
                     if (SELECTED_STATUS.equals("Connected / Discussed")) {
                         engagement_main_form.setVisibility(View.VISIBLE);
                         level_layout_.setVisibility(View.VISIBLE);
                         invite_webinar.setVisibility(View.GONE);
-                        interested_Layout.setVisibility(view.VISIBLE);
                         engagement_description.setText(" ");
                         ConnectionStatus = "CD";
+
+                        interested_Layout.setEnabled(true);
+                        appconpact_spinner_interested_working.setEnabled(true);
+                        looking_job.setEnabled(true);
+                        appconpact_spinner_looking_job.setEnabled(true);
+                        appconpact_spinner_graduation_Year.setEnabled(true);
+                        current_location.setEnabled(true);
+                        work_Ex_profiling.setEnabled(true);
+                        company_Name.setEnabled(true);
+                        work_Experience.setEnabled(true);
+                        indian_Professional.setEnabled(true);
+                        global_Professional_Qualification.setEnabled(true);
+                        ug_Graduate_Qualification.setEnabled(true);
+                        pg_Graduate_Qualification.setEnabled(true);
+
                     } else if (SELECTED_STATUS.equals("Connected / Not Interested")) {
-                        interested_Layout.setVisibility(view.VISIBLE);
+//                        interested_Layout.setVisibility(view.VISIBLE);
+
+                        interested_Layout.setEnabled(true);
+                        appconpact_spinner_interested_working.setEnabled(true);
+                        looking_job.setEnabled(true);
+                        appconpact_spinner_looking_job.setEnabled(true);
+                        appconpact_spinner_graduation_Year.setEnabled(true);
+                        current_location.setEnabled(true);
+                        work_Ex_profiling.setEnabled(true);
+                        company_Name.setEnabled(true);
+                        work_Experience.setEnabled(true);
+                        indian_Professional.setEnabled(true);
+                        global_Professional_Qualification.setEnabled(true);
+                        ug_Graduate_Qualification.setEnabled(true);
+                        pg_Graduate_Qualification.setEnabled(true);
 
 
-                    } else if (SELECTED_STATUS.equals("Not Lifting") || SELECTED_STATUS.equals("Connected / Wrong number") || SELECTED_STATUS.equals("Switched Off") || SELECTED_STATUS.equals("Connected / Never call back")) {
-                        interested_Layout.setVisibility(view.GONE);
+                    } else if (SELECTED_STATUS.equals("Not Lifting") || SELECTED_STATUS.equals("Connected / Wrong number") || SELECTED_STATUS.equals("Switched Off") || SELECTED_STATUS.equals("Connected / Never call back") || SELECTED_STATUS.equals("Connected / Busy")) {
+//                        interested_Layout.setVisibility(view.GONE);
+                        interested_Layout.setEnabled(false);
+                        appconpact_spinner_interested_working.setEnabled(false);
+                        looking_job.setEnabled(false);
+                        appconpact_spinner_looking_job.setEnabled(false);
+                        appconpact_spinner_graduation_Year.setEnabled(false);
+                        current_location.setEnabled(false);
+                        work_Ex_profiling.setEnabled(false);
+                        company_Name.setEnabled(false);
+                        work_Experience.setEnabled(false);
+                        indian_Professional.setEnabled(false);
+                        global_Professional_Qualification.setEnabled(false);
+                        ug_Graduate_Qualification.setEnabled(false);
+                        pg_Graduate_Qualification.setEnabled(false);
 
                         if (spinnerLevelList.size() > 0) {
                             spinnerLevelList.clear();
@@ -1185,7 +1265,7 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
                         engagement_main_form.setVisibility(View.GONE);
                         //Gone
                         level_layout_.setVisibility(View.GONE);
-                        interested_Layout.setVisibility(view.GONE);
+//                        interested_Layout.setVisibility(view.VISIBLE);
                         invite_webinar.setVisibility(View.GONE);
                         Date c = Calendar.getInstance().getTime();
                         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
@@ -1290,7 +1370,7 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
             } else {
                 add_engagement_progress.setVisibility(View.VISIBLE);
                 String engagement_data = engagement_description.getText().toString().trim();
-                apiClient.AddEngagement(ConnectionStatus, "", can_id, person_id, user_name, User_levels, CoursesData, engagement_data, "call", 0, nextCallTimeStamp, " ", 0, "No", batteryModel.getBattey_percentage(), batteryModel.getCharging_status(), VERSION_NUMBER, "Bearer " + AccessToken, "application/json").enqueue(new Callback<SuccessModel>() {
+                apiClient.AddEngagement(ConnectionStatus, "", can_id, person_id, user_name, User_levels, CoursesData, engagement_data, "call", 0, nextCallTimeStamp, " ", 0, "No", batteryModel.getBattey_percentage(), batteryModel.getCharging_status(), VERSION_NUMBER, appconpact_spinner_U_levels.getSelectedItem().toString(), "Bearer " + AccessToken, "application/json").enqueue(new Callback<SuccessModel>() {
                     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
                     @Override
                     public void onResponse(Call<SuccessModel> call, Response<SuccessModel> response) {
@@ -1367,6 +1447,13 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
             CoursesData = IIMLFAChecked;
         } else if (iimlsf_checked.isChecked()) {
             CoursesData = IIMLSFChecked;
+        } else if (CFA_checked.isChecked()) {
+            CoursesData = CFAChecked;
+        } else if (FRM_checked.isChecked()) {
+            CoursesData = FRMChecked;
+        } else if (USP_checked.isChecked()) {
+            CoursesData = USPChecked;
+
         }
 
         return true;
@@ -1759,6 +1846,15 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
         if (courses.contains("IIML-SF")) {
             iimlsf_checked.setChecked(true);
         }
+        if (courses.contains("USP")) {
+            USP_checked.setChecked(true);
+        }
+        if (courses.contains("CFA")) {
+            CFA_checked.setChecked(true);
+        }
+        if (courses.contains("FRM")) {
+            FRM_checked.setChecked(true);
+        }
 
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         lp.copyFrom(dialog.getWindow().getAttributes());
@@ -2137,7 +2233,7 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
                 Enrollment_status = "No";
             }
             add_engagement_progress.setVisibility(View.VISIBLE);
-            apiClient.AddEngagement(ConnectionStatus, phone_number, can_id, person_id, user_name, User_levels, CoursesData, engagement_description_visit.getText().toString().trim(), "visit", 0, nextCallTimeStamp, " ", 0, Enrollment_status, batteryModel.getBattey_percentage(), batteryModel.getCharging_status(), VERSION_NUMBER, "Bearer " + AccessToken, "application/json").enqueue(new Callback<SuccessModel>() {
+            apiClient.AddEngagement(ConnectionStatus, phone_number, can_id, person_id, user_name, User_levels, CoursesData, engagement_description_visit.getText().toString().trim(), "visit", 0, nextCallTimeStamp, " ", 0, Enrollment_status, batteryModel.getBattey_percentage(), batteryModel.getCharging_status(), VERSION_NUMBER, appconpact_spinner_U_levels.getSelectedItem().toString(), "Bearer " + AccessToken, "application/json").enqueue(new Callback<SuccessModel>() {
                 @Override
                 public void onResponse(Call<SuccessModel> call, Response<SuccessModel> response) {
                     try {
@@ -2505,6 +2601,7 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
             }
         }
     }
+
     private void GetMLevelList(String Access_token) {
         ninjaApiClient.getMLevels("Bearer " + Access_token, "application/json").enqueue(new Callback<List<String>>() {
             @Override

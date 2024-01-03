@@ -408,7 +408,7 @@ public class EventTriggerActivity extends AppCompatActivity implements View.OnCl
                         return;
                     }
                     add_engagement_progress.setVisibility(View.VISIBLE);
-                    apiClient.AddEngagement(ConnectionStatus, "", can_id, person_id, person_name, LevelsSelected, CoursesData, engagement_description.getText().toString().trim(), "call", 0, nextCallTimeStamp, "Yes", 0, "No", batteryModel.getBattey_percentage(), batteryModel.getCharging_status(), VERSION_NUMBER, "Bearer " + user_accessToken, "application/json").enqueue(new Callback<SuccessModel>() {
+                    apiClient.AddEngagement(ConnectionStatus, "", can_id, person_id, person_name, LevelsSelected, CoursesData, engagement_description.getText().toString().trim(), "call", 0, nextCallTimeStamp, "Yes", 0, "No", batteryModel.getBattey_percentage(), batteryModel.getCharging_status(), VERSION_NUMBER, "","Bearer " + user_accessToken, "application/json").enqueue(new Callback<SuccessModel>() {
                         @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
                         @Override
                         public void onResponse(Call<SuccessModel> call, Response<SuccessModel> response) {
