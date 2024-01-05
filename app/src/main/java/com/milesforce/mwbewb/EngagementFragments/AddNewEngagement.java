@@ -1364,14 +1364,29 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
                 Log.d("SELECTED_1", SELECTED_STATUS_interested_working);
 
                 if (SELECTED_STATUS_interested_working.equals("Yes")) {
+
                     appconpact_spinner_looking_job.setEnabled(false);
                     appconpact_spinner_looking_job.setClickable(false);
                     appconpact_spinner_looking_job.setAdapter(appconpact_spinner_looking_job_Adapter);
 
-                } else {
+                    appconpact_spinner_U_levels.setSelection(5);
+
+                } else  if (SELECTED_STATUS_interested_working.equals("No")){
+                    appconpact_spinner_U_levels.setSelection(0);
+
+                } else if (SELECTED_STATUS_interested_working.equals("Maybe")){
+                    appconpact_spinner_U_levels.setSelection(3);
+
+                } else if (SELECTED_STATUS_interested_working.equals("Yes but graduating in 2024 or after")){
+                    appconpact_spinner_U_levels.setSelection(2);
+
+                }
+                else {
                     appconpact_spinner_looking_job.setEnabled(true);
                     appconpact_spinner_looking_job.setClickable(true);
                     appconpact_spinner_looking_job.setAdapter(appconpact_spinner_looking_job_Adapter);
+                    appconpact_spinner_U_levels.setSelection(1);
+
                 }
             }
 
