@@ -268,7 +268,7 @@
                                 </LinearLayout>
 
                                 <LinearLayout
-                                    android:id="@+id/current_location"
+                                    android:id="@+id/current_location_layout"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:orientation="vertical"
@@ -289,7 +289,7 @@
                                     <!--            android:minHeight="?attr/actionBarSize"-->
                                     <!--            android:spinnerMode="dialog" />-->
                                     <EditText
-                                        android:id="@+id/current_location"
+                                        android:id="@+id/edt_current_location"
                                         style="@style/EditText.Flat.Grey"
                                         android:layout_width="match_parent"
                                         android:layout_height="50dp"
@@ -386,6 +386,7 @@
                                         android:drawableRight="@android:drawable/arrow_down_float"
                                         android:drawablePadding="16dp"
                                         android:hint="Select indian Professional"
+
                                         android:padding="12dp" />
 
                                     <LinearLayout
@@ -459,7 +460,7 @@
                                             android:background="@android:drawable/editbox_background"
                                             android:drawableRight="@android:drawable/arrow_down_float"
                                             android:drawablePadding="16dp"
-                                            android:hint="Select Global Professional"
+                                            android:hint="Select UG Graduate Qualification"
                                             android:padding="12dp" />
 
                                         <LinearLayout
@@ -492,7 +493,7 @@
                                                 android:background="@android:drawable/editbox_background"
                                                 android:drawableRight="@android:drawable/arrow_down_float"
                                                 android:drawablePadding="16dp"
-                                                android:hint="Select Global Professional"
+                                                android:hint="Select PG Qualification"
                                                 android:padding="12dp" />
                                         </LinearLayout>
 
@@ -797,6 +798,7 @@
                                                 android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                                                 android:textColor="@color/grey_60" />
                                         </LinearLayout>
+
                                         <LinearLayout
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
@@ -821,6 +823,7 @@
                                                 android:text="FRM-SF"
                                                 android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                                                 android:textColor="@color/grey_60" />
+
                                             <androidx.appcompat.widget.AppCompatCheckBox
                                                 android:id="@+id/USP_checked"
                                                 android:layout_width="0dp"
@@ -830,7 +833,7 @@
                                                 android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                                                 android:textColor="@color/grey_60" />
                                         </LinearLayout>
-<!-- CFA, FRM, USP also-->
+                                        <!-- CFA, FRM, USP also-->
                                     </LinearLayout>
 
                                     <View
@@ -887,7 +890,7 @@
                                     android:textSize="18sp" />
 
                                 <androidx.appcompat.widget.AppCompatSpinner
-                                    android:id="@+id/appconpact_spinner_levels"
+                                    android:id="@+id/appconpact_spinner_M_levels"
                                     style="@style/Base.Widget.AppCompat.Spinner.Underlined"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
@@ -895,8 +898,8 @@
                                     android:spinnerMode="dialog" />
 
 
-
                             </LinearLayout>
+
                             <LinearLayout
                                 android:id="@+id/level_layout_"
                                 android:layout_width="match_parent"

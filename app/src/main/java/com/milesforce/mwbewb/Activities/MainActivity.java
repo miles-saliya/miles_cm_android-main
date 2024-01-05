@@ -406,7 +406,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ArrayList<String> spinnerLookingJob_workingArrayList = new ArrayList<String>();
 
 
-    EditText work_Ex_profiling, company_Name, work_Experience;
+    EditText work_Ex_profiling, company_Name, work_Experience,edt_current_location;
     LinearLayout current_location;
     TextView indian_Professional, global_Professional_Qualification, ug_Graduate_Qualification, pg_Graduate_Qualification;
     boolean[] selectedIndian_Professional, selectGlobal_Professional, selectUG_Graduate_Qualification, selectPG_Graduate_Qualification;
@@ -2066,6 +2066,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ArrayList<String> years = new ArrayList<String>();
         int thisYear = Calendar.getInstance().get(Calendar.YEAR);
         for (int i = thisYear + 3; i >= 1995; i--) {
+            years.add("");
             years.add(Integer.toString(i));
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_spinner_item, years);
@@ -2136,6 +2137,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         company_Name = dialog.findViewById(R.id.company_Name);
         work_Experience = dialog.findViewById(R.id.work_Experience);
         current_location = dialog.findViewById(R.id.current_location);
+        edt_current_location=dialog.findViewById(R.id.edt_current_location);
 
         b2c_iiml_fa_check = dialog.findViewById(R.id.b2c_iiml_fa_check);
         b2c_iiml_ba_check = dialog.findViewById(R.id.b2c_iiml_ba_check);
@@ -2531,7 +2533,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    IIML_FA_Checked = "IIML-FA";
+                    IIML_FA_Checked = "IIML-FT";
 
                 } else {
                     IIML_FA_Checked = "";
@@ -2677,7 +2679,50 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ((Button) dialog.findViewById(R.id.bt_save_add)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SaveMWbB2CLead(dialog);
+                if (SELECTED_STATUS.equals("Connected / Discussed") || (SELECTED_STATUS.equals("Connected / Not Interested"))) {
+                    if (appconpact_spinner_interested_working.getSelectedItem().equals("Yes")) {
+
+                        if (appconpact_spinner_graduation_Year.getSelectedItem().toString().isEmpty()) {
+                            Toast.makeText(getApplicationContext(), "Please enter graduation Year", Toast.LENGTH_SHORT).show();
+
+                        } else if (edt_current_location.getText().toString().isEmpty()) {
+                            Toast.makeText(getApplicationContext(), "Please enter Current Location", Toast.LENGTH_SHORT).show();
+                        } else {
+                            SaveMWbB2CLead(dialog);                        }
+                    } else {
+
+                        if (appconpact_spinner_graduation_Year.getSelectedItem().toString().isEmpty()) {
+                            Toast.makeText(getApplicationContext(), "Please enter graduation Year", Toast.LENGTH_SHORT).show();
+                        } else if (edt_current_location.getText().toString().isEmpty()) {
+                            Toast.makeText(getApplicationContext(), "Please enter Current Location", Toast.LENGTH_SHORT).show();
+                        } else if (company_Name.getText().toString().isEmpty()) {
+                            Toast.makeText(getApplicationContext(), "Please enter your Company name", Toast.LENGTH_SHORT).show();
+                        } else if (work_Experience.getText().toString().isEmpty()) {
+                            Toast.makeText(getApplicationContext(), "Please enter your Work Experience", Toast.LENGTH_SHORT).show();
+                        } else if (indian_Professional.getText().toString().isEmpty()) {
+                            Toast.makeText(getApplicationContext(), "Please select your indian Professional", Toast.LENGTH_SHORT).show();
+
+                        } else if (global_Professional_Qualification.getText().toString().isEmpty()) {
+                            Toast.makeText(getApplicationContext(), "Please select your global professional qualification", Toast.LENGTH_SHORT).show();
+
+                        } else if (ug_Graduate_Qualification.getText().toString().isEmpty()) {
+                            Toast.makeText(getApplicationContext(), "Please select your UG qualification", Toast.LENGTH_SHORT).show();
+                        } else if (pg_Graduate_Qualification.getText().toString().isEmpty()) {
+                            Toast.makeText(getApplicationContext(), "Please select your PG qualification", Toast.LENGTH_SHORT).show();
+
+                        } else {
+                            SaveMWbB2CLead(dialog);
+                        }
+
+                    }
+
+
+                } else {
+                    SaveMWbB2CLead(dialog);
+                }
+
+
+
 
             }
         });
@@ -3586,7 +3631,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onFailure(Call<SuccessModel> call, Throwable t) {
                         if (isConnected()) {
-                            Toast.makeText(MainActivity.this, "Some thing went wrong....!", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(MainActivity.this, "Some thing went wrong....!", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(MainActivity.this, "No Internet Connection Found....!", Toast.LENGTH_SHORT).show();
 
@@ -3612,7 +3657,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onFailure(Call<List<String>> call, Throwable t) {
                 Log.d("GetMLevelList_onFailure", String.valueOf(t.getMessage()));
-                Toast.makeText(MainActivity.this, "Some thing went wrong....!", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(MainActivity.this, "Some thing went wrong....!", Toast.LENGTH_SHORT).show();
 
             }
         });

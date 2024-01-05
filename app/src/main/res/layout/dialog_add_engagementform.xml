@@ -204,7 +204,7 @@
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:text="IIML-FA" />
+                                    android:text="IIML-FT" />
 
                                 <androidx.appcompat.widget.AppCompatCheckBox
                                     android:id="@+id/b2c_iimlsf_check"
@@ -615,7 +615,7 @@
                                 <!--            android:minHeight="?attr/actionBarSize"-->
                                 <!--            android:spinnerMode="dialog" />-->
                                 <EditText
-                                    android:id="@+id/current_location"
+                                    android:id="@+id/edt_current_location"
                                     style="@style/EditText.Flat.Grey"
                                     android:layout_width="match_parent"
                                     android:layout_height="50dp"

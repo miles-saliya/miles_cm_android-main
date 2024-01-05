@@ -51,20 +51,26 @@
                             android:textColor="@color/indigo_900" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
-                <RelativeLayout
-                    android:id="@+id/invite_webinar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:layout_marginTop="5dp">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
-                        android:background="@drawable/strip_background"
-                        android:text="Invite To Webinar" />
-                </RelativeLayout>
+<!--                <RelativeLayout-->
+<!--                    android:id="@+id/invite_webinar"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_gravity="end"-->
+<!--                    android:layout_marginTop="5dp">-->
+
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginStart="5dp"-->
+<!--                        android:layout_marginLeft="5dp"-->
+<!--                        android:layout_marginTop="5dp"-->
+<!--                        android:layout_marginEnd="5dp"-->
+<!--                        android:layout_marginRight="5dp"-->
+<!--                        android:layout_marginBottom="5dp"-->
+<!--                        android:background="@drawable/strip_background"-->
+<!--                        android:text="Invite To Webinar"-->
+<!--                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2" />-->
+<!--                </RelativeLayout>-->
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
@@ -213,7 +219,48 @@
                                     android:layout_weight="1"
                                     android:text="IIML-SF" />
                             </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:layout_weight="2"
+                                android:paddingLeft="@dimen/spacing_middle"
+                                android:paddingRight="@dimen/spacing_middle">
+                                <androidx.appcompat.widget.AppCompatCheckBox
+                                    android:id="@+id/CPA_AA_check"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="CPA-AA" />
 
+                                <androidx.appcompat.widget.AppCompatCheckBox
+                                    android:id="@+id/CFA_check"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="CFA" />
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:layout_weight="2"
+                                android:paddingLeft="@dimen/spacing_middle"
+                                android:paddingRight="@dimen/spacing_middle">
+                                <androidx.appcompat.widget.AppCompatCheckBox
+                                    android:id="@+id/FRM_check"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="FRM" />
+
+                                <androidx.appcompat.widget.AppCompatCheckBox
+                                    android:id="@+id/USP_check"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="USP" />
+                            </LinearLayout>
 
                         </LinearLayout>
 

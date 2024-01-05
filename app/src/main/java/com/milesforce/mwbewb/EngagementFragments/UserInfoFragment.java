@@ -73,7 +73,8 @@ import static com.milesforce.mwbewb.Utils.ConstantUtills.ZOOM_INVITATION;
  */
 public class UserInfoFragment extends Fragment implements View.OnClickListener, MultiSelectionSpinner.OnMultipleItemsSelectedListener {
 
-    AppCompatCheckBox cpa_check, cma_checkBox, iiml_fa_check, iiml_ba_check, iiml_pa_check, iiml_hr_check, iitr_bf_check, iitr_dbe_check, iimlfa_check, iimlsf_checkBox;
+    AppCompatCheckBox cpa_check, cma_checkBox, iiml_fa_check, iiml_ba_check, iiml_pa_check, iiml_hr_check, iitr_bf_check,
+            iitr_dbe_check, iimlfa_check, iimlsf_checkBox, CPA_AA_check, CFA_check, FRM_check, USP_check;
     ImageView add_phone, add_email, mobile_icon, email_icon;
     EditText textView_company, textview_designation, textview_experiance;
     TextView triggerToCall, person_name, visibleNumber, delete_number, masked_email_, visible_email, delete_email, education_details, person_Info_details;
@@ -118,6 +119,7 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener, 
     String EducationTagsUpdate;
     LinearLayout iiml_team_courses, CA_team_courses;
     RelativeLayout updated_experiance, updated_designation, updated_company, invite_webinar;
+
 
     public UserInfoFragment() {
         // Required empty public constructor
@@ -206,14 +208,14 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener, 
         updated_layout_for_loan_ = view.findViewById(R.id.updated_layout_for_loan_);
         education_details = view.findViewById(R.id.education_details);
         education_details.setText(education);
-        invite_webinar = view.findViewById(R.id.invite_webinar);
-        invite_webinar.setOnClickListener(this);
-        if (IIML_TAB_CHANGE_CODE == 0) {
-            invite_webinar.setVisibility(View.VISIBLE);
-        }
-        if (IIML_TAB_CHANGE_CODE == 1) {
-            invite_webinar.setVisibility(View.VISIBLE);
-        }
+//        invite_webinar = view.findViewById(R.id.invite_webinar);
+//        invite_webinar.setOnClickListener(this);
+//        if (IIML_TAB_CHANGE_CODE == 0) {
+//            invite_webinar.setVisibility(View.VISIBLE);
+//        }
+//        if (IIML_TAB_CHANGE_CODE == 1) {
+//            invite_webinar.setVisibility(View.VISIBLE);
+//        }
 
 
         education_tags_recycelrview = view.findViewById(R.id.education_tags_recycelrview);
@@ -279,28 +281,48 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener, 
         cma_checkBox = view.findViewById(R.id.cma_checkBox);
         iimlfa_check = view.findViewById(R.id.iimlfa_check);
         iimlsf_checkBox = view.findViewById(R.id.iimlsf_checkBox);
+        CPA_AA_check = view.findViewById(R.id.CPA_AA_check);
+        CFA_check = view.findViewById(R.id.CFA_check);
+        FRM_check = view.findViewById(R.id.FRM_check);
+        USP_check = view.findViewById(R.id.USP_check);
 
 
         if (Courses.contains("CPA")) {
             cpa_check.setChecked(true);
-
         }
         if (Courses.contains("CMA")) {
             cma_checkBox.setChecked(true);
         }
         if (Courses.contains("IIML-FA")) {
             iimlfa_check.setChecked(true);
-
         }
         if (Courses.contains("IIML-SF")) {
             iimlsf_checkBox.setChecked(true);
         }
 
+        if (Courses.contains("CPA-AA")) {
+            CPA_AA_check.setChecked(true);
+        }
+        if (Courses.contains("CFA")) {
+            CFA_check.setChecked(true);
+        }
+        if (Courses.contains("FRM")) {
+            FRM_check.setChecked(true);
+        }
+        if (Courses.contains("USP")) {
+            USP_check.setChecked(true);
+        }
 
         cpa_check.setEnabled(false);
         cma_checkBox.setEnabled(false);
         iimlfa_check.setEnabled(false);
         iimlsf_checkBox.setEnabled(false);
+        CPA_AA_check.setEnabled(false);
+        CFA_check.setEnabled(false);
+        FRM_check.setEnabled(false);
+        USP_check.setEnabled(false);
+
+
         updated_experiance = view.findViewById(R.id.updated_experiance);
         updated_experiance.setOnClickListener(this);
         updated_designation = view.findViewById(R.id.updated_designation);
@@ -514,7 +536,7 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener, 
     private void getUserEmails() {
         emailModelArrayList = new ArrayList<>();
 //        apiClient.getUserEmails(person_id, "Bearer " + AccessToken, "application/json").enqueue(new Callback<List<EmailModel>>() {
-        commanApiClient.getCommanUserEmails(person_id, "Bearer " + AccessToken,"application/json").enqueue(new Callback<List<EmailModel>>() {
+        commanApiClient.getCommanUserEmails(person_id, "Bearer " + AccessToken, "application/json").enqueue(new Callback<List<EmailModel>>() {
 
             @Override
             public void onResponse(Call<List<EmailModel>> call, Response<List<EmailModel>> response) {
@@ -563,7 +585,7 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener, 
     private void getUserMobileNumber() {
         mobileNumberModelArrayList = new ArrayList<>();
 //        apiClient.getClientMobileNumbers(person_id, "Bearer " + AccessToken,"application/json").enqueue(new Callback<List<MobileNumberModel>>() {
-        commanApiClient.getCommanClientMobileNumbers(person_id, "Bearer " + AccessToken,"application/json").enqueue(new Callback<List<MobileNumberModel>>() {
+        commanApiClient.getCommanClientMobileNumbers(person_id, "Bearer " + AccessToken, "application/json").enqueue(new Callback<List<MobileNumberModel>>() {
 
             @Override
             public void onResponse(Call<List<MobileNumberModel>> call, Response<List<MobileNumberModel>> response) {

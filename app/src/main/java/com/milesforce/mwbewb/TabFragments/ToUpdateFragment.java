@@ -172,6 +172,8 @@ public class ToUpdateFragment extends Fragment {
                             callLogs.setApplied_for_loan(getCallLogs.get(i).getApplied_for_loan());
                             callLogs.setLoan_status(getCallLogs.get(i).getLoan_status());
                             callLogs.setEducation_tags(getCallLogs.get(i).getEducation_tags());
+                            callLogs.setIiml_level(getCallLogs.get(i).getIiml_level());
+
                             if (getCallLogs.get(i).getDesignation()!=null){
                                 callLogs.setDesignation(getCallLogs.get(i).getDesignation());
                             }else {
