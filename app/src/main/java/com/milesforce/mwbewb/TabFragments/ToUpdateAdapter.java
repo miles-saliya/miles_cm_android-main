@@ -62,7 +62,7 @@ public class ToUpdateAdapter extends RecyclerView.Adapter<ToUpdateAdapter.ViewHo
         } catch (Exception e) {
             e.printStackTrace();
         }
-        holder.student_name.setText(srModelInfoArrayList.get(position).getPerson_name() + " - " + srModelInfoArrayList.get(position).getLevel() + " - " + srModelInfoArrayList.get(position).getCompany() + " - " + srModelInfoArrayList.get(position).getSource());
+        holder.student_name.setText(srModelInfoArrayList.get(position).getPerson_name() + " - " + srModelInfoArrayList.get(position).getLevel() + " - " +srModelInfoArrayList.get(position).getIiml_level()+" - " + srModelInfoArrayList.get(position).getCompany() + " - " + srModelInfoArrayList.get(position).getSource());
 
         //  holder.student_name.setText(srModelInfoArrayList.get(position).getPerson_name() + " - " + srModelInfoArrayList.get(position).getContact_type());
         holder.company_name_client.setText(srModelInfoArrayList.get(position).getCompany() + " - " + srModelInfoArrayList.get(position).getDesignation());
