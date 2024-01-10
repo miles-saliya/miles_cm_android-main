@@ -2,6 +2,7 @@ package com.milesforce.mwbewb.EngagementFragments;
 
 //test
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -564,8 +565,6 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
             spinner_M_LevelList = new ArrayList<>();
             if (Mlevel.equals("M1") || (Mlevel.equals("M2")) || (Mlevel.equals("M3") || (Mlevel.equals("M3+")) || (Mlevel.equals("M3++") || (Mlevel.equals(""))))) {
                 //1
-                spinner_M_LevelList.add(new LevelsModel("", ""));
-
                 spinner_M_LevelList.add(new LevelsModel("M1", "M1 :Did not visit & not interested"));
                 spinner_M_LevelList.add(new LevelsModel("M2", "M2 :Did not visit & Postponed"));
                 spinner_M_LevelList.add(new LevelsModel("M3", "M3 :Called & positive"));
@@ -584,61 +583,57 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
                 spinner_M_LevelList.add(new LevelsModel("M7X", "M7X :Do Not Ever Call (NFD - Blank),"));
                 //5
                 spinner_M_LevelList.add(new LevelsModel("M7+", "M7+ :LMS demo completed (30-60 days),"));
-                spinner_M_LevelList.add(new LevelsModel("M7#", "M7# :Onboarding Done (30-60 days),"));
-                spinner_M_LevelList.add(new LevelsModel("M8", "M8 :Evaluation (30 days),"));
-                //6
-                spinner_M_LevelList.add(new LevelsModel("M8+", "M8+ :Exam Registration,"));
-                //7
-                spinner_M_LevelList.add(new LevelsModel("M8-", "M8- :Drop-out (after evaluation) (once every 3 months),"));
-                //8
-                spinner_M_LevelList.add(new LevelsModel("M9", "M9 : One exam cleared (30 days)"));
-                spinner_M_LevelList.add(new LevelsModel("M9-", "M9- : Drop-out (after clearing an exam) (once every 3 months),"));
-                //9
-                spinner_M_LevelList.add(new LevelsModel("M10", "M10 : Alumini (30 days)"));
-                //10
-                spinner_M_LevelList.add(new LevelsModel("M7-IR", "M7-IR"));
-                spinner_M_LevelList.add(new LevelsModel("M7-INT", "M7-INT"));
-                spinner_M_LevelList.add(new LevelsModel("M7D1", "M7D1 : Defaulter,"));
-                spinner_M_LevelList.add(new LevelsModel("M7D2", "M7D2 : Loan Defaulter,"));
+//                spinner_M_LevelList.add(new LevelsModel("M7#", "M7# :Onboarding Done (30-60 days),"));
+//                spinner_M_LevelList.add(new LevelsModel("M8", "M8 :Evaluation (30 days),"));
+//                //6
+//                spinner_M_LevelList.add(new LevelsModel("M8+", "M8+ :Exam Registration,"));
+//                //7
+//                spinner_M_LevelList.add(new LevelsModel("M8-", "M8- :Drop-out (after evaluation) (once every 3 months),"));
+//                //8
+//                spinner_M_LevelList.add(new LevelsModel("M9", "M9 : One exam cleared (30 days)"));
+//                spinner_M_LevelList.add(new LevelsModel("M9-", "M9- : Drop-out (after clearing an exam) (once every 3 months),"));
+//                //9
+//                spinner_M_LevelList.add(new LevelsModel("M10", "M10 : Alumini (30 days)"));
+//                //10
+//                spinner_M_LevelList.add(new LevelsModel("M7-IR", "M7-IR"));
+//                spinner_M_LevelList.add(new LevelsModel("M7-INT", "M7-INT"));
+//                spinner_M_LevelList.add(new LevelsModel("M7D1", "M7D1 : Defaulter,"));
+//                spinner_M_LevelList.add(new LevelsModel("M7D2", "M7D2 : Loan Defaulter,"));
 
             }
             if (Mlevel.equals("M4") || (Mlevel.equals("M4-")) || (Mlevel.equals("M5")) || (Mlevel.equals("M6"))) {
                 //2
-                spinner_M_LevelList.add(new LevelsModel("", ""));
-
                 spinner_M_LevelList.add(new LevelsModel("M4", "M4 :Visited but Postponed"));
                 spinner_M_LevelList.add(new LevelsModel("M4-", "M4- :Visited but not interested"));
                 spinner_M_LevelList.add(new LevelsModel("M5", "M5 :Visited & Positive"));
                 spinner_M_LevelList.add(new LevelsModel("M6", "M6 :Visited & Ready to Enroll"));
                 //3
                 spinner_M_LevelList.add(new LevelsModel("M7", "M7 :Enrolled"));
-                //4
-                spinner_M_LevelList.add(new LevelsModel("M7-", "M7- :Drop-out (30 days),"));
-                spinner_M_LevelList.add(new LevelsModel("M7-JJ", "M7-JJ :Non Miles Jain Enrolled Candidates (30-60 days),"));
-                spinner_M_LevelList.add(new LevelsModel("M7X", "M7X :Do Not Ever Call (NFD - Blank),"));
-                //5
-                spinner_M_LevelList.add(new LevelsModel("M7+", "M7+ :LMS demo completed (30-60 days),"));
-                spinner_M_LevelList.add(new LevelsModel("M7#", "M7# :Onboarding Done (30-60 days),"));
-                spinner_M_LevelList.add(new LevelsModel("M8", "M8 :Evaluation (30 days),"));
-                //6
-                spinner_M_LevelList.add(new LevelsModel("M8+", "M8+ :Exam Registration,"));
-                //7
-                spinner_M_LevelList.add(new LevelsModel("M8-", "M8- :Drop-out (after evaluation) (once every 3 months),"));
-                //8
-                spinner_M_LevelList.add(new LevelsModel("M9", "M9 : One exam cleared (30 days)"));
-                spinner_M_LevelList.add(new LevelsModel("M9-", "M9- : Drop-out (after clearing an exam) (once every 3 months),"));
-                //9
-                spinner_M_LevelList.add(new LevelsModel("M10", "M10 : Alumini (30 days)"));
-                //10
-                spinner_M_LevelList.add(new LevelsModel("M7-IR", "M7-IR"));
-                spinner_M_LevelList.add(new LevelsModel("M7-INT", "M7-INT"));
-                spinner_M_LevelList.add(new LevelsModel("M7D1", "M7D1 : Defaulter,"));
-                spinner_M_LevelList.add(new LevelsModel("M7D2", "M7D2 : Loan Defaulter,"));
+//                //4
+//                spinner_M_LevelList.add(new LevelsModel("M7-", "M7- :Drop-out (30 days),"));
+//                spinner_M_LevelList.add(new LevelsModel("M7-JJ", "M7-JJ :Non Miles Jain Enrolled Candidates (30-60 days),"));
+//                spinner_M_LevelList.add(new LevelsModel("M7X", "M7X :Do Not Ever Call (NFD - Blank),"));
+//                //5
+//                spinner_M_LevelList.add(new LevelsModel("M7+", "M7+ :LMS demo completed (30-60 days),"));
+//                spinner_M_LevelList.add(new LevelsModel("M7#", "M7# :Onboarding Done (30-60 days),"));
+//                spinner_M_LevelList.add(new LevelsModel("M8", "M8 :Evaluation (30 days),"));
+//                //6
+//                spinner_M_LevelList.add(new LevelsModel("M8+", "M8+ :Exam Registration,"));
+//                //7
+//                spinner_M_LevelList.add(new LevelsModel("M8-", "M8- :Drop-out (after evaluation) (once every 3 months),"));
+//                //8
+//                spinner_M_LevelList.add(new LevelsModel("M9", "M9 : One exam cleared (30 days)"));
+//                spinner_M_LevelList.add(new LevelsModel("M9-", "M9- : Drop-out (after clearing an exam) (once every 3 months),"));
+//                //9
+//                spinner_M_LevelList.add(new LevelsModel("M10", "M10 : Alumini (30 days)"));
+//                //10
+//                spinner_M_LevelList.add(new LevelsModel("M7-IR", "M7-IR"));
+//                spinner_M_LevelList.add(new LevelsModel("M7-INT", "M7-INT"));
+//                spinner_M_LevelList.add(new LevelsModel("M7D1", "M7D1 : Defaulter,"));
+//                spinner_M_LevelList.add(new LevelsModel("M7D2", "M7D2 : Loan Defaulter,"));
             }
             if (Mlevel.equals("M7")) {
                 //3
-                spinner_M_LevelList.add(new LevelsModel("", ""));
-
                 spinner_M_LevelList.add(new LevelsModel("M7", "M7 :Enrolled"));
                 //4
                 spinner_M_LevelList.add(new LevelsModel("M7-", "M7- :Drop-out (30 days),"));
@@ -666,8 +661,6 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
             }
             if (Mlevel.equals("M7-") || (Mlevel.equals("M7-JJ") || (Mlevel.equals("M7X")))) {
                 //4
-                spinner_M_LevelList.add(new LevelsModel("", ""));
-
                 spinner_M_LevelList.add(new LevelsModel("M7-", "M7- :Drop-out (30 days),"));
                 spinner_M_LevelList.add(new LevelsModel("M7-JJ", "M7-JJ :Non Miles Jain Enrolled Candidates (30-60 days),"));
                 spinner_M_LevelList.add(new LevelsModel("M7X", "M7X :Do Not Ever Call (NFD - Blank),"));
@@ -692,8 +685,6 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
             }
             if (Mlevel.equals("M7+") || (Mlevel.equals("M7#")) || (Mlevel.equals("M8"))) {
                 //5
-                spinner_M_LevelList.add(new LevelsModel("", ""));
-
                 spinner_M_LevelList.add(new LevelsModel("M7+", "M7+ :LMS demo completed (30-60 days),"));
                 spinner_M_LevelList.add(new LevelsModel("M7#", "M7# :Onboarding Done (30-60 days),"));
                 spinner_M_LevelList.add(new LevelsModel("M8", "M8 :Evaluation (30 days),"));
@@ -714,7 +705,6 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
             }
             if (Mlevel.equals("M8+")) {
                 //6
-                spinner_M_LevelList.add(new LevelsModel("", ""));
 
                 spinner_M_LevelList.add(new LevelsModel("M8+", "M8+ :Exam Registration,"));
                 //7
@@ -732,8 +722,6 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
             }
             if (Mlevel.equals("M8-")) {
                 //7
-                spinner_M_LevelList.add(new LevelsModel("", ""));
-
                 spinner_M_LevelList.add(new LevelsModel("M8-", "M8- :Drop-out (after evaluation) (once every 3 months),"));
                 //8
                 spinner_M_LevelList.add(new LevelsModel("M9", "M9 : One exam cleared (30 days)"));
@@ -748,8 +736,6 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
             }
             if (Mlevel.equals("M9") || (Mlevel.equals("M9-"))) {
                 //8
-                spinner_M_LevelList.add(new LevelsModel("", ""));
-
                 spinner_M_LevelList.add(new LevelsModel("M9", "M9 : One exam cleared (30 days)"));
                 spinner_M_LevelList.add(new LevelsModel("M9-", "M9- : Drop-out (after clearing an exam) (once every 3 months),"));
                 //9
@@ -762,8 +748,6 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
             }
             if (Mlevel.equals("M10")) {
                 //9
-                spinner_M_LevelList.add(new LevelsModel("", ""));
-
                 spinner_M_LevelList.add(new LevelsModel("M10", "M10 : Alumini (30 days)"));
                 //10
                 spinner_M_LevelList.add(new LevelsModel("M7-IR", "M7-IR"));
@@ -773,8 +757,6 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
             }
             if (Mlevel.equals("M7-IR") || (Mlevel.equals("M7-INT")) || (Mlevel.equals("M7D1")) || (Mlevel.equals("M7D2"))) {
                 //10
-                spinner_M_LevelList.add(new LevelsModel("", ""));
-
                 spinner_M_LevelList.add(new LevelsModel("M7-IR", "M7-IR"));
                 spinner_M_LevelList.add(new LevelsModel("M7-INT", "M7-INT"));
                 spinner_M_LevelList.add(new LevelsModel("M7D1", "M7D1 : Defaulter,"));
@@ -821,7 +803,6 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
 
         if (Ulevel == null) {
             //1
-            spinner_U_LevelList.add(new LevelsModel("", ""));
 
             spinner_U_LevelList.add(new LevelsModel("U0", "U0 :Not interested in US/Canda"));
             spinner_U_LevelList.add(new LevelsModel("U1", "U1 :Interest expressed, dropped out"));
@@ -862,7 +843,6 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
 //                    spinner_U_LevelList.clear();
                 }
                 //1
-                spinner_U_LevelList.add(new LevelsModel("", ""));
 
                 spinner_U_LevelList.add(new LevelsModel("U0", "U0 :Not interested in US/Canda"));
                 spinner_U_LevelList.add(new LevelsModel("U1", "U1 :Interest expressed, dropped out"));
@@ -903,7 +883,6 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
 
                 //2
 
-                spinner_U_LevelList.add(new LevelsModel("", ""));
 
                 spinner_U_LevelList.add(new LevelsModel("U5", "U5 :Visited and Very Interested"));
                 spinner_U_LevelList.add(new LevelsModel("U6", "U6 :Visited and Ready to Enroll"));
@@ -932,7 +911,6 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
                 }
 
                 //3
-                spinner_U_LevelList.add(new LevelsModel("", ""));
 
                 spinner_U_LevelList.add(new LevelsModel("U7", "U7 :Enrolled (20k)"));
                 //4
@@ -958,7 +936,6 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
 //                    spinner_U_LevelList.clear();
                 }
                 //4
-                spinner_U_LevelList.add(new LevelsModel("", ""));
                 spinner_U_LevelList.add(new LevelsModel("U7-", "U7- :Application initiated, dropped out"));
                 spinner_U_LevelList.add(new LevelsModel("U7R", "U7R :Refunded 20k"));
                 spinner_U_LevelList.add(new LevelsModel("U7+", "U7+ :Application Initiated"));
@@ -1443,19 +1420,19 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
 
 
                 } else if (SELECTED_STATUS_interested_working.equals("No")) {
-                    appconpact_spinner_U_levels.setSelection(1);
+                    appconpact_spinner_U_levels.setSelection(0);
 
                 } else if (SELECTED_STATUS_interested_working.equals("Maybe")) {
-                    appconpact_spinner_U_levels.setSelection(4);
+                    appconpact_spinner_U_levels.setSelection(3);
 
                 } else if (SELECTED_STATUS_interested_working.equals("Yes but graduating in 2024 or after")) {
-                    appconpact_spinner_U_levels.setSelection(3);
+                    appconpact_spinner_U_levels.setSelection(2);
 
                 } else {
                     appconpact_spinner_looking_job.setEnabled(true);
                     appconpact_spinner_looking_job.setClickable(true);
                     appconpact_spinner_looking_job.setAdapter(appconpact_spinner_looking_job_Adapter);
-                    appconpact_spinner_U_levels.setSelection(1);
+                    appconpact_spinner_U_levels.setSelection(0);
 
                 }
             }
@@ -1947,233 +1924,16 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
 //        });
 
         appconpact_spinner_connectionstatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 try {
                     nextTimeLayout.setVisibility(View.VISIBLE);
                     SELECTED_STATUS = appconpact_spinner_connectionstatus.getSelectedItem().toString();
 
-                    if (Mlevel.equals("M1") || (Mlevel.equals("M2")) || (Mlevel.equals("M3") || (Mlevel.equals("M3+")) || (Mlevel.equals("M3++") || (Mlevel.equals(""))))) {
-                        //1
-                        spinner_M_LevelList.add(new LevelsModel("", ""));
 
-                        spinner_M_LevelList.add(new LevelsModel("M1", "M1 :Did not visit & not interested"));
-                        spinner_M_LevelList.add(new LevelsModel("M2", "M2 :Did not visit & Postponed"));
-                        spinner_M_LevelList.add(new LevelsModel("M3", "M3 :Called & positive"));
-                        spinner_M_LevelList.add(new LevelsModel("M3+", "M3+ :Called & Coming"));
-                        spinner_M_LevelList.add(new LevelsModel("M3++", "M3++ :Ready to enroll - Not visited"));
-                        //2
-                        spinner_M_LevelList.add(new LevelsModel("M4", "M4 :Visited but Postponed"));
-                        spinner_M_LevelList.add(new LevelsModel("M4-", "M4- :Visited but not interested"));
-                        spinner_M_LevelList.add(new LevelsModel("M5", "M5 :Visited & Positive"));
-                        spinner_M_LevelList.add(new LevelsModel("M6", "M6 :Visited & Ready to Enroll"));
-                        //3
-                        spinner_M_LevelList.add(new LevelsModel("M7", "M7 :Enrolled"));
-                        //4
-                        spinner_M_LevelList.add(new LevelsModel("M7-", "M7- :Drop-out (30 days),"));
-                        spinner_M_LevelList.add(new LevelsModel("M7-JJ", "M7-JJ :Non Miles Jain Enrolled Candidates (30-60 days),"));
-                        spinner_M_LevelList.add(new LevelsModel("M7X", "M7X :Do Not Ever Call (NFD - Blank),"));
-                        //5
-                        spinner_M_LevelList.add(new LevelsModel("M7+", "M7+ :LMS demo completed (30-60 days),"));
-                        spinner_M_LevelList.add(new LevelsModel("M7#", "M7# :Onboarding Done (30-60 days),"));
-                        spinner_M_LevelList.add(new LevelsModel("M8", "M8 :Evaluation (30 days),"));
-                        //6
-                        spinner_M_LevelList.add(new LevelsModel("M8+", "M8+ :Exam Registration,"));
-                        //7
-                        spinner_M_LevelList.add(new LevelsModel("M8-", "M8- :Drop-out (after evaluation) (once every 3 months),"));
-                        //8
-                        spinner_M_LevelList.add(new LevelsModel("M9", "M9 : One exam cleared (30 days)"));
-                        spinner_M_LevelList.add(new LevelsModel("M9-", "M9- : Drop-out (after clearing an exam) (once every 3 months),"));
-                        //9
-                        spinner_M_LevelList.add(new LevelsModel("M10", "M10 : Alumini (30 days)"));
-                        //10
-                        spinner_M_LevelList.add(new LevelsModel("M7-IR", "M7-IR"));
-                        spinner_M_LevelList.add(new LevelsModel("M7-INT", "M7-INT"));
-                        spinner_M_LevelList.add(new LevelsModel("M7D1", "M7D1 : Defaulter,"));
-                        spinner_M_LevelList.add(new LevelsModel("M7D2", "M7D2 : Loan Defaulter,"));
-
-                    }
-                    if (Mlevel.equals("M4") || (Mlevel.equals("M4-")) || (Mlevel.equals("M5")) || (Mlevel.equals("M6"))) {
-                        //2
-                        spinner_M_LevelList.add(new LevelsModel("", ""));
-
-                        spinner_M_LevelList.add(new LevelsModel("M4", "M4 :Visited but Postponed"));
-                        spinner_M_LevelList.add(new LevelsModel("M4-", "M4- :Visited but not interested"));
-                        spinner_M_LevelList.add(new LevelsModel("M5", "M5 :Visited & Positive"));
-                        spinner_M_LevelList.add(new LevelsModel("M6", "M6 :Visited & Ready to Enroll"));
-                        //3
-                        spinner_M_LevelList.add(new LevelsModel("M7", "M7 :Enrolled"));
-                        //4
-                        spinner_M_LevelList.add(new LevelsModel("M7-", "M7- :Drop-out (30 days),"));
-                        spinner_M_LevelList.add(new LevelsModel("M7-JJ", "M7-JJ :Non Miles Jain Enrolled Candidates (30-60 days),"));
-                        spinner_M_LevelList.add(new LevelsModel("M7X", "M7X :Do Not Ever Call (NFD - Blank),"));
-                        //5
-                        spinner_M_LevelList.add(new LevelsModel("M7+", "M7+ :LMS demo completed (30-60 days),"));
-                        spinner_M_LevelList.add(new LevelsModel("M7#", "M7# :Onboarding Done (30-60 days),"));
-                        spinner_M_LevelList.add(new LevelsModel("M8", "M8 :Evaluation (30 days),"));
-                        //6
-                        spinner_M_LevelList.add(new LevelsModel("M8+", "M8+ :Exam Registration,"));
-                        //7
-                        spinner_M_LevelList.add(new LevelsModel("M8-", "M8- :Drop-out (after evaluation) (once every 3 months),"));
-                        //8
-                        spinner_M_LevelList.add(new LevelsModel("M9", "M9 : One exam cleared (30 days)"));
-                        spinner_M_LevelList.add(new LevelsModel("M9-", "M9- : Drop-out (after clearing an exam) (once every 3 months),"));
-                        //9
-                        spinner_M_LevelList.add(new LevelsModel("M10", "M10 : Alumini (30 days)"));
-                        //10
-                        spinner_M_LevelList.add(new LevelsModel("M7-IR", "M7-IR"));
-                        spinner_M_LevelList.add(new LevelsModel("M7-INT", "M7-INT"));
-                        spinner_M_LevelList.add(new LevelsModel("M7D1", "M7D1 : Defaulter,"));
-                        spinner_M_LevelList.add(new LevelsModel("M7D2", "M7D2 : Loan Defaulter,"));
-                    }
-                    if (Mlevel.equals("M7")) {
-                        //3
-                        spinner_M_LevelList.add(new LevelsModel("", ""));
-
-                        spinner_M_LevelList.add(new LevelsModel("M7", "M7 :Enrolled"));
-                        //4
-                        spinner_M_LevelList.add(new LevelsModel("M7-", "M7- :Drop-out (30 days),"));
-                        spinner_M_LevelList.add(new LevelsModel("M7-JJ", "M7-JJ :Non Miles Jain Enrolled Candidates (30-60 days),"));
-                        spinner_M_LevelList.add(new LevelsModel("M7X", "M7X :Do Not Ever Call (NFD - Blank),"));
-                        //5
-                        spinner_M_LevelList.add(new LevelsModel("M7+", "M7+ :LMS demo completed (30-60 days),"));
-                        spinner_M_LevelList.add(new LevelsModel("M7#", "M7# :Onboarding Done (30-60 days),"));
-                        spinner_M_LevelList.add(new LevelsModel("M8", "M8 :Evaluation (30 days),"));
-                        //6
-                        spinner_M_LevelList.add(new LevelsModel("M8+", "M8+ :Exam Registration,"));
-                        //7
-                        spinner_M_LevelList.add(new LevelsModel("M8-", "M8- :Drop-out (after evaluation) (once every 3 months),"));
-                        //8
-                        spinner_M_LevelList.add(new LevelsModel("M9", "M9 : One exam cleared (30 days)"));
-                        spinner_M_LevelList.add(new LevelsModel("M9-", "M9- : Drop-out (after clearing an exam) (once every 3 months),"));
-                        //9
-                        spinner_M_LevelList.add(new LevelsModel("M10", "M10 : Alumini (30 days)"));
-                        //10
-                        spinner_M_LevelList.add(new LevelsModel("M7-IR", "M7-IR"));
-                        spinner_M_LevelList.add(new LevelsModel("M7-INT", "M7-INT"));
-                        spinner_M_LevelList.add(new LevelsModel("M7D1", "M7D1 : Defaulter,"));
-                        spinner_M_LevelList.add(new LevelsModel("M7D2", "M7D2 : Loan Defaulter,"));
-
-                    }
-                    if (Mlevel.equals("M7-") || (Mlevel.equals("M7-JJ") || (Mlevel.equals("M7X")))) {
-                        //4
-                        spinner_M_LevelList.add(new LevelsModel("", ""));
-
-                        spinner_M_LevelList.add(new LevelsModel("M7-", "M7- :Drop-out (30 days),"));
-                        spinner_M_LevelList.add(new LevelsModel("M7-JJ", "M7-JJ :Non Miles Jain Enrolled Candidates (30-60 days),"));
-                        spinner_M_LevelList.add(new LevelsModel("M7X", "M7X :Do Not Ever Call (NFD - Blank),"));
-                        //5
-                        spinner_M_LevelList.add(new LevelsModel("M7+", "M7+ :LMS demo completed (30-60 days),"));
-                        spinner_M_LevelList.add(new LevelsModel("M7#", "M7# :Onboarding Done (30-60 days),"));
-                        spinner_M_LevelList.add(new LevelsModel("M8", "M8 :Evaluation (30 days),"));
-                        //6
-                        spinner_M_LevelList.add(new LevelsModel("M8+", "M8+ :Exam Registration,"));
-                        //7
-                        spinner_M_LevelList.add(new LevelsModel("M8-", "M8- :Drop-out (after evaluation) (once every 3 months),"));
-                        //8
-                        spinner_M_LevelList.add(new LevelsModel("M9", "M9 : One exam cleared (30 days)"));
-                        spinner_M_LevelList.add(new LevelsModel("M9-", "M9- : Drop-out (after clearing an exam) (once every 3 months),"));
-                        //9
-                        spinner_M_LevelList.add(new LevelsModel("M10", "M10 : Alumini (30 days)"));
-                        //10
-                        spinner_M_LevelList.add(new LevelsModel("M7-IR", "M7-IR"));
-                        spinner_M_LevelList.add(new LevelsModel("M7-INT", "M7-INT"));
-                        spinner_M_LevelList.add(new LevelsModel("M7D1", "M7D1 : Defaulter,"));
-                        spinner_M_LevelList.add(new LevelsModel("M7D2", "M7D2 : Loan Defaulter,"));
-                    }
-                    if (Mlevel.equals("M7+") || (Mlevel.equals("M7#")) || (Mlevel.equals("M8"))) {
-                        //5
-                        spinner_M_LevelList.add(new LevelsModel("", ""));
-
-                        spinner_M_LevelList.add(new LevelsModel("M7+", "M7+ :LMS demo completed (30-60 days),"));
-                        spinner_M_LevelList.add(new LevelsModel("M7#", "M7# :Onboarding Done (30-60 days),"));
-                        spinner_M_LevelList.add(new LevelsModel("M8", "M8 :Evaluation (30 days),"));
-                        //6
-                        spinner_M_LevelList.add(new LevelsModel("M8+", "M8+ :Exam Registration,"));
-                        //7
-                        spinner_M_LevelList.add(new LevelsModel("M8-", "M8- :Drop-out (after evaluation) (once every 3 months),"));
-                        //8
-                        spinner_M_LevelList.add(new LevelsModel("M9", "M9 : One exam cleared (30 days)"));
-                        spinner_M_LevelList.add(new LevelsModel("M9-", "M9- : Drop-out (after clearing an exam) (once every 3 months),"));
-                        //9
-                        spinner_M_LevelList.add(new LevelsModel("M10", "M10 : Alumini (30 days)"));
-                        //10
-                        spinner_M_LevelList.add(new LevelsModel("M7-IR", "M7-IR"));
-                        spinner_M_LevelList.add(new LevelsModel("M7-INT", "M7-INT"));
-                        spinner_M_LevelList.add(new LevelsModel("M7D1", "M7D1 : Defaulter,"));
-                        spinner_M_LevelList.add(new LevelsModel("M7D2", "M7D2 : Loan Defaulter,"));
-                    }
-                    if (Mlevel.equals("M8+")) {
-                        //6
-                        spinner_M_LevelList.add(new LevelsModel("", ""));
-
-                        spinner_M_LevelList.add(new LevelsModel("M8+", "M8+ :Exam Registration,"));
-                        //7
-                        spinner_M_LevelList.add(new LevelsModel("M8-", "M8- :Drop-out (after evaluation) (once every 3 months),"));
-                        //8
-                        spinner_M_LevelList.add(new LevelsModel("M9", "M9 : One exam cleared (30 days)"));
-                        spinner_M_LevelList.add(new LevelsModel("M9-", "M9- : Drop-out (after clearing an exam) (once every 3 months),"));
-                        //9
-                        spinner_M_LevelList.add(new LevelsModel("M10", "M10 : Alumini (30 days)"));
-                        //10
-                        spinner_M_LevelList.add(new LevelsModel("M7-IR", "M7-IR"));
-                        spinner_M_LevelList.add(new LevelsModel("M7-INT", "M7-INT"));
-                        spinner_M_LevelList.add(new LevelsModel("M7D1", "M7D1 : Defaulter,"));
-                        spinner_M_LevelList.add(new LevelsModel("M7D2", "M7D2 : Loan Defaulter,"));
-                    }
-                    if (Mlevel.equals("M8-")) {
-                        //7
-                        spinner_M_LevelList.add(new LevelsModel("", ""));
-
-                        spinner_M_LevelList.add(new LevelsModel("M8-", "M8- :Drop-out (after evaluation) (once every 3 months),"));
-                        //8
-                        spinner_M_LevelList.add(new LevelsModel("M9", "M9 : One exam cleared (30 days)"));
-                        spinner_M_LevelList.add(new LevelsModel("M9-", "M9- : Drop-out (after clearing an exam) (once every 3 months),"));
-                        //9
-                        spinner_M_LevelList.add(new LevelsModel("M10", "M10 : Alumini (30 days)"));
-                        //10
-                        spinner_M_LevelList.add(new LevelsModel("M7-IR", "M7-IR"));
-                        spinner_M_LevelList.add(new LevelsModel("M7-INT", "M7-INT"));
-                        spinner_M_LevelList.add(new LevelsModel("M7D1", "M7D1 : Defaulter,"));
-                        spinner_M_LevelList.add(new LevelsModel("M7D2", "M7D2 : Loan Defaulter,"));
-                    }
-                    if (Mlevel.equals("M9") || (Mlevel.equals("M9-"))) {
-                        //8
-                        spinner_M_LevelList.add(new LevelsModel("", ""));
-
-                        spinner_M_LevelList.add(new LevelsModel("M9", "M9 : One exam cleared (30 days)"));
-                        spinner_M_LevelList.add(new LevelsModel("M9-", "M9- : Drop-out (after clearing an exam) (once every 3 months),"));
-                        //9
-                        spinner_M_LevelList.add(new LevelsModel("M10", "M10 : Alumini (30 days)"));
-                        //10
-                        spinner_M_LevelList.add(new LevelsModel("M7-IR", "M7-IR"));
-                        spinner_M_LevelList.add(new LevelsModel("M7-INT", "M7-INT"));
-                        spinner_M_LevelList.add(new LevelsModel("M7D1", "M7D1 : Defaulter,"));
-                        spinner_M_LevelList.add(new LevelsModel("M7D2", "M7D2 : Loan Defaulter,"));
-                    }
-                    if (Mlevel.equals("M10")) {
-                        //9
-                        spinner_M_LevelList.add(new LevelsModel("", ""));
-
-                        spinner_M_LevelList.add(new LevelsModel("M10", "M10 : Alumini (30 days)"));
-                        //10
-                        spinner_M_LevelList.add(new LevelsModel("M7-IR", "M7-IR"));
-                        spinner_M_LevelList.add(new LevelsModel("M7-INT", "M7-INT"));
-                        spinner_M_LevelList.add(new LevelsModel("M7D1", "M7D1 : Defaulter,"));
-                        spinner_M_LevelList.add(new LevelsModel("M7D2", "M7D2 : Loan Defaulter,"));
-                    }
-                    if (Mlevel.equals("M7-IR") || (Mlevel.equals("M7-INT")) || (Mlevel.equals("M7D1")) || (Mlevel.equals("M7D2"))) {
-                        //10
-                        spinner_M_LevelList.add(new LevelsModel("", ""));
-
-                        spinner_M_LevelList.add(new LevelsModel("M7-IR", "M7-IR"));
-                        spinner_M_LevelList.add(new LevelsModel("M7-INT", "M7-INT"));
-                        spinner_M_LevelList.add(new LevelsModel("M7D1", "M7D1 : Defaulter,"));
-                        spinner_M_LevelList.add(new LevelsModel("M7D2", "M7D2 : Loan Defaulter,"));
-                    }
-
-                    if (SELECTED_STATUS.equals("Connected / Busy") || (SELECTED_STATUS.equals("Connected / Discussed")) || (SELECTED_STATUS.equals("Connected / Never call back")) || (SELECTED_STATUS.equals("Connected / Wrong number")) || (SELECTED_STATUS.equals("Connected / Not Interested")) || (SELECTED_STATUS.equals("Communication barrier")) || (SELECTED_STATUS.equals("Not Educated"))) {
-                        if (SELECTED_STATUS.equals("Connected / Discussed") || (SELECTED_STATUS.equals("Connected / Not Interested"))) {
+                    if (  (SELECTED_STATUS.equals("Connected / Discussed")) || (SELECTED_STATUS.equals("Communication barrier")) || (SELECTED_STATUS.equals("Not Educated")) ) {
+                        if (SELECTED_STATUS.equals("Connected / Discussed")) {
                             engagement_main_form.setVisibility(View.VISIBLE);
                             level_layout_.setVisibility(View.VISIBLE);
                             invite_webinar.setVisibility(View.GONE);
@@ -2184,7 +1944,7 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
                             appconpact_spinner_U_levels.setEnabled(true);
                             appconpact_spinner_M_levels.setEnabled(true);
                             appconpact_spinner_interested_working.setEnabled(true);
-                            appconpact_spinner_U_levels.setSelection(8);
+                            appconpact_spinner_U_levels.setSelection(7);
 
                             looking_job.setEnabled(true);
                             appconpact_spinner_looking_job.setEnabled(true);
@@ -2198,13 +1958,11 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
                             ug_Graduate_Qualification.setEnabled(true);
                             pg_Graduate_Qualification.setEnabled(true);
 
-
                         }
                         if (SELECTED_STATUS.equals("Communication barrier") || (SELECTED_STATUS.equals("Not Educated"))) {
                             spinner_U_LevelList.clear();
                             spinner_M_LevelList.clear();
                             //1
-                            spinner_M_LevelList.add(new LevelsModel("", ""));
                             spinner_M_LevelList.add(new LevelsModel("M1", "M1 :Did not visit & not interested"));
                             spinner_M_LevelList.add(new LevelsModel("M2", "M2 :Did not visit & Postponed"));
                             spinner_M_LevelList.add(new LevelsModel("M3", "M3 :Called & positive"));
@@ -2241,7 +1999,6 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
                             spinner_M_LevelList.add(new LevelsModel("M7D2", "M7D2 : Loan Defaulter,"));
 
                             //1
-                            spinner_U_LevelList.add(new LevelsModel("", ""));
                             spinner_U_LevelList.add(new LevelsModel("U0", "U0 :Not interested in US/Canda"));
                             spinner_U_LevelList.add(new LevelsModel("U1", "U1 :Interest expressed, dropped out"));
                             spinner_U_LevelList.add(new LevelsModel("U1+", "U1+ :Interest expressed, yet to graduate"));
@@ -2271,13 +2028,12 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
                             spinner_U_LevelList.add(new LevelsModel("U11+", "U11+ :Started program in USA "));
                             spinner_U_LevelList.add(new LevelsModel("U12", "U12 :Completed program in USA "));
 
-                            appconpact_spinner_M_levels.setSelection(1);
-                            appconpact_spinner_U_levels.setSelection(1);
+                            appconpact_spinner_M_levels.setSelection(0);
+                            appconpact_spinner_U_levels.setSelection(0);
 
                             appconpact_spinner_U_levels.setEnabled(true);
                             appconpact_spinner_M_levels.setEnabled(true);
                         }
-
 
 
                         appconpact_spinner_U_levels.setEnabled(true);
@@ -2323,7 +2079,6 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
 
                         if (Ulevel == null) {
                             //1
-                            spinner_U_LevelList.add(new LevelsModel("", ""));
 
                             spinner_U_LevelList.add(new LevelsModel("U0", "U0 :Not interested in US/Canda"));
                             spinner_U_LevelList.add(new LevelsModel("U1", "U1 :Interest expressed, dropped out"));
@@ -2364,7 +2119,6 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
 //                    spinner_U_LevelList.clear();
                                 }
                                 //1
-                                spinner_U_LevelList.add(new LevelsModel("", ""));
 
                                 spinner_U_LevelList.add(new LevelsModel("U0", "U0 :Not interested in US/Canda"));
                                 spinner_U_LevelList.add(new LevelsModel("U1", "U1 :Interest expressed, dropped out"));
@@ -2405,7 +2159,6 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
 
                                 //2
 
-                                spinner_U_LevelList.add(new LevelsModel("", ""));
 
                                 spinner_U_LevelList.add(new LevelsModel("U5", "U5 :Visited and Very Interested"));
                                 spinner_U_LevelList.add(new LevelsModel("U6", "U6 :Visited and Ready to Enroll"));
@@ -2434,7 +2187,6 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
                                 }
 
                                 //3
-                                spinner_U_LevelList.add(new LevelsModel("", ""));
 
                                 spinner_U_LevelList.add(new LevelsModel("U7", "U7 :Enrolled (20k)"));
                                 //4
@@ -2460,7 +2212,6 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
 //                    spinner_U_LevelList.clear();
                                 }
                                 //4
-                                spinner_U_LevelList.add(new LevelsModel("", ""));
                                 spinner_U_LevelList.add(new LevelsModel("U7-", "U7- :Application initiated, dropped out"));
                                 spinner_U_LevelList.add(new LevelsModel("U7R", "U7R :Refunded 20k"));
                                 spinner_U_LevelList.add(new LevelsModel("U7+", "U7+ :Application Initiated"));
@@ -2476,12 +2227,13 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
                                 spinner_U_LevelList.add(new LevelsModel("U12", "U12 :Completed program in USA "));
 
                             }
-
                         }
 
+
+
                     } else if (SELECTED_STATUS.equals("Busy") || (SELECTED_STATUS.equals("Not Lifting"))
-                            || (SELECTED_STATUS.equals("Not Reachable"))
-                            || (SELECTED_STATUS.equals("Disconnected")) || (SELECTED_STATUS.equals("Invalid Number")) || (SELECTED_STATUS.equals("Switched Off")) || (SELECTED_STATUS.equals(" "))) {
+                            || (SELECTED_STATUS.equals("Not Reachable")) || (SELECTED_STATUS.equals("Connected / Busy"))
+                            || (SELECTED_STATUS.equals("Disconnected")) || (SELECTED_STATUS.equals("Invalid Number")) || (SELECTED_STATUS.equals("Switched Off")) || (SELECTED_STATUS.equals(" ")) || (SELECTED_STATUS.equals("Connected / Never call back")) || (SELECTED_STATUS.equals("Connected / Wrong number")) || (SELECTED_STATUS.equals("Connected / Not Interested")) ) {
 //
                         interested_Layout.setEnabled(false);
                         appconpact_spinner_interested_working.setEnabled(false);
@@ -2502,8 +2254,6 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
                         global_Professional_Qualification.setEnabled(false);
                         ug_Graduate_Qualification.setEnabled(false);
                         pg_Graduate_Qualification.setEnabled(false);
-
-
 
 
                         Date c = Calendar.getInstance().getTime();
