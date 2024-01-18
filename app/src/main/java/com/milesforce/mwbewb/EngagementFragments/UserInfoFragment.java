@@ -187,9 +187,20 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener, 
         }
 
         initView(view);
-        batteryModel = new BatterPercentage().getBattertPercentage(getContext());
+        try {
+            batteryModel = new BatterPercentage().getBattertPercentage(getContext());
+        }catch (Exception e){
+            Log.d("BatterPercentage","Failed to get Battery Percentage");
+        }
 
 
+
+    }
+
+    @Override
+    public void onPause() {
+//        batteryModel.u
+        super.onPause();
     }
 
     private void initView(View view) {

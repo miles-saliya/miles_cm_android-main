@@ -276,6 +276,13 @@
                             android:minHeight="?attr/actionBarSize"
                             android:paddingLeft="@dimen/spacing_middle"
                             android:paddingRight="@dimen/spacing_middle" />
+<!--                        <androidx.appcompat.widget.AppCompatSpinner-->
+<!--                            android:id="@+id/M_levels_spinner"-->
+<!--                            style="@style/Base.Widget.AppCompat.Spinner.Underlined"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:minHeight="?attr/actionBarSize"-->
+<!--                            android:spinnerMode="dialog" />-->
 
                         <TextView
                             style="@style/EditText.Flat.Grey"
@@ -593,41 +600,41 @@
 
                             </LinearLayout>
 
-                            <LinearLayout
-                                android:id="@+id/current_location"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:paddingTop="20dp">
+<!--                            <LinearLayout-->
+<!--                                android:id="@+id/current_location"-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:orientation="vertical"-->
+<!--                                android:paddingTop="20dp">-->
 
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="Current Location *"
-                                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
-                                    android:textSize="14sp" />
+<!--                                <TextView-->
+<!--                                    android:layout_width="match_parent"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:text="Current Location *"-->
+<!--                                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"-->
+<!--                                    android:textSize="14sp" />-->
 
-                                <!--        <androidx.appcompat.widget.AppCompatSpinner-->
-                                <!--            android:id="@+id/appconpact_spinner_current_location"-->
-                                <!--            style="@style/Base.Widget.AppCompat.Spinner.Underlined"-->
-                                <!--            android:layout_width="match_parent"-->
-                                <!--            android:layout_height="wrap_content"-->
-                                <!--            android:minHeight="?attr/actionBarSize"-->
-                                <!--            android:spinnerMode="dialog" />-->
-                                <EditText
-                                    android:id="@+id/edt_current_location"
-                                    style="@style/EditText.Flat.Grey"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="50dp"
-                                    android:layout_marginTop="@dimen/spacing_large"
-                                    android:background="@drawable/edit_text_round_bg_gray_50"
-                                    android:hint="please type location"
-                                    android:paddingLeft="@dimen/spacing_middle"
-                                    android:paddingRight="@dimen/spacing_middle"
-                                    android:paddingBottom="20dp" />
+<!--                                &lt;!&ndash;        <androidx.appcompat.widget.AppCompatSpinner&ndash;&gt;-->
+<!--                                &lt;!&ndash;            android:id="@+id/appconpact_spinner_current_location"&ndash;&gt;-->
+<!--                                &lt;!&ndash;            style="@style/Base.Widget.AppCompat.Spinner.Underlined"&ndash;&gt;-->
+<!--                                &lt;!&ndash;            android:layout_width="match_parent"&ndash;&gt;-->
+<!--                                &lt;!&ndash;            android:layout_height="wrap_content"&ndash;&gt;-->
+<!--                                &lt;!&ndash;            android:minHeight="?attr/actionBarSize"&ndash;&gt;-->
+<!--                                &lt;!&ndash;            android:spinnerMode="dialog" />&ndash;&gt;-->
+<!--                                <EditText-->
+<!--                                    android:id="@+id/edt_current_location"-->
+<!--                                    style="@style/EditText.Flat.Grey"-->
+<!--                                    android:layout_width="match_parent"-->
+<!--                                    android:layout_height="50dp"-->
+<!--                                    android:layout_marginTop="@dimen/spacing_large"-->
+<!--                                    android:background="@drawable/edit_text_round_bg_gray_50"-->
+<!--                                    android:hint="please type location"-->
+<!--                                    android:paddingLeft="@dimen/spacing_middle"-->
+<!--                                    android:paddingRight="@dimen/spacing_middle"-->
+<!--                                    android:paddingBottom="20dp" />-->
 
 
-                            </LinearLayout>
+<!--                            </LinearLayout>-->
 
                             <TextView
                                 android:layout_width="match_parent"
@@ -798,7 +805,7 @@
                                         <TextView
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
-                                            android:text="PG Qualification*"
+                                            android:text="PG Qualification"
                                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
                                             android:textSize="14sp" />
 

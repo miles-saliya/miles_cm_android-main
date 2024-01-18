@@ -2,6 +2,7 @@ package com.milesforce.mwbewb.EngagementFragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,8 +26,13 @@ public class LevelsCustomAdapter extends ArrayAdapter<LevelsModel> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
+        Log.d("ITEM COUNT",String.valueOf(getCount()));
         return rowview(convertView,position);
+    }
+
+    @Override
+    public int getCount() {
+        return super.getCount();
     }
 
     @Override
@@ -35,7 +41,6 @@ public class LevelsCustomAdapter extends ArrayAdapter<LevelsModel> {
     }
 
     private View rowview(View convertView , int position){
-
         LevelsModel rowItem = getItem(position);
 
         viewHolder holder ;

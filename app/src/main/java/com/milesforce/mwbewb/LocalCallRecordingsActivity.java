@@ -60,7 +60,7 @@ public class LocalCallRecordingsActivity extends AppCompatActivity {
     ArrayList<String> FilesName = new ArrayList<>();
     TextView testing_check;
     ApiClient apiClient;
-     CommanApiClient commanApiClient ;
+    CommanApiClient commanApiClient;
 
     Realm realm;
     ArrayList<BussinessCallRecorderModel> bussinessCallRecorderModels;
@@ -89,7 +89,7 @@ public class LocalCallRecordingsActivity extends AppCompatActivity {
         realm = Realm.getDefaultInstance();
         setContentView(R.layout.activity_local_call_recordings);
         apiClient = ApiUtills.getAPIService();
-      commanApiClient  = CommanApiUtills.getAPIService();
+        commanApiClient = CommanApiUtills.getAPIService();
 
         snake_bar = findViewById(R.id.snake_bar);
         upload_status_fileInfo = findViewById(R.id.upload_status_fileInfo);
@@ -116,11 +116,27 @@ public class LocalCallRecordingsActivity extends AppCompatActivity {
         try {
             Log.d("currentapiVersion", String.valueOf(currentapiVersion));
             Log.d("versioncode", String.valueOf(versioncode));
-            if (currentapiVersion >= versioncode && currentapiVersion != versioncode) {
-                directoryPath = Environment.getExternalStorageDirectory() + "/Recordings/Call";
-            } else {
-                directoryPath = Environment.getExternalStorageDirectory() + "/Call";
+//            String manufacturer = Build.MANUFACTURER;
+//            String model = Build.MODEL;
+//            String brand = Build.BRAND;
+            Log.d("manufacturer", Build.MANUFACTURER);
+            Log.d("model", Build.MODEL);
+            Log.d("brand", Build.BRAND);
+
+
+            if(Build.BRAND.trim().equals("samsung")){
+                if (currentapiVersion >= versioncode && currentapiVersion != versioncode) {
+                    directoryPath = Environment.getExternalStorageDirectory() + "/Recordings/Call";
+                } else {
+                    directoryPath = Environment.getExternalStorageDirectory() + "/Call";
+                }
+            }else {
+                directoryPath = Environment.getExternalStorageDirectory() + "/MIUI/sound_recorder/call_rec";
+
+
             }
+
+
             Log.d("directoryPath===>", directoryPath);
             File directory = new File(directoryPath);
             File[] files = directory.listFiles();
@@ -309,7 +325,7 @@ public class LocalCallRecordingsActivity extends AppCompatActivity {
         }
 //        apiClient.checkCallRecordingExistance(time, "Bearer " + Access_token, "application/json").enqueue(new Callback<SuccessModel>() {
 
-        commanApiClient.checkCallRecordingExistance(time, extension,"Bearer " + Access_token, "application/json").enqueue(new Callback<SuccessModel>() {
+        commanApiClient.checkCallRecordingExistance(time, extension, "Bearer " + Access_token, "application/json").enqueue(new Callback<SuccessModel>() {
             @Override
             public void onResponse(Call<SuccessModel> call, Response<SuccessModel> response) {
                 try {
@@ -352,10 +368,19 @@ public class LocalCallRecordingsActivity extends AppCompatActivity {
             try {
                 Log.d("currentapiVersion", String.valueOf(currentapiVersion));
                 Log.d("versioncode", String.valueOf(versioncode));
-                if (currentapiVersion >= versioncode && currentapiVersion != versioncode) {
-                    directoryPath = Environment.getExternalStorageDirectory() + "/Recordings/Call";
-                } else {
-                    directoryPath = Environment.getExternalStorageDirectory() + "/Call";
+                Log.d("manufacturer", Build.MANUFACTURER);
+                Log.d("model", Build.MODEL);
+                Log.d("brand", Build.BRAND);
+                if(Build.BRAND.trim().equals("samsung")){
+                    if (currentapiVersion >= versioncode && currentapiVersion != versioncode) {
+                        directoryPath = Environment.getExternalStorageDirectory() + "/Recordings/Call";
+                    } else {
+                        directoryPath = Environment.getExternalStorageDirectory() + "/Call";
+                    }
+                }else {
+                    directoryPath = Environment.getExternalStorageDirectory() + "/MIUI/sound_recorder/call_rec";
+
+
                 }
                 Log.d("directoryPath===>", directoryPath);
                 File directory = new File(directoryPath);
@@ -404,7 +429,7 @@ public class LocalCallRecordingsActivity extends AppCompatActivity {
         Log.d("PresignedUrl", String.valueOf(s));
 //        apiClient.getGeneratedPresignedUrl(s, "Bearer " + Access_token, "application/json").enqueue(new Callback<SuccessModel>() {
 
-        commanApiClient.getGeneratedPresignedUrl(s, extension,"Bearer " + Access_token, "application/json").enqueue(new Callback<SuccessModel>() {
+        commanApiClient.getGeneratedPresignedUrl(s, extension, "Bearer " + Access_token, "application/json").enqueue(new Callback<SuccessModel>() {
             @Override
             public void onResponse(Call<SuccessModel> call, Response<SuccessModel> response) {
                 if (response.body().getUrl() != null) {
@@ -515,10 +540,19 @@ public class LocalCallRecordingsActivity extends AppCompatActivity {
             try {
                 Log.d("currentapiVersion", String.valueOf(currentapiVersion));
                 Log.d("versioncode", String.valueOf(versioncode));
-                if (currentapiVersion >= versioncode && currentapiVersion != versioncode) {
-                    directoryPath = Environment.getExternalStorageDirectory() + "/Recordings/Call";
-                } else {
-                    directoryPath = Environment.getExternalStorageDirectory() + "/Call";
+                Log.d("manufacturer", Build.MANUFACTURER);
+                Log.d("model", Build.MODEL);
+                Log.d("brand", Build.BRAND);
+                if(Build.BRAND.trim().equals("samsung")){
+                    if (currentapiVersion >= versioncode && currentapiVersion != versioncode) {
+                        directoryPath = Environment.getExternalStorageDirectory() + "/Recordings/Call";
+                    } else {
+                        directoryPath = Environment.getExternalStorageDirectory() + "/Call";
+                    }
+                }else {
+                    directoryPath = Environment.getExternalStorageDirectory() + "/MIUI/sound_recorder/call_rec";
+
+
                 }
                 Log.d("directoryPath===>", directoryPath);
                 File directory = new File(directoryPath);

@@ -15,7 +15,7 @@ public class BatterPercentage {
 
     public BatteryModel getBattertPercentage(Context context) {
         intentfilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
-        context.registerReceiver(broadcastreceiver, intentfilter);
+//        context.registerReceiver(broadcastreceiver, intentfilter);
         BatteryModel batteryModel = new BatteryModel();
         batteryModel.setBattey_percentage(ConstantUtills.BATTERY_PERCENTAGE + " % ");
         batteryModel.setCharging_status(ConstantUtills.BATTERY_STATUS);
@@ -66,6 +66,7 @@ public class BatterPercentage {
             }
 
         }
+
     };
 
 }

@@ -1,6 +1,8 @@
 package com.milesforce.mwbewb.Retrofit;
 
+import com.milesforce.mwbewb.Model.CandidatePersonaDetailsModel;
 import com.milesforce.mwbewb.Model.EmailModel;
+import com.milesforce.mwbewb.Model.EngagemmentHistoryModel;
 import com.milesforce.mwbewb.Model.MobileNumberModel;
 
 import java.util.List;
@@ -24,5 +26,9 @@ public interface CommanApiClient {
     @GET("generatePresignedUrl")
     Call<SuccessModel> getGeneratedPresignedUrl(@Query("timestamp") String url, @Query("extension") String strextension, @Header("Authorization") String s, @Header("Accept") String s1);
 
+
+    ////    https://mfcomms.2x2.ninja/api/getCandidatePersonaDetails?mwb_id=16324
+    @GET("getCandidatePersonaDetails")
+    Call<CandidatePersonaDetailsModel> getCandidatePersonaDetails(@Query("mwb_id") int mwb_id, @Header("Authorization") String s, @Header("Accept") String s1);
 
 }

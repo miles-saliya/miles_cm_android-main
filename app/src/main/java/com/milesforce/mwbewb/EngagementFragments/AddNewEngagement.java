@@ -23,6 +23,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.AppCompatCheckBox;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import android.text.Editable;
@@ -55,11 +56,16 @@ import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.milesforce.mwbewb.Activities.LoginActivity;
+import com.milesforce.mwbewb.Model.CandidatePersonaDetailsModel;
+import com.milesforce.mwbewb.Model.EngagemmentHistoryModel;
+import com.milesforce.mwbewb.Model.HistoryModel;
 import com.milesforce.mwbewb.Model.LevelsModel;
 import com.milesforce.mwbewb.Model.TeamModel;
 import com.milesforce.mwbewb.R;
 import com.milesforce.mwbewb.Retrofit.ApiClient;
 import com.milesforce.mwbewb.Retrofit.ApiUtills;
+import com.milesforce.mwbewb.Retrofit.CommanApiClient;
+import com.milesforce.mwbewb.Retrofit.CommanApiUtills;
 import com.milesforce.mwbewb.Retrofit.NinjaApiClient;
 import com.milesforce.mwbewb.Retrofit.NinjaApiUtills;
 import com.milesforce.mwbewb.Retrofit.SuccessModel;
@@ -76,6 +82,7 @@ import java.io.OutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -97,14 +104,19 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
     private ViewPager view_pager_engagement;
     private TabLayout tab_layoutEngagementform;
     FloatingActionButton call, visit, email, whatsup;
+    ArrayList<HistoryModel> historyModelArrayList;
+    RecyclerView HistoryRecyclerView;
+    HistoryAdapter historyAdapter;
+
     AppCompatSpinner appconpact_spinner_M_levels, appconpact_spinner_U_levels, appconpact_spinner_connectionstatus;
     ArrayList<LevelsModel> spinner_M_LevelList;
     //    ArrayList<LevelsModel> spinner_U_LevelList;
     List<LevelsModel> spinner_U_LevelList = new ArrayList<>();
 
+    ArrayList<LevelsModel> spinnerLevelListvisit = new ArrayList<>();
 
-    ArrayList<LevelsModel> spinnerLevelListvisit;
     ArrayList<String> ConnectionTypeArrayList;
+
     ArrayList<String> templets;
     EditText date_picker_;
     Calendar myCalendar;
@@ -144,6 +156,10 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
     private static long nextCallTimeStamp = 0;
     ProgressBar add_engagement_progress;
     ApiClient apiClient = ApiUtills.getAPIService();
+    CommanApiClient
+            commanApiClient = CommanApiUtills.getAPIService();
+
+
     AlertDialog alert;
     EditText engagement_description_visit, date_picker_visit;
     String User_levels = " ";
@@ -154,7 +170,7 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
     LevelsCustomAdapter levelsCustomAdapter;
     String NewLevel;
     static String ConnectionStatus = " ";
-    static String SELECTED_STATUS = " ";
+    static String SELECTED_STATUS = "";
     static String Enrollment_status = "No";
     static CheckBox enroll_check;
     DatePickerDialog datePickerDialog;
@@ -166,7 +182,7 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
     LinearLayout interested_working, looking_job, graduation_Year, interested_Layout, current_location_layout;
     AppCompatSpinner appconpact_spinner_interested_working, appconpact_spinner_looking_job,
             appconpact_spinner_graduation_Year;
-
+    ArrayList<String> years = new ArrayList<String>();
 
     static String SELECTED_STATUS_interested_working = "";
 
@@ -282,6 +298,7 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
 //    };
 //
 
+
     public AddNewEngagement() {
         // Required empty public constructor
     }
@@ -293,6 +310,7 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         sharedPreferences = getContext().getSharedPreferences(SaveToken, MODE_PRIVATE);
         return inflater.inflate(R.layout.fragment_add_new_engagement, container, false);
+
     }
 
     @Override
@@ -306,7 +324,13 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
         m_levels = getArguments().getString("levels");
         user_name = getArguments().getString("user_name");
         phone_number = getArguments().getString("phone_number");
+
         u_levels = getArguments().getString("iiml_level");
+
+        if (u_levels != null)
+            if (u_levels.equals("U4R")) {
+                u_levels = "U7R";
+            }
         LevelsSelected = m_levels;
         str_U_levels = u_levels;
         User_levels = m_levels;
@@ -319,7 +343,7 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
         LookingJobWorkingArrayList();
         getTeam(AccessToken);
         initViews(view);
-
+        getCandidatePersonaDetails(AccessToken, person_id);
         batteryModel = new BatterPercentage().getBattertPercentage(getContext());
 
     }
@@ -347,7 +371,7 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
 
     private void CustomDataPOints() {
         ConnectionTypeArrayList = new ArrayList<>();
-        ConnectionTypeArrayList.add(" ");
+        ConnectionTypeArrayList.add("");
         ConnectionTypeArrayList.add("Connected / Busy");
         ConnectionTypeArrayList.add("Connected / Discussed");
         ConnectionTypeArrayList.add("Connected / Never call back");
@@ -366,6 +390,7 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
 
     private void InterestedWorkingArrayList() {
         spinner_interested_workingArrayList = new ArrayList<>();
+        spinner_interested_workingArrayList.add("");
         spinner_interested_workingArrayList.add("Yes");
         spinner_interested_workingArrayList.add("Yes but graduating in 2024 or after");
         spinner_interested_workingArrayList.add("No");
@@ -397,11 +422,17 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
 
     private void showCustomDialog(final String user_name, final String Mlevel, final String Ulevel) {
 
+        getCandidatePersonaDetails(AccessToken, person_id);
 
         Toast.makeText(getContext(), USER_TEAM, Toast.LENGTH_SHORT).show();
         nextCallTimeStamp = 0;
         ConnectionStatus = "";
-        if (Mlevel.equals("M7#") || Mlevel.equals("M7-JJ") || Mlevel.equals("M7D2") || Mlevel.equals("M7D1") || Mlevel.equals("M8+")
+        Log.d("manufacturer", Build.MANUFACTURER);
+        Log.d("model", Build.MODEL);
+        Log.d("Brand", Build.BRAND);
+
+
+        if (Mlevel.equals("M7") || Mlevel.equals("M7#") || Mlevel.equals("M7-JJ") || Mlevel.equals("M7D2") || Mlevel.equals("M7D1") || Mlevel.equals("M8+")
                 || Mlevel.equals("M7-") || Mlevel.equals("M7+") || Mlevel.equals("M7X") || Mlevel.equals("M8-") || Mlevel.equals("M8")
                 || Mlevel.equals("M9-") || Mlevel.equals("M9") || Mlevel.equals("M10")) {
             if (spinner_M_LevelList != null) {
@@ -421,15 +452,16 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
             spinner_M_LevelList.add(new LevelsModel("M7D1", "M7D1 - Defaulter"));
             spinner_M_LevelList.add(new LevelsModel("M7#", "M7# - Onboarding Done"));
             spinner_M_LevelList.add(new LevelsModel("M7-JJ", "M7-JJ (Non Miles Jain Enrolled Candidates)"));
+            spinner_M_LevelList.add(new LevelsModel("M7", "M7- Enrolled"));
+
 
         } else {
-            if (Mlevel.equals("M7") || Mlevel.equals("M6") || Mlevel.equals("M5") || Mlevel.equals("M4") || Mlevel.equals("M4-") ||
+            if (Mlevel.equals("M6") || Mlevel.equals("M5") || Mlevel.equals("M4") || Mlevel.equals("M4-") ||
                     Mlevel.equals("L6") || Mlevel.equals("L5") || Mlevel.equals("L4") || Mlevel.equals("L4-")) {
                 if (spinner_M_LevelList != null) {
                     spinner_M_LevelList.clear();
                 }
                 spinner_M_LevelList = new ArrayList<>();
-                spinner_M_LevelList.add(new LevelsModel("M7", "M7- Enrolled"));
                 spinner_M_LevelList.add(new LevelsModel("M6", "M6 - Visited & Ready to Enroll"));
                 spinner_M_LevelList.add(new LevelsModel("M5", "M5 - Visited & Positive"));
                 spinner_M_LevelList.add(new LevelsModel("M4", "M4 - Visited but Postponed"));
@@ -494,6 +526,18 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
             textview_header.setText(user_name + " - " + m_levels + " - " + str_U_levels);
 
         }
+        if (Mlevel.equals("M6")) {
+            myCalendar.add(Calendar.DAY_OF_MONTH, 1);
+            MAX_DATE_PRE_SELECT = 30;
+        }
+        if (Mlevel.equals("M5") || (Mlevel.equals("M3"))) {
+            myCalendar.add(Calendar.DAY_OF_MONTH, 1);
+            MAX_DATE_PRE_SELECT = 60;
+        }
+        if (Mlevel.equals("M3++") || (Mlevel.equals("M3+"))) {
+            myCalendar.add(Calendar.DAY_OF_MONTH, 1);
+            MAX_DATE_PRE_SELECT = 40;
+        }
 
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         lp.copyFrom(dialog.getWindow().getAttributes());
@@ -552,18 +596,19 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
         appconpact_spinner_looking_job_Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         appconpact_spinner_graduation_Year = dialog.findViewById(R.id.appconpact_spinner_graduation_Year);
-        ArrayList<String> years = new ArrayList<String>();
+
         int thisYear = Calendar.getInstance().get(Calendar.YEAR);
         for (int i = thisYear + 3; i >= 1995; i--) {
             years.add("");
             years.add(Integer.toString(i));
         }
+
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, years);
         appconpact_spinner_graduation_Year.setAdapter(adapter);
         if (spinner_M_LevelList.size() > 0) {
             spinner_M_LevelList.clear();
             spinner_M_LevelList = new ArrayList<>();
-            if (Mlevel.equals("M1") || (Mlevel.equals("M2")) || (Mlevel.equals("M3") || (Mlevel.equals("M3+")) || (Mlevel.equals("M3++") || (Mlevel.equals(""))))) {
+            if (Mlevel.equals("M1") || (Mlevel.equals("M2")) || (Mlevel.equals("M3") || (Mlevel.equals("M3+")) || (Mlevel.equals("M3++") || (Mlevel.equals(" "))))) {
                 //1
                 spinner_M_LevelList.add(new LevelsModel("M1", "M1 :Did not visit & not interested"));
                 spinner_M_LevelList.add(new LevelsModel("M2", "M2 :Did not visit & Postponed"));
@@ -803,7 +848,6 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
 
         if (Ulevel == null) {
             //1
-
             spinner_U_LevelList.add(new LevelsModel("U0", "U0 :Not interested in US/Canda"));
             spinner_U_LevelList.add(new LevelsModel("U1", "U1 :Interest expressed, dropped out"));
 
@@ -843,7 +887,6 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
 //                    spinner_U_LevelList.clear();
                 }
                 //1
-
                 spinner_U_LevelList.add(new LevelsModel("U0", "U0 :Not interested in US/Canda"));
                 spinner_U_LevelList.add(new LevelsModel("U1", "U1 :Interest expressed, dropped out"));
 
@@ -860,7 +903,6 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
                 spinner_U_LevelList.add(new LevelsModel("U4", "U4 :Visited but Postpone/Not Interested"));
                 //3
                 spinner_U_LevelList.add(new LevelsModel("U7", "U7 :Enrolled (20k)"));
-                //4
                 spinner_U_LevelList.add(new LevelsModel("U7-", "U7- :Application initiated, dropped out"));
                 spinner_U_LevelList.add(new LevelsModel("U7R", "U7R :Refunded 20k"));
                 spinner_U_LevelList.add(new LevelsModel("U7+", "U7+ :Application Initiated"));
@@ -882,14 +924,11 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
                 }
 
                 //2
-
-
                 spinner_U_LevelList.add(new LevelsModel("U5", "U5 :Visited and Very Interested"));
                 spinner_U_LevelList.add(new LevelsModel("U6", "U6 :Visited and Ready to Enroll"));
                 spinner_U_LevelList.add(new LevelsModel("U4", "U4 :Visited but Postpone/Not Interested"));
                 //3
                 spinner_U_LevelList.add(new LevelsModel("U7", "U7 :Enrolled (20k)"));
-                //4
                 spinner_U_LevelList.add(new LevelsModel("U7-", "U7- :Application initiated, dropped out"));
                 spinner_U_LevelList.add(new LevelsModel("U7R", "U7R :Refunded 20k"));
                 spinner_U_LevelList.add(new LevelsModel("U7+", "U7+ :Application Initiated"));
@@ -904,38 +943,15 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
                 spinner_U_LevelList.add(new LevelsModel("U11+", "U11+ :Started program in USA "));
                 spinner_U_LevelList.add(new LevelsModel("U12", "U12 :Completed program in USA "));
             }
-            if (Ulevel.equals("U7")) {
-                spinner_U_LevelList = new ArrayList<>();
-                if (spinner_U_LevelList != null) {
-//                    spinner_U_LevelList.clear();
-                }
-
-                //3
-
-                spinner_U_LevelList.add(new LevelsModel("U7", "U7 :Enrolled (20k)"));
-                //4
-                spinner_U_LevelList.add(new LevelsModel("U7-", "U7- :Application initiated, dropped out"));
-                spinner_U_LevelList.add(new LevelsModel("U7R", "U7R :Refunded 20k"));
-                spinner_U_LevelList.add(new LevelsModel("U7+", "U7+ :Application Initiated"));
-                spinner_U_LevelList.add(new LevelsModel("U8", "U8 :Application done, I-20 yet to be received"));
-                spinner_U_LevelList.add(new LevelsModel("U8+", "U8+ :Conditional Offer Received"));
-                spinner_U_LevelList.add(new LevelsModel("U9-", "U9- :I-20 received, Dropped Out"));
-                spinner_U_LevelList.add(new LevelsModel("U9", "U9 :I 20 Rec. Yet to apply for Visa"));
-                spinner_U_LevelList.add(new LevelsModel("U9+", "U9+ :I 20 Rec. Applied for Visa"));
-                spinner_U_LevelList.add(new LevelsModel("U10-", "U10- :Visa Received But Dropped out"));
-                spinner_U_LevelList.add(new LevelsModel("U10", "U10 :Visa Received "));
-                spinner_U_LevelList.add(new LevelsModel("U11", "U11 :IIM Indore "));
-                spinner_U_LevelList.add(new LevelsModel("U11+", "U11+ :Started program in USA "));
-                spinner_U_LevelList.add(new LevelsModel("U12", "U12 :Completed program in USA "));
-            }
-            if (Ulevel.equals("U7-") || (Ulevel.equals("U7R")) || (Ulevel.equals("U7+")) || (Ulevel.equals("U8")) || (Ulevel.equals("U8+"))
+            if (Ulevel.equals("U7") || (Ulevel.equals("U7-") || (Ulevel.equals("U7R")) || (Ulevel.equals("U4R")) || (Ulevel.equals("U7+")) || (Ulevel.equals("U8")) || (Ulevel.equals("U8+"))
                     || (Ulevel.equals("U9-")) || (Ulevel.equals("U9")) || (Ulevel.equals("U9+")) || (Ulevel.equals("U10-")) || (Ulevel.equals("U10"))
-                    || (Ulevel.equals("U11")) || (Ulevel.equals("U11+")) || (Ulevel.equals("U12")) || (Ulevel.equals("U4R"))) {
+                    || (Ulevel.equals("U11")) || (Ulevel.equals("U11+")) || (Ulevel.equals("U12")) || (Ulevel.equals("U4R")))) {
                 spinner_U_LevelList = new ArrayList<>();
                 if (spinner_U_LevelList != null) {
 //                    spinner_U_LevelList.clear();
                 }
-                //4
+                //3
+                spinner_U_LevelList.add(new LevelsModel("U7", "U7 :Enrolled (20k)"));
                 spinner_U_LevelList.add(new LevelsModel("U7-", "U7- :Application initiated, dropped out"));
                 spinner_U_LevelList.add(new LevelsModel("U7R", "U7R :Refunded 20k"));
                 spinner_U_LevelList.add(new LevelsModel("U7+", "U7+ :Application Initiated"));
@@ -949,8 +965,8 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
                 spinner_U_LevelList.add(new LevelsModel("U11", "U11 :IIM Indore "));
                 spinner_U_LevelList.add(new LevelsModel("U11+", "U11+ :Started program in USA "));
                 spinner_U_LevelList.add(new LevelsModel("U12", "U12 :Completed program in USA "));
-
             }
+
 
         }
 
@@ -963,13 +979,15 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
 
         levelsCustomAdapter = new LevelsCustomAdapter(getContext(), R.layout.listitems_layout, R.id.levels_items, spinner_M_LevelList);
         appconpact_spinner_M_levels.setAdapter(levelsCustomAdapter);
+        levelsCustomAdapter.notifyDataSetChanged();
 
         levelsCustomAdapter = new LevelsCustomAdapter(getContext(), R.layout.listitems_layout, R.id.levels_items, spinner_U_LevelList);
         appconpact_spinner_U_levels.setAdapter(levelsCustomAdapter);
+        levelsCustomAdapter.notifyDataSetChanged();
 
         interested_Layout = dialog.findViewById(R.id.interested_Layout);
-        current_location_layout = dialog.findViewById(R.id.current_location_layout);
-        edt_current_location = dialog.findViewById(R.id.edt_current_location);
+//        current_location_layout = dialog.findViewById(R.id.current_location_layout);
+//        edt_current_location = dialog.findViewById(R.id.edt_current_location);
 
 //        current_location.getTe
         add_engagement_progress = dialog.findViewById(R.id.add_engagement_progress);
@@ -1411,22 +1429,25 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 SELECTED_STATUS_interested_working = appconpact_spinner_interested_working.getSelectedItem().toString();
                 Log.d("SELECTED_1", SELECTED_STATUS_interested_working);
-
                 if (SELECTED_STATUS_interested_working.equals("Yes")) {
-
                     appconpact_spinner_looking_job.setEnabled(false);
                     appconpact_spinner_looking_job.setClickable(false);
                     appconpact_spinner_looking_job.setAdapter(appconpact_spinner_looking_job_Adapter);
-
-
                 } else if (SELECTED_STATUS_interested_working.equals("No")) {
                     appconpact_spinner_U_levels.setSelection(0);
+                    appconpact_spinner_looking_job.setEnabled(true);
+                    appconpact_spinner_looking_job.setClickable(true);
+
 
                 } else if (SELECTED_STATUS_interested_working.equals("Maybe")) {
                     appconpact_spinner_U_levels.setSelection(3);
+                    appconpact_spinner_looking_job.setEnabled(true);
+                    appconpact_spinner_looking_job.setClickable(true);
 
                 } else if (SELECTED_STATUS_interested_working.equals("Yes but graduating in 2024 or after")) {
                     appconpact_spinner_U_levels.setSelection(2);
+                    appconpact_spinner_looking_job.setEnabled(true);
+                    appconpact_spinner_looking_job.setClickable(true);
 
                 } else {
                     appconpact_spinner_looking_job.setEnabled(true);
@@ -1498,8 +1519,12 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
         });
         levelsCustomAdapter = new LevelsCustomAdapter(getContext(), R.layout.listitems_layout, R.id.levels_items, spinner_M_LevelList);
         appconpact_spinner_M_levels.setAdapter(levelsCustomAdapter);
+        levelsCustomAdapter.notifyDataSetChanged();
+
         levelsCustomAdapter = new LevelsCustomAdapter(getContext(), R.layout.listitems_layout, R.id.levels_items, spinner_U_LevelList);
         appconpact_spinner_U_levels.setAdapter(levelsCustomAdapter);
+        levelsCustomAdapter.notifyDataSetChanged();
+
         appconpact_spinner_M_levels.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -1509,40 +1534,54 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
                 myCalendar.set(Calendar.YEAR, myCalendar.get(Calendar.YEAR));
                 myCalendar.set(Calendar.MONTH, myCalendar.get(Calendar.MONTH));
                 MAX_DATE_PRE_SELECT = 0;
-
-                if (User_levels.equals("M10") || User_levels.equals("M7-")) {
-                    myCalendar.add(Calendar.DAY_OF_MONTH, 30);
+                if (User_levels.equals("M6")) {
+                    myCalendar.add(Calendar.DAY_OF_MONTH, 1);
                     MAX_DATE_PRE_SELECT = 30;
                 }
-                if (User_levels.equals("M9") || User_levels.equals("M7+") || User_levels.equals("M8")) {
-                    myCalendar.add(Calendar.DAY_OF_MONTH, 30);
+                if (User_levels.equals("M5") || (User_levels.equals("M3"))) {
+                    myCalendar.add(Calendar.DAY_OF_MONTH, 1);
                     MAX_DATE_PRE_SELECT = 60;
                 }
-                if (User_levels.equals("M9-") || User_levels.equals("M8-")) {
-                    myCalendar.add(Calendar.DAY_OF_MONTH, 90);
-                    MAX_DATE_PRE_SELECT = 90;
-                }
-                if (User_levels.equals("M7")) {
-                    myCalendar.add(Calendar.DAY_OF_MONTH, 7);
-                    MAX_DATE_PRE_SELECT = 7;
-                }
-                if (User_levels.equals("M6") || User_levels.equals("M5") || User_levels.equals("M3+")) {
-                    myCalendar.add(Calendar.DAY_OF_MONTH, 7);
-                    MAX_DATE_PRE_SELECT = 14;
+                if (User_levels.equals("M3++") || (User_levels.equals("M3+"))) {
+                    myCalendar.add(Calendar.DAY_OF_MONTH, 1);
+                    MAX_DATE_PRE_SELECT = 40;
                 }
 
-                if (User_levels.equals("M4") || User_levels.equals("M2")) {
-                    myCalendar.add(Calendar.DAY_OF_MONTH, 90);
-                    MAX_DATE_PRE_SELECT = 180;
-                }
-                if (User_levels.equals("M4-") || User_levels.equals("M1")) {
-                    myCalendar.add(Calendar.DAY_OF_MONTH, 120);
-                    MAX_DATE_PRE_SELECT = 180;
-                }
-                if (User_levels.equals("M3")) {
-                    myCalendar.add(Calendar.DAY_OF_MONTH, 14);
-                    MAX_DATE_PRE_SELECT = 30;
-                }
+//                if (User_levels.equals("M10") || User_levels.equals("M7-")) {
+//                    myCalendar.add(Calendar.DAY_OF_MONTH, 30);
+//                    MAX_DATE_PRE_SELECT = 30;
+//                }
+//                if (User_levels.equals("M9") || User_levels.equals("M7+") || User_levels.equals("M8")) {
+//                    myCalendar.add(Calendar.DAY_OF_MONTH, 30);
+//                    MAX_DATE_PRE_SELECT = 60;
+//                }
+//                if (User_levels.equals("M9-") || User_levels.equals("M8-")) {
+//                    myCalendar.add(Calendar.DAY_OF_MONTH, 90);
+//                    MAX_DATE_PRE_SELECT = 90;
+//                }
+//                if (User_levels.equals("M7")) {
+//                    myCalendar.add(Calendar.DAY_OF_MONTH, 7);
+//                    MAX_DATE_PRE_SELECT = 7;
+//                }
+//                if (User_levels.equals("M6") || User_levels.equals("M5") || User_levels.equals("M3+")) {
+//                    myCalendar.add(Calendar.DAY_OF_MONTH, 7);
+//                    MAX_DATE_PRE_SELECT = 14;
+//                }
+//
+//                if (User_levels.equals("M4") || User_levels.equals("M2")) {
+//                    myCalendar.add(Calendar.DAY_OF_MONTH, 90);
+//                    MAX_DATE_PRE_SELECT = 180;
+//                }
+//                if (User_levels.equals("M4-") || User_levels.equals("M1")) {
+//                    myCalendar.add(Calendar.DAY_OF_MONTH, 120);
+//                    MAX_DATE_PRE_SELECT = 180;
+//                }
+//                if (User_levels.equals("M3")) {
+//                    myCalendar.add(Calendar.DAY_OF_MONTH, 14);
+//                    MAX_DATE_PRE_SELECT = 30;
+//                }
+
+
                 updateLabel();
             }
 
@@ -1560,47 +1599,136 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
                 myCalendar.set(Calendar.YEAR, myCalendar.get(Calendar.YEAR));
                 myCalendar.set(Calendar.MONTH, myCalendar.get(Calendar.MONTH));
                 MAX_DATE_PRE_SELECT = 0;
+                if (!SELECTED_STATUS.equals("")) {
 
-                if (User_levels.equals("M10") || User_levels.equals("M7-")) {
-                    myCalendar.add(Calendar.DAY_OF_MONTH, 30);
-                    MAX_DATE_PRE_SELECT = 30;
-                }
-                if (User_levels.equals("M9") || User_levels.equals("M7+") || User_levels.equals("M8")) {
-                    myCalendar.add(Calendar.DAY_OF_MONTH, 30);
-                    MAX_DATE_PRE_SELECT = 60;
-                }
-                if (User_levels.equals("M9-") || User_levels.equals("M8-")) {
-                    myCalendar.add(Calendar.DAY_OF_MONTH, 90);
-                    MAX_DATE_PRE_SELECT = 90;
-                }
-                if (User_levels.equals("M7")) {
-                    myCalendar.add(Calendar.DAY_OF_MONTH, 7);
-                    MAX_DATE_PRE_SELECT = 7;
-                }
-                if (User_levels.equals("M6") || User_levels.equals("M5") || User_levels.equals("M3+")) {
-                    myCalendar.add(Calendar.DAY_OF_MONTH, 7);
-                    MAX_DATE_PRE_SELECT = 14;
+                    if (str_U_levels.equals("U0") || (str_U_levels.equals("U1")) || (str_U_levels.equals("U1+")) || (str_U_levels.equals("U2"))
+                            || (str_U_levels.equals("U3-"))
+                    ) {
+                        spinner_M_LevelList.clear();
+                        appconpact_spinner_M_levels.setEnabled(true);
+
+                        spinner_M_LevelList.add(new LevelsModel("M6", "M6 - Visited & Ready to Enroll"));
+                        spinner_M_LevelList.add(new LevelsModel("M5", "M5 - Visited & Positive"));
+                        spinner_M_LevelList.add(new LevelsModel("M4", "M4 - Visited but Postponed"));
+                        spinner_M_LevelList.add(new LevelsModel("M4-", "M4- - Visited but not interested"));
+                        spinner_M_LevelList.add(new LevelsModel("M3++", "M3++ - Ready to  enrolled -  not visited"));
+                        spinner_M_LevelList.add(new LevelsModel("M3+", "M3+ - Called & Coming"));
+                        spinner_M_LevelList.add(new LevelsModel("M3", "M3 - Called & positive"));
+                        spinner_M_LevelList.add(new LevelsModel("M2", "M2 - Did not visit & Postponed"));
+                        spinner_M_LevelList.add(new LevelsModel("M1", "M1 - Did not visit & not interested"));
+
+
+                    } else if (str_U_levels.equals("U3") || (str_U_levels.equals("U3+")) || (str_U_levels.equals("U3++"))
+                    ) {
+                        spinner_M_LevelList.clear();
+                        appconpact_spinner_M_levels.setEnabled(true);
+
+                        spinner_M_LevelList.add(new LevelsModel("M6", "M6 - Visited & Ready to Enroll"));
+                        spinner_M_LevelList.add(new LevelsModel("M5", "M5 - Visited & Positive"));
+                        spinner_M_LevelList.add(new LevelsModel("M3++", "M3++ - Ready to  enrolled -  not visited"));
+                        spinner_M_LevelList.add(new LevelsModel("M3+", "M3+ - Called & Coming"));
+                        spinner_M_LevelList.add(new LevelsModel("M3", "M3 - Called & positive"));
+//                        appconpact_spinner_M_levels.setSelection(0);
+                    } else if (str_U_levels.equals("U5") || (str_U_levels.equals("U6"))
+                    ) {
+                        spinner_M_LevelList.clear();
+                        appconpact_spinner_M_levels.setEnabled(true);
+
+                        spinner_M_LevelList.add(new LevelsModel("M6", "M6 - Visited & Ready to Enroll"));
+                        spinner_M_LevelList.add(new LevelsModel("M5", "M5 - Visited & Positive"));
+                    } else if (str_U_levels.equals("U4")) {
+                        spinner_M_LevelList.clear();
+                        appconpact_spinner_M_levels.setEnabled(true);
+
+                        spinner_M_LevelList.add(new LevelsModel("M4", "M4 - Visited but Postponed"));
+                        spinner_M_LevelList.add(new LevelsModel("M4-", "M4- - Visited but not interested"));
+                        spinner_M_LevelList.add(new LevelsModel("M6", "M6 - Visited & Ready to Enroll"));
+                        spinner_M_LevelList.add(new LevelsModel("M5", "M5 - Visited & Positive"));
+
+                    } else if (str_U_levels.equals("U7-") || (str_U_levels.equals("U7R") || (str_U_levels.equals("U7")))) {
+                        spinner_M_LevelList.clear();
+                        spinner_M_LevelList.add(new LevelsModel(" ", " "));
+                        spinner_M_LevelList.add(new LevelsModel("M4", "M4 - Visited but Postponed"));
+                        spinner_M_LevelList.add(new LevelsModel("M4-", "M4- - Visited but not interested"));
+                        spinner_M_LevelList.add(new LevelsModel("M6", "M6 - Visited & Ready to Enroll"));
+                        spinner_M_LevelList.add(new LevelsModel("M5", "M5 - Visited & Positive"));
+                        appconpact_spinner_M_levels.setSelection(0);
+//                    appconpact_spinner_M_levels.setEnabled(false);
+
+                    } else {
+                        spinner_M_LevelList.clear();
+                        spinner_M_LevelList.add(new LevelsModel("M4", "M4 - Visited but Postponed"));
+                        spinner_M_LevelList.add(new LevelsModel("M4-", "M4- - Visited but not interested"));
+                        spinner_M_LevelList.add(new LevelsModel("M6", "M6 - Visited & Ready to Enroll"));
+                        spinner_M_LevelList.add(new LevelsModel("M5", "M5 - Visited & Positive"));
+                        appconpact_spinner_M_levels.setSelection(0);
+
+                        appconpact_spinner_M_levels.setEnabled(false);
+
+                    }
+
+
+                    if (User_levels.equals("M6")) {
+                        myCalendar.add(Calendar.DAY_OF_MONTH, 1);
+                        MAX_DATE_PRE_SELECT = 30;
+                    }
+                    if (User_levels.equals("M5") || (User_levels.equals("M3"))) {
+                        myCalendar.add(Calendar.DAY_OF_MONTH, 1);
+                        MAX_DATE_PRE_SELECT = 60;
+                    }
+                    if (User_levels.equals("M3++") || (User_levels.equals("M3+"))) {
+                        myCalendar.add(Calendar.DAY_OF_MONTH, 1);
+                        MAX_DATE_PRE_SELECT = 40;
+                    }
+                    updateLabel();
+                    levelsCustomAdapter.notifyDataSetChanged();
+                    appconpact_spinner_M_levels.setSelection(0);
+
+                } else {
+                    Log.d("U LEVELS", "NO STATUS SELCTED");
+                    appconpact_spinner_U_levels.setEnabled(false);
+                    appconpact_spinner_M_levels.setEnabled(false);
+                    date_picker_.setEnabled(false);
+
+                    appconpact_spinner_interested_working.setEnabled(false);
+                    int _temp = 0;
+                    for (int i = 0; i < spinner_M_LevelList.size(); i++) {
+                        LevelsModel item = spinner_M_LevelList.get(i);
+                        if (Mlevel != null) {
+                            if (Mlevel.equals(item.getLevelCode())) { // Assuming getCode() gets the code of the LevelsModel
+                                _temp = i;
+                                break;
+                            }
+                        }
+                    }
+                    appconpact_spinner_M_levels.setSelection(_temp);
+                    for (int i = 0; i < spinner_U_LevelList.size(); i++) {
+                        LevelsModel item = spinner_U_LevelList.get(i);
+                        if (Ulevel != null) {
+                            if (Ulevel.equals(item.getLevelCode())) { // Assuming getCode() gets the code of the LevelsModel
+                                _temp = i;
+                                break;
+                            }
+                        }
+
+                    }
+                    appconpact_spinner_U_levels.setSelection(_temp);
+                    appconpact_spinner_U_levels.setEnabled(false);
+                    appconpact_spinner_M_levels.setEnabled(false);
+
+
                 }
 
-                if (User_levels.equals("M4") || User_levels.equals("M2")) {
-                    myCalendar.add(Calendar.DAY_OF_MONTH, 90);
-                    MAX_DATE_PRE_SELECT = 180;
-                }
-                if (User_levels.equals("M4-") || User_levels.equals("M1")) {
-                    myCalendar.add(Calendar.DAY_OF_MONTH, 120);
-                    MAX_DATE_PRE_SELECT = 180;
-                }
-                if (User_levels.equals("M3")) {
-                    myCalendar.add(Calendar.DAY_OF_MONTH, 14);
-                    MAX_DATE_PRE_SELECT = 30;
-                }
-                updateLabel();
+
             }
+
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
+
+
         });
 
 
@@ -1931,21 +2059,31 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
                     nextTimeLayout.setVisibility(View.VISIBLE);
                     SELECTED_STATUS = appconpact_spinner_connectionstatus.getSelectedItem().toString();
 
+                    if (Mlevel.equals("M6")) {
+                        myCalendar.add(Calendar.DAY_OF_MONTH, 1);
+                        MAX_DATE_PRE_SELECT = 30;
+                    }
+                    if (Mlevel.equals("M5") || (Mlevel.equals("M3"))) {
+                        myCalendar.add(Calendar.DAY_OF_MONTH, 1);
+                        MAX_DATE_PRE_SELECT = 60;
+                    }
+                    if (Mlevel.equals("M3++") || (Mlevel.equals("M3+"))) {
+                        myCalendar.add(Calendar.DAY_OF_MONTH, 1);
+                        MAX_DATE_PRE_SELECT = 40;
+                    }
+                    if ((SELECTED_STATUS.equals("Connected / Discussed"))) {
+                        if (SELECTED_STATUS.contains("Connected / Discussed")) {
 
-                    if (  (SELECTED_STATUS.equals("Connected / Discussed")) || (SELECTED_STATUS.equals("Communication barrier")) || (SELECTED_STATUS.equals("Not Educated")) ) {
-                        if (SELECTED_STATUS.equals("Connected / Discussed")) {
                             engagement_main_form.setVisibility(View.VISIBLE);
                             level_layout_.setVisibility(View.VISIBLE);
                             invite_webinar.setVisibility(View.GONE);
                             engagement_description.setText(" ");
                             ConnectionStatus = "CD";
-
                             interested_Layout.setEnabled(true);
-                            appconpact_spinner_U_levels.setEnabled(true);
-                            appconpact_spinner_M_levels.setEnabled(true);
-                            appconpact_spinner_interested_working.setEnabled(true);
-                            appconpact_spinner_U_levels.setSelection(7);
+                            date_picker_.setEnabled(true);
 
+                            appconpact_spinner_interested_working.setEnabled(true);
+                            appconpact_spinner_U_levels.setSelection(5);
                             looking_job.setEnabled(true);
                             appconpact_spinner_looking_job.setEnabled(true);
                             appconpact_spinner_graduation_Year.setEnabled(true);
@@ -1957,293 +2095,325 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
                             global_Professional_Qualification.setEnabled(true);
                             ug_Graduate_Qualification.setEnabled(true);
                             pg_Graduate_Qualification.setEnabled(true);
+                            if (u_levels.equals("U7R")) {
+                                appconpact_spinner_U_levels.setEnabled(false);
+                                appconpact_spinner_M_levels.setEnabled(false);
+                                date_picker_.setEnabled(false);
 
+                                int _temp = 0;
+
+                                for (int i = 0; i < spinner_U_LevelList.size(); i++) {
+                                    LevelsModel item = spinner_U_LevelList.get(i);
+                                    if (Ulevel != null) {
+                                        if (Ulevel.equals(item.getLevelCode())) { // Assuming getCode() gets the code of the LevelsModel
+                                            _temp = i;
+                                            break;
+                                        }
+                                    }
+
+                                }
+                                appconpact_spinner_U_levels.setSelection(_temp);
+
+
+                            } else {
+                                appconpact_spinner_U_levels.setEnabled(true);
+                                appconpact_spinner_M_levels.setEnabled(true);
+                            }
+                        } else if (SELECTED_STATUS.equals("Connected / Busy")) {
+
+                            appconpact_spinner_U_levels.setEnabled(false);
+                            appconpact_spinner_M_levels.setEnabled(false);
+                            date_picker_.setEnabled(false);
+
+                            if (Mlevel.equals(null) || Mlevel.isEmpty()) {
+                                appconpact_spinner_M_levels.setSelection(2);
+                            }
+                            if (Ulevel.equals(null) || Ulevel.isEmpty()) {
+                                appconpact_spinner_U_levels.setSelection(4);
+                            }
+                        } else if (SELECTED_STATUS.equals("Connected / Never call back")) {
+                            appconpact_spinner_U_levels.setEnabled(false);
+                            appconpact_spinner_M_levels.setEnabled(false);
+                            date_picker_.setEnabled(false);
+
+                            if (Mlevel.equals(null) || Mlevel.isEmpty()) {
+                                appconpact_spinner_M_levels.setSelection(0);
+                            }
+                            if (Ulevel.equals(null) || Ulevel.isEmpty()) {
+                                appconpact_spinner_U_levels.setSelection(0);
+
+                            }
+                        } else if (SELECTED_STATUS.equals("Connected / Not Interested")) {
+                            appconpact_spinner_U_levels.setEnabled(false);
+                            appconpact_spinner_M_levels.setEnabled(false);
+                            date_picker_.setEnabled(false);
+
+                            if (Mlevel.equals(null) || Mlevel.isEmpty()) {
+                                appconpact_spinner_M_levels.setSelection(0);
+                            }
+                            if (Ulevel.equals(null) || Ulevel.isEmpty()) {
+                                appconpact_spinner_U_levels.setSelection(0);
+
+                            }
+                        } else if (SELECTED_STATUS.equals("Busy")) {
+                            appconpact_spinner_U_levels.setEnabled(false);
+                            appconpact_spinner_M_levels.setEnabled(false);
+                            if (Mlevel.equals(null) || Mlevel.isEmpty()) {
+                                appconpact_spinner_M_levels.setSelection(2);
+                            }
+                            if (Ulevel.equals(null) || Ulevel.isEmpty()) {
+                                appconpact_spinner_U_levels.setSelection(4);
+                            }
+                        } else if (SELECTED_STATUS.equals("Not Lifting")) {
+                            appconpact_spinner_U_levels.setEnabled(false);
+                            appconpact_spinner_M_levels.setEnabled(false);
+                            date_picker_.setEnabled(false);
+
+                            if (Mlevel.equals(null) || Mlevel.isEmpty()) {
+                                appconpact_spinner_M_levels.setSelection(2);
+                            }
+                            if (Ulevel.equals(null) || Ulevel.isEmpty()) {
+                                appconpact_spinner_U_levels.setSelection(4);
+                            }
+                        } else if (SELECTED_STATUS.equals("Not Reachable")) {
+                            appconpact_spinner_U_levels.setEnabled(false);
+                            appconpact_spinner_M_levels.setEnabled(false);
+                            date_picker_.setEnabled(false);
+
+                            if (Mlevel.equals(null) || Mlevel.isEmpty()) {
+                                appconpact_spinner_M_levels.setSelection(2);
+                            }
+                            if (Ulevel.equals(null) || Ulevel.isEmpty()) {
+                                appconpact_spinner_U_levels.setSelection(4);
+                            }
+                        } else if (SELECTED_STATUS.equals("Disconnected")) {
+                            appconpact_spinner_U_levels.setEnabled(false);
+                            appconpact_spinner_M_levels.setEnabled(false);
+                            date_picker_.setEnabled(false);
+
+                            if (Mlevel.equals(null) || Mlevel.isEmpty()) {
+                                appconpact_spinner_M_levels.setSelection(2);
+                            }
+                            if (Ulevel.equals(null) || Ulevel.isEmpty()) {
+                                appconpact_spinner_U_levels.setSelection(4);
+                            }
+                        } else if (SELECTED_STATUS.equals("Invalid Number")) {
+                            appconpact_spinner_U_levels.setEnabled(false);
+                            appconpact_spinner_M_levels.setEnabled(false);
+                            date_picker_.setEnabled(false);
+
+                            if (Mlevel.equals(null) || Mlevel.isEmpty()) {
+                                appconpact_spinner_M_levels.setSelection(0);
+                            }
+                            if (Ulevel.equals(null) || Ulevel.isEmpty()) {
+                                appconpact_spinner_U_levels.setSelection(0);
+                            }
+                        } else if (SELECTED_STATUS.equals("Switched Off")) {
+                            appconpact_spinner_U_levels.setEnabled(false);
+                            appconpact_spinner_M_levels.setEnabled(false);
+                            date_picker_.setEnabled(false);
+
+                            if (Mlevel.equals(null) || Mlevel.isEmpty()) {
+                                appconpact_spinner_M_levels.setSelection(2);
+                            }
+                            if (Ulevel.equals(null) || Ulevel.isEmpty()) {
+                                appconpact_spinner_U_levels.setSelection(4);
+                            }
+                        } else if (SELECTED_STATUS.equals("Communication barrier")) {
+                            appconpact_spinner_U_levels.setEnabled(false);
+                            appconpact_spinner_M_levels.setEnabled(false);
+                            date_picker_.setEnabled(false);
+
+                            if (Mlevel.equals(null) || Mlevel.isEmpty()) {
+                                appconpact_spinner_M_levels.setSelection(0);
+                            }
+                            if (Ulevel.equals(null) || Ulevel.isEmpty()) {
+                                appconpact_spinner_U_levels.setSelection(0);
+                            }
+                        } else if (SELECTED_STATUS.equals("Not Educated")) {
+                            appconpact_spinner_U_levels.setEnabled(false);
+                            appconpact_spinner_M_levels.setEnabled(false);
+                            date_picker_.setEnabled(false);
+
+                            if (Mlevel.equals(null) || Mlevel.isEmpty()) {
+                                appconpact_spinner_M_levels.setSelection(0);
+                            }
+                            if (Ulevel.equals(null) || Ulevel.isEmpty()) {
+                                appconpact_spinner_U_levels.setSelection(0);
+                            }
                         }
-                        if (SELECTED_STATUS.equals("Communication barrier") || (SELECTED_STATUS.equals("Not Educated"))) {
-                            spinner_U_LevelList.clear();
-                            spinner_M_LevelList.clear();
-                            //1
-                            spinner_M_LevelList.add(new LevelsModel("M1", "M1 :Did not visit & not interested"));
-                            spinner_M_LevelList.add(new LevelsModel("M2", "M2 :Did not visit & Postponed"));
-                            spinner_M_LevelList.add(new LevelsModel("M3", "M3 :Called & positive"));
-                            spinner_M_LevelList.add(new LevelsModel("M3+", "M3+ :Called & Coming"));
-                            spinner_M_LevelList.add(new LevelsModel("M3++", "M3++ :Ready to enroll - Not visited"));
-                            //2
-                            spinner_M_LevelList.add(new LevelsModel("M4", "M4 :Visited but Postponed"));
-                            spinner_M_LevelList.add(new LevelsModel("M4-", "M4- :Visited but not interested"));
-                            spinner_M_LevelList.add(new LevelsModel("M5", "M5 :Visited & Positive"));
-                            spinner_M_LevelList.add(new LevelsModel("M6", "M6 :Visited & Ready to Enroll"));
-                            //3
-                            spinner_M_LevelList.add(new LevelsModel("M7", "M7 :Enrolled"));
-                            //4
-                            spinner_M_LevelList.add(new LevelsModel("M7-", "M7- :Drop-out (30 days),"));
-                            spinner_M_LevelList.add(new LevelsModel("M7-JJ", "M7-JJ :Non Miles Jain Enrolled Candidates (30-60 days),"));
-                            spinner_M_LevelList.add(new LevelsModel("M7X", "M7X :Do Not Ever Call (NFD - Blank),"));
-                            //5
-                            spinner_M_LevelList.add(new LevelsModel("M7+", "M7+ :LMS demo completed (30-60 days),"));
-                            spinner_M_LevelList.add(new LevelsModel("M7#", "M7# :Onboarding Done (30-60 days),"));
-                            spinner_M_LevelList.add(new LevelsModel("M8", "M8 :Evaluation (30 days),"));
-                            //6
-                            spinner_M_LevelList.add(new LevelsModel("M8+", "M8+ :Exam Registration,"));
-                            //7
-                            spinner_M_LevelList.add(new LevelsModel("M8-", "M8- :Drop-out (after evaluation) (once every 3 months),"));
-                            //8
-                            spinner_M_LevelList.add(new LevelsModel("M9", "M9 : One exam cleared (30 days)"));
-                            spinner_M_LevelList.add(new LevelsModel("M9-", "M9- : Drop-out (after clearing an exam) (once every 3 months),"));
-                            //9
-                            spinner_M_LevelList.add(new LevelsModel("M10", "M10 : Alumini (30 days)"));
-                            //10
-                            spinner_M_LevelList.add(new LevelsModel("M7-IR", "M7-IR"));
-                            spinner_M_LevelList.add(new LevelsModel("M7-INT", "M7-INT"));
-                            spinner_M_LevelList.add(new LevelsModel("M7D1", "M7D1 : Defaulter,"));
-                            spinner_M_LevelList.add(new LevelsModel("M7D2", "M7D2 : Loan Defaulter,"));
-
-                            //1
-                            spinner_U_LevelList.add(new LevelsModel("U0", "U0 :Not interested in US/Canda"));
-                            spinner_U_LevelList.add(new LevelsModel("U1", "U1 :Interest expressed, dropped out"));
-                            spinner_U_LevelList.add(new LevelsModel("U1+", "U1+ :Interest expressed, yet to graduate"));
-                            spinner_U_LevelList.add(new LevelsModel("U2", "U2 :Interest expressed, in pipeline (warm)"));
-                            spinner_U_LevelList.add(new LevelsModel("U3-", "U3- :Postponed"));
-                            spinner_U_LevelList.add(new LevelsModel("U3", "U3 :Interest expressed, in pipeline (hot)"));
-                            spinner_U_LevelList.add(new LevelsModel("U3+", "U3+ :Zoom Attended(Very Hot)"));
-                            spinner_U_LevelList.add(new LevelsModel("U3++", "U3++ :Ready to Enroll"));
-                            //2
-                            spinner_U_LevelList.add(new LevelsModel("U5", "U5 :Visited and Very Interested"));
-                            spinner_U_LevelList.add(new LevelsModel("U6", "U6 :Visited and Ready to Enroll"));
-                            spinner_U_LevelList.add(new LevelsModel("U4", "U4 :Visited but Postpone/Not Interested"));
-                            //3
-                            spinner_U_LevelList.add(new LevelsModel("U7", "U7 :Enrolled (20k)"));
-                            //4
-                            spinner_U_LevelList.add(new LevelsModel("U7-", "U7- :Application initiated, dropped out"));
-                            spinner_U_LevelList.add(new LevelsModel("U7R", "U7R :Refunded 20k"));
-                            spinner_U_LevelList.add(new LevelsModel("U7+", "U7+ :Application Initiated"));
-                            spinner_U_LevelList.add(new LevelsModel("U8", "U8 :Application done, I-20 yet to be received"));
-                            spinner_U_LevelList.add(new LevelsModel("U8+", "U8+ :Conditional Offer Received"));
-                            spinner_U_LevelList.add(new LevelsModel("U9-", "U9- :I-20 received, Dropped Out"));
-                            spinner_U_LevelList.add(new LevelsModel("U9", "U9 :I 20 Rec. Yet to apply for Visa"));
-                            spinner_U_LevelList.add(new LevelsModel("U9+", "U9+ :I 20 Rec. Applied for Visa"));
-                            spinner_U_LevelList.add(new LevelsModel("U10-", "U10- :Visa Received But Dropped out"));
-                            spinner_U_LevelList.add(new LevelsModel("U10", "U10 :Visa Received "));
-                            spinner_U_LevelList.add(new LevelsModel("U11", "U11 :IIM Indore "));
-                            spinner_U_LevelList.add(new LevelsModel("U11+", "U11+ :Started program in USA "));
-                            spinner_U_LevelList.add(new LevelsModel("U12", "U12 :Completed program in USA "));
-
-                            appconpact_spinner_M_levels.setSelection(0);
-                            appconpact_spinner_U_levels.setSelection(0);
-
-                            appconpact_spinner_U_levels.setEnabled(true);
-                            appconpact_spinner_M_levels.setEnabled(true);
-                        }
 
 
-                        appconpact_spinner_U_levels.setEnabled(true);
-                        appconpact_spinner_M_levels.setEnabled(true);
-
-
-//            if (levels.equals("M7")) {
-//                spinnerLevelList.add(new LevelsModel("M7", "M7- Enrolled"));
-//            }
-//            if (levels.equals("M6") || levels.equals("L6")) {
-//                spinnerLevelList.add(new LevelsModel("M6", "M6 - Visited & Ready to Enroll"));
-//                spinnerLevelList.add(new LevelsModel("M5", "M5 - Visited & Positive"));
-//            }
-//            if (levels.equals("M5") || levels.equals("L5")) {
-//                spinnerLevelList.add(new LevelsModel("M5", "M5 - Visited & Positive"));
-//                spinnerLevelList.add(new LevelsModel("M4", "M4 - Visited but Postponed"));
+//                        if (Ulevel == null) {
+//                            //1
+//                            spinner_U_LevelList.add(new LevelsModel("U0", "U0 :Not interested in US/Canda"));
+//                            spinner_U_LevelList.add(new LevelsModel("U1", "U1 :Interest expressed, dropped out"));
 //
-//            }
-//            if (levels.equals("M4") || levels.equals("L4")) {
-//                spinnerLevelList.add(new LevelsModel("M4", "M4 - Visited but Postponed"));
-//                spinnerLevelList.add(new LevelsModel("M4-", "M4- - Visited but not interested"));
-//            }
-//            if (levels.equals("M4-") || levels.equals("L4-")) {
-//                spinnerLevelList.add(new LevelsModel("M4-", "M4- - Visited but not interested"));
-//                spinnerLevelList.add(new LevelsModel("M3+", "M3+ - Called & Coming"));
-//            }
-//            if (levels.equals("M3+") || levels.equals("L3+")) {
-//                spinnerLevelList.add(new LevelsModel("M3+", "M3+ - Called & Coming"));
-//                spinnerLevelList.add(new LevelsModel("M3", "M3 - Called & positive"));
-//            }
-//            if (levels.equals("M3") || levels.equals("L3")) {
-//                spinnerLevelList.add(new LevelsModel("M3", "M3 - Called & positive"));
-//                spinnerLevelList.add(new LevelsModel("M2", "M2 - Did not visit & Postponed"));
-//            }
-//            if (levels.equals("M2") || levels.equals("L2")) {
-//                spinnerLevelList.add(new LevelsModel("M2", "M2 - Did not visit & Postponed"));
-//                spinnerLevelList.add(new LevelsModel("M1", "M1 - Did not visit & not interested"));
-//            }
-//            if (levels.equals("M1") || levels.equals("L1")) {
-//                spinnerLevelList.add(new LevelsModel("M1", "M1 - Did not visit & not interested"));
-//            }
-
-
-                        if (Ulevel == null) {
-                            //1
-
-                            spinner_U_LevelList.add(new LevelsModel("U0", "U0 :Not interested in US/Canda"));
-                            spinner_U_LevelList.add(new LevelsModel("U1", "U1 :Interest expressed, dropped out"));
-
-                            spinner_U_LevelList.add(new LevelsModel("U1+", "U1+ :Interest expressed, yet to graduate"));
-
-                            spinner_U_LevelList.add(new LevelsModel("U2", "U2 :Interest expressed, in pipeline (warm)"));
-                            spinner_U_LevelList.add(new LevelsModel("U3-", "U3- :Postponed"));
-                            spinner_U_LevelList.add(new LevelsModel("U3", "U3 :Interest expressed, in pipeline (hot)"));
-                            spinner_U_LevelList.add(new LevelsModel("U3+", "U3+ :Zoom Attended(Very Hot)"));
-                            spinner_U_LevelList.add(new LevelsModel("U3++", "U3++ :Ready to Enroll"));
-                            //2
-                            spinner_U_LevelList.add(new LevelsModel("U5", "U5 :Visited and Very Interested"));
-                            spinner_U_LevelList.add(new LevelsModel("U6", "U6 :Visited and Ready to Enroll"));
-                            spinner_U_LevelList.add(new LevelsModel("U4", "U4 :Visited but Postpone/Not Interested"));
-                            //3
-                            spinner_U_LevelList.add(new LevelsModel("U7", "U7 :Enrolled (20k)"));
-                            //4
-                            spinner_U_LevelList.add(new LevelsModel("U7-", "U7- :Application initiated, dropped out"));
-                            spinner_U_LevelList.add(new LevelsModel("U7R", "U7R :Refunded 20k"));
-                            spinner_U_LevelList.add(new LevelsModel("U7+", "U7+ :Application Initiated"));
-                            spinner_U_LevelList.add(new LevelsModel("U8", "U8 :Application done, I-20 yet to be received"));
-                            spinner_U_LevelList.add(new LevelsModel("U8+", "U8+ :Conditional Offer Received"));
-                            spinner_U_LevelList.add(new LevelsModel("U9-", "U9- :I-20 received, Dropped Out"));
-                            spinner_U_LevelList.add(new LevelsModel("U9", "U9 :I 20 Rec. Yet to apply for Visa"));
-                            spinner_U_LevelList.add(new LevelsModel("U9+", "U9+ :I 20 Rec. Applied for Visa"));
-                            spinner_U_LevelList.add(new LevelsModel("U10-", "U10- :Visa Received But Dropped out"));
-                            spinner_U_LevelList.add(new LevelsModel("U10", "U10 :Visa Received "));
-                            spinner_U_LevelList.add(new LevelsModel("U11", "U11 :IIM Indore "));
-                            spinner_U_LevelList.add(new LevelsModel("U11+", "U11+ :Started program in USA "));
-                            spinner_U_LevelList.add(new LevelsModel("U12", "U12 :Completed program in USA "));
-
-                        } else {
-                            if (Ulevel.equals("U0") || (Ulevel.equals("U1")) || (Ulevel.equals("U2")) || (Ulevel.equals("U3-")) ||
-                                    (Ulevel.equals("U3")) || (Ulevel.equals("U3+")) || (Ulevel.equals("U3++"))) {
-                                spinner_U_LevelList = new ArrayList<>();
-                                if (spinner_U_LevelList != null) {
-//                    spinner_U_LevelList.clear();
-                                }
-                                //1
-
-                                spinner_U_LevelList.add(new LevelsModel("U0", "U0 :Not interested in US/Canda"));
-                                spinner_U_LevelList.add(new LevelsModel("U1", "U1 :Interest expressed, dropped out"));
-
-                                spinner_U_LevelList.add(new LevelsModel("U1+", "U1+ :Interest expressed, yet to graduate"));
-
-                                spinner_U_LevelList.add(new LevelsModel("U2", "U2 :Interest expressed, in pipeline (warm)"));
-                                spinner_U_LevelList.add(new LevelsModel("U3-", "U3- :Postponed"));
-                                spinner_U_LevelList.add(new LevelsModel("U3", "U3 :Interest expressed, in pipeline (hot)"));
-                                spinner_U_LevelList.add(new LevelsModel("U3+", "U3+ :Zoom Attended(Very Hot)"));
-                                spinner_U_LevelList.add(new LevelsModel("U3++", "U3++ :Ready to Enroll"));
-                                //2
-                                spinner_U_LevelList.add(new LevelsModel("U5", "U5 :Visited and Very Interested"));
-                                spinner_U_LevelList.add(new LevelsModel("U6", "U6 :Visited and Ready to Enroll"));
-                                spinner_U_LevelList.add(new LevelsModel("U4", "U4 :Visited but Postpone/Not Interested"));
-                                //3
-                                spinner_U_LevelList.add(new LevelsModel("U7", "U7 :Enrolled (20k)"));
-                                //4
-                                spinner_U_LevelList.add(new LevelsModel("U7-", "U7- :Application initiated, dropped out"));
-                                spinner_U_LevelList.add(new LevelsModel("U7R", "U7R :Refunded 20k"));
-                                spinner_U_LevelList.add(new LevelsModel("U7+", "U7+ :Application Initiated"));
-                                spinner_U_LevelList.add(new LevelsModel("U8", "U8 :Application done, I-20 yet to be received"));
-                                spinner_U_LevelList.add(new LevelsModel("U8+", "U8+ :Conditional Offer Received"));
-                                spinner_U_LevelList.add(new LevelsModel("U9-", "U9- :I-20 received, Dropped Out"));
-                                spinner_U_LevelList.add(new LevelsModel("U9", "U9 :I 20 Rec. Yet to apply for Visa"));
-                                spinner_U_LevelList.add(new LevelsModel("U9+", "U9+ :I 20 Rec. Applied for Visa"));
-                                spinner_U_LevelList.add(new LevelsModel("U10-", "U10- :Visa Received But Dropped out"));
-                                spinner_U_LevelList.add(new LevelsModel("U10", "U10 :Visa Received "));
-                                spinner_U_LevelList.add(new LevelsModel("U11", "U11 :IIM Indore "));
-                                spinner_U_LevelList.add(new LevelsModel("U11+", "U11+ :Started program in USA "));
-                                spinner_U_LevelList.add(new LevelsModel("U12", "U12 :Completed program in USA "));
-                            }
-                            if (Ulevel.equals("U5") || (Ulevel.equals("U6")) || (Ulevel.equals("U4"))) {
-                                spinner_U_LevelList = new ArrayList<>();
-                                if (spinner_U_LevelList != null) {
-//                    spinner_U_LevelList.clear();
-                                }
-
-                                //2
-
-
-                                spinner_U_LevelList.add(new LevelsModel("U5", "U5 :Visited and Very Interested"));
-                                spinner_U_LevelList.add(new LevelsModel("U6", "U6 :Visited and Ready to Enroll"));
-                                spinner_U_LevelList.add(new LevelsModel("U4", "U4 :Visited but Postpone/Not Interested"));
-                                //3
-                                spinner_U_LevelList.add(new LevelsModel("U7", "U7 :Enrolled (20k)"));
-                                //4
-                                spinner_U_LevelList.add(new LevelsModel("U7-", "U7- :Application initiated, dropped out"));
-                                spinner_U_LevelList.add(new LevelsModel("U7R", "U7R :Refunded 20k"));
-                                spinner_U_LevelList.add(new LevelsModel("U7+", "U7+ :Application Initiated"));
-                                spinner_U_LevelList.add(new LevelsModel("U8", "U8 :Application done, I-20 yet to be received"));
-                                spinner_U_LevelList.add(new LevelsModel("U8+", "U8+ :Conditional Offer Received"));
-                                spinner_U_LevelList.add(new LevelsModel("U9-", "U9- :I-20 received, Dropped Out"));
-                                spinner_U_LevelList.add(new LevelsModel("U9", "U9 :I 20 Rec. Yet to apply for Visa"));
-                                spinner_U_LevelList.add(new LevelsModel("U9+", "U9+ :I 20 Rec. Applied for Visa"));
-                                spinner_U_LevelList.add(new LevelsModel("U10-", "U10- :Visa Received But Dropped out"));
-                                spinner_U_LevelList.add(new LevelsModel("U10", "U10 :Visa Received "));
-                                spinner_U_LevelList.add(new LevelsModel("U11", "U11 :IIM Indore "));
-                                spinner_U_LevelList.add(new LevelsModel("U11+", "U11+ :Started program in USA "));
-                                spinner_U_LevelList.add(new LevelsModel("U12", "U12 :Completed program in USA "));
-                            }
-                            if (Ulevel.equals("U7")) {
-                                spinner_U_LevelList = new ArrayList<>();
-                                if (spinner_U_LevelList != null) {
-//                    spinner_U_LevelList.clear();
-                                }
-
-                                //3
-
-                                spinner_U_LevelList.add(new LevelsModel("U7", "U7 :Enrolled (20k)"));
-                                //4
-                                spinner_U_LevelList.add(new LevelsModel("U7-", "U7- :Application initiated, dropped out"));
-                                spinner_U_LevelList.add(new LevelsModel("U7R", "U7R :Refunded 20k"));
-                                spinner_U_LevelList.add(new LevelsModel("U7+", "U7+ :Application Initiated"));
-                                spinner_U_LevelList.add(new LevelsModel("U8", "U8 :Application done, I-20 yet to be received"));
-                                spinner_U_LevelList.add(new LevelsModel("U8+", "U8+ :Conditional Offer Received"));
-                                spinner_U_LevelList.add(new LevelsModel("U9-", "U9- :I-20 received, Dropped Out"));
-                                spinner_U_LevelList.add(new LevelsModel("U9", "U9 :I 20 Rec. Yet to apply for Visa"));
-                                spinner_U_LevelList.add(new LevelsModel("U9+", "U9+ :I 20 Rec. Applied for Visa"));
-                                spinner_U_LevelList.add(new LevelsModel("U10-", "U10- :Visa Received But Dropped out"));
-                                spinner_U_LevelList.add(new LevelsModel("U10", "U10 :Visa Received "));
-                                spinner_U_LevelList.add(new LevelsModel("U11", "U11 :IIM Indore "));
-                                spinner_U_LevelList.add(new LevelsModel("U11+", "U11+ :Started program in USA "));
-                                spinner_U_LevelList.add(new LevelsModel("U12", "U12 :Completed program in USA "));
-                            }
-                            if (Ulevel.equals("U7-") || (Ulevel.equals("U7R")) || (Ulevel.equals("U7+")) || (Ulevel.equals("U8")) || (Ulevel.equals("U8+"))
-                                    || (Ulevel.equals("U9-")) || (Ulevel.equals("U9")) || (Ulevel.equals("U9+")) || (Ulevel.equals("U10-")) || (Ulevel.equals("U10"))
-                                    || (Ulevel.equals("U11")) || (Ulevel.equals("U11+")) || (Ulevel.equals("U12")) || (Ulevel.equals("U4R"))) {
-                                spinner_U_LevelList = new ArrayList<>();
-                                if (spinner_U_LevelList != null) {
-//                    spinner_U_LevelList.clear();
-                                }
-                                //4
-                                spinner_U_LevelList.add(new LevelsModel("U7-", "U7- :Application initiated, dropped out"));
-                                spinner_U_LevelList.add(new LevelsModel("U7R", "U7R :Refunded 20k"));
-                                spinner_U_LevelList.add(new LevelsModel("U7+", "U7+ :Application Initiated"));
-                                spinner_U_LevelList.add(new LevelsModel("U8", "U8 :Application done, I-20 yet to be received"));
-                                spinner_U_LevelList.add(new LevelsModel("U8+", "U8+ :Conditional Offer Received"));
-                                spinner_U_LevelList.add(new LevelsModel("U9-", "U9- :I-20 received, Dropped Out"));
-                                spinner_U_LevelList.add(new LevelsModel("U9", "U9 :I 20 Rec. Yet to apply for Visa"));
-                                spinner_U_LevelList.add(new LevelsModel("U9+", "U9+ :I 20 Rec. Applied for Visa"));
-                                spinner_U_LevelList.add(new LevelsModel("U10-", "U10- :Visa Received But Dropped out"));
-                                spinner_U_LevelList.add(new LevelsModel("U10", "U10 :Visa Received "));
-                                spinner_U_LevelList.add(new LevelsModel("U11", "U11 :IIM Indore "));
-                                spinner_U_LevelList.add(new LevelsModel("U11+", "U11+ :Started program in USA "));
-                                spinner_U_LevelList.add(new LevelsModel("U12", "U12 :Completed program in USA "));
-
-                            }
-                        }
-
+//                            spinner_U_LevelList.add(new LevelsModel("U1+", "U1+ :Interest expressed, yet to graduate"));
+//
+//                            spinner_U_LevelList.add(new LevelsModel("U2", "U2 :Interest expressed, in pipeline (warm)"));
+//                            spinner_U_LevelList.add(new LevelsModel("U3-", "U3- :Postponed"));
+//                            spinner_U_LevelList.add(new LevelsModel("U3", "U3 :Interest expressed, in pipeline (hot)"));
+//                            spinner_U_LevelList.add(new LevelsModel("U3+", "U3+ :Zoom Attended(Very Hot)"));
+//                            spinner_U_LevelList.add(new LevelsModel("U3++", "U3++ :Ready to Enroll"));
+//                            //2
+//                            spinner_U_LevelList.add(new LevelsModel("U5", "U5 :Visited and Very Interested"));
+//                            spinner_U_LevelList.add(new LevelsModel("U6", "U6 :Visited and Ready to Enroll"));
+//                            spinner_U_LevelList.add(new LevelsModel("U4", "U4 :Visited but Postpone/Not Interested"));
+//                            //3
+//                            spinner_U_LevelList.add(new LevelsModel("U7", "U7 :Enrolled (20k)"));
+//                            //4
+//                            spinner_U_LevelList.add(new LevelsModel("U7-", "U7- :Application initiated, dropped out"));
+//                            spinner_U_LevelList.add(new LevelsModel("U7R", "U7R :Refunded 20k"));
+//                            spinner_U_LevelList.add(new LevelsModel("U7+", "U7+ :Application Initiated"));
+//                            spinner_U_LevelList.add(new LevelsModel("U8", "U8 :Application done, I-20 yet to be received"));
+//                            spinner_U_LevelList.add(new LevelsModel("U8+", "U8+ :Conditional Offer Received"));
+//                            spinner_U_LevelList.add(new LevelsModel("U9-", "U9- :I-20 received, Dropped Out"));
+//                            spinner_U_LevelList.add(new LevelsModel("U9", "U9 :I 20 Rec. Yet to apply for Visa"));
+//                            spinner_U_LevelList.add(new LevelsModel("U9+", "U9+ :I 20 Rec. Applied for Visa"));
+//                            spinner_U_LevelList.add(new LevelsModel("U10-", "U10- :Visa Received But Dropped out"));
+//                            spinner_U_LevelList.add(new LevelsModel("U10", "U10 :Visa Received "));
+//                            spinner_U_LevelList.add(new LevelsModel("U11", "U11 :IIM Indore "));
+//                            spinner_U_LevelList.add(new LevelsModel("U11+", "U11+ :Started program in USA "));
+//                            spinner_U_LevelList.add(new LevelsModel("U12", "U12 :Completed program in USA "));
+//
+//                        } else {
+//                            if (Ulevel.equals("U0") || (Ulevel.equals("U1")) || (Ulevel.equals("U2")) || (Ulevel.equals("U3-")) ||
+//                                    (Ulevel.equals("U3")) || (Ulevel.equals("U3+")) || (Ulevel.equals("U3++"))) {
+//                                spinner_U_LevelList = new ArrayList<>();
+//                                if (spinner_U_LevelList != null) {
+////                    spinner_U_LevelList.clear();
+//                                }
+//                                //1
+//
+//                                spinner_U_LevelList.add(new LevelsModel("U0", "U0 :Not interested in US/Canda"));
+//                                spinner_U_LevelList.add(new LevelsModel("U1", "U1 :Interest expressed, dropped out"));
+//
+//                                spinner_U_LevelList.add(new LevelsModel("U1+", "U1+ :Interest expressed, yet to graduate"));
+//
+//                                spinner_U_LevelList.add(new LevelsModel("U2", "U2 :Interest expressed, in pipeline (warm)"));
+//                                spinner_U_LevelList.add(new LevelsModel("U3-", "U3- :Postponed"));
+//                                spinner_U_LevelList.add(new LevelsModel("U3", "U3 :Interest expressed, in pipeline (hot)"));
+//                                spinner_U_LevelList.add(new LevelsModel("U3+", "U3+ :Zoom Attended(Very Hot)"));
+//                                spinner_U_LevelList.add(new LevelsModel("U3++", "U3++ :Ready to Enroll"));
+//                                //2
+//                                spinner_U_LevelList.add(new LevelsModel("U5", "U5 :Visited and Very Interested"));
+//                                spinner_U_LevelList.add(new LevelsModel("U6", "U6 :Visited and Ready to Enroll"));
+//                                spinner_U_LevelList.add(new LevelsModel("U4", "U4 :Visited but Postpone/Not Interested"));
+//                                //3
+//                                spinner_U_LevelList.add(new LevelsModel("U7", "U7 :Enrolled (20k)"));
+//                                //4
+//                                spinner_U_LevelList.add(new LevelsModel("U7-", "U7- :Application initiated, dropped out"));
+//                                spinner_U_LevelList.add(new LevelsModel("U7R", "U7R :Refunded 20k"));
+//                                spinner_U_LevelList.add(new LevelsModel("U7+", "U7+ :Application Initiated"));
+//                                spinner_U_LevelList.add(new LevelsModel("U8", "U8 :Application done, I-20 yet to be received"));
+//                                spinner_U_LevelList.add(new LevelsModel("U8+", "U8+ :Conditional Offer Received"));
+//                                spinner_U_LevelList.add(new LevelsModel("U9-", "U9- :I-20 received, Dropped Out"));
+//                                spinner_U_LevelList.add(new LevelsModel("U9", "U9 :I 20 Rec. Yet to apply for Visa"));
+//                                spinner_U_LevelList.add(new LevelsModel("U9+", "U9+ :I 20 Rec. Applied for Visa"));
+//                                spinner_U_LevelList.add(new LevelsModel("U10-", "U10- :Visa Received But Dropped out"));
+//                                spinner_U_LevelList.add(new LevelsModel("U10", "U10 :Visa Received "));
+//                                spinner_U_LevelList.add(new LevelsModel("U11", "U11 :IIM Indore "));
+//                                spinner_U_LevelList.add(new LevelsModel("U11+", "U11+ :Started program in USA "));
+//                                spinner_U_LevelList.add(new LevelsModel("U12", "U12 :Completed program in USA "));
+//                            }
+//                            if (Ulevel.equals("U5") || (Ulevel.equals("U6")) || (Ulevel.equals("U4"))) {
+//                                spinner_U_LevelList = new ArrayList<>();
+//                                if (spinner_U_LevelList != null) {
+////                    spinner_U_LevelList.clear();
+//                                }
+//
+//                                //2
+//
+//
+//                                spinner_U_LevelList.add(new LevelsModel("U5", "U5 :Visited and Very Interested"));
+//                                spinner_U_LevelList.add(new LevelsModel("U6", "U6 :Visited and Ready to Enroll"));
+//                                spinner_U_LevelList.add(new LevelsModel("U4", "U4 :Visited but Postpone/Not Interested"));
+//                                //3
+//                                spinner_U_LevelList.add(new LevelsModel("U7", "U7 :Enrolled (20k)"));
+//                                //4
+//                                spinner_U_LevelList.add(new LevelsModel("U7-", "U7- :Application initiated, dropped out"));
+//                                spinner_U_LevelList.add(new LevelsModel("U7R", "U7R :Refunded 20k"));
+//                                spinner_U_LevelList.add(new LevelsModel("U7+", "U7+ :Application Initiated"));
+//                                spinner_U_LevelList.add(new LevelsModel("U8", "U8 :Application done, I-20 yet to be received"));
+//                                spinner_U_LevelList.add(new LevelsModel("U8+", "U8+ :Conditional Offer Received"));
+//                                spinner_U_LevelList.add(new LevelsModel("U9-", "U9- :I-20 received, Dropped Out"));
+//                                spinner_U_LevelList.add(new LevelsModel("U9", "U9 :I 20 Rec. Yet to apply for Visa"));
+//                                spinner_U_LevelList.add(new LevelsModel("U9+", "U9+ :I 20 Rec. Applied for Visa"));
+//                                spinner_U_LevelList.add(new LevelsModel("U10-", "U10- :Visa Received But Dropped out"));
+//                                spinner_U_LevelList.add(new LevelsModel("U10", "U10 :Visa Received "));
+//                                spinner_U_LevelList.add(new LevelsModel("U11", "U11 :IIM Indore "));
+//                                spinner_U_LevelList.add(new LevelsModel("U11+", "U11+ :Started program in USA "));
+//                                spinner_U_LevelList.add(new LevelsModel("U12", "U12 :Completed program in USA "));
+//                            }
+//                            if (Ulevel.equals("U7")) {
+//                                spinner_U_LevelList = new ArrayList<>();
+//                                if (spinner_U_LevelList != null) {
+////                    spinner_U_LevelList.clear();
+//                                }
+//
+//                                //3
+//
+//                                spinner_U_LevelList.add(new LevelsModel("U7", "U7 :Enrolled (20k)"));
+//                                //4
+//                                spinner_U_LevelList.add(new LevelsModel("U7-", "U7- :Application initiated, dropped out"));
+//                                spinner_U_LevelList.add(new LevelsModel("U7R", "U7R :Refunded 20k"));
+//                                spinner_U_LevelList.add(new LevelsModel("U7+", "U7+ :Application Initiated"));
+//                                spinner_U_LevelList.add(new LevelsModel("U8", "U8 :Application done, I-20 yet to be received"));
+//                                spinner_U_LevelList.add(new LevelsModel("U8+", "U8+ :Conditional Offer Received"));
+//                                spinner_U_LevelList.add(new LevelsModel("U9-", "U9- :I-20 received, Dropped Out"));
+//                                spinner_U_LevelList.add(new LevelsModel("U9", "U9 :I 20 Rec. Yet to apply for Visa"));
+//                                spinner_U_LevelList.add(new LevelsModel("U9+", "U9+ :I 20 Rec. Applied for Visa"));
+//                                spinner_U_LevelList.add(new LevelsModel("U10-", "U10- :Visa Received But Dropped out"));
+//                                spinner_U_LevelList.add(new LevelsModel("U10", "U10 :Visa Received "));
+//                                spinner_U_LevelList.add(new LevelsModel("U11", "U11 :IIM Indore "));
+//                                spinner_U_LevelList.add(new LevelsModel("U11+", "U11+ :Started program in USA "));
+//                                spinner_U_LevelList.add(new LevelsModel("U12", "U12 :Completed program in USA "));
+//                            }
+//                            if (Ulevel.equals("U7-") || (Ulevel.equals("U7R")) || (Ulevel.equals("U7+")) || (Ulevel.equals("U8")) || (Ulevel.equals("U8+"))
+//                                    || (Ulevel.equals("U9-")) || (Ulevel.equals("U9")) || (Ulevel.equals("U9+")) || (Ulevel.equals("U10-")) || (Ulevel.equals("U10"))
+//                                    || (Ulevel.equals("U11")) || (Ulevel.equals("U11+")) || (Ulevel.equals("U12")) || (Ulevel.equals("U4R"))) {
+//                                spinner_U_LevelList = new ArrayList<>();
+//                                if (spinner_U_LevelList != null) {
+////                    spinner_U_LevelList.clear();
+//                                }
+//                                //4
+//                                spinner_U_LevelList.add(new LevelsModel("U7-", "U7- :Application initiated, dropped out"));
+//                                spinner_U_LevelList.add(new LevelsModel("U7R", "U7R :Refunded 20k"));
+//                                spinner_U_LevelList.add(new LevelsModel("U7+", "U7+ :Application Initiated"));
+//                                spinner_U_LevelList.add(new LevelsModel("U8", "U8 :Application done, I-20 yet to be received"));
+//                                spinner_U_LevelList.add(new LevelsModel("U8+", "U8+ :Conditional Offer Received"));
+//                                spinner_U_LevelList.add(new LevelsModel("U9-", "U9- :I-20 received, Dropped Out"));
+//                                spinner_U_LevelList.add(new LevelsModel("U9", "U9 :I 20 Rec. Yet to apply for Visa"));
+//                                spinner_U_LevelList.add(new LevelsModel("U9+", "U9+ :I 20 Rec. Applied for Visa"));
+//                                spinner_U_LevelList.add(new LevelsModel("U10-", "U10- :Visa Received But Dropped out"));
+//                                spinner_U_LevelList.add(new LevelsModel("U10", "U10 :Visa Received "));
+//                                spinner_U_LevelList.add(new LevelsModel("U11", "U11 :IIM Indore "));
+//                                spinner_U_LevelList.add(new LevelsModel("U11+", "U11+ :Started program in USA "));
+//                                spinner_U_LevelList.add(new LevelsModel("U12", "U12 :Completed program in USA "));
+//
+//                            }
+//                        }
 
 
                     } else if (SELECTED_STATUS.equals("Busy") || (SELECTED_STATUS.equals("Not Lifting"))
                             || (SELECTED_STATUS.equals("Not Reachable")) || (SELECTED_STATUS.equals("Connected / Busy"))
-                            || (SELECTED_STATUS.equals("Disconnected")) || (SELECTED_STATUS.equals("Invalid Number")) || (SELECTED_STATUS.equals("Switched Off")) || (SELECTED_STATUS.equals(" ")) || (SELECTED_STATUS.equals("Connected / Never call back")) || (SELECTED_STATUS.equals("Connected / Wrong number")) || (SELECTED_STATUS.equals("Connected / Not Interested")) ) {
-//
+                            || (SELECTED_STATUS.equals("Disconnected")) || (SELECTED_STATUS.equals("Invalid Number"))
+                            || (SELECTED_STATUS.equals("Switched Off")) || (SELECTED_STATUS.equals(" "))
+                            || (SELECTED_STATUS.equals("Connected / Never call back")) ||
+                            (SELECTED_STATUS.equals("Connected / Wrong number")) ||
+                            (SELECTED_STATUS.equals("Connected / Not Interested")) || (SELECTED_STATUS.equals("Communication barrier"))
+                            || (SELECTED_STATUS.equals("Not Educated"))) {
+
                         interested_Layout.setEnabled(false);
                         appconpact_spinner_interested_working.setEnabled(false);
                         looking_job.setEnabled(false);
+                        date_picker_.setEnabled(false);
+
                         appconpact_spinner_M_levels.setSelection(0);
                         appconpact_spinner_U_levels.setSelection(0);
-
                         appconpact_spinner_U_levels.setEnabled(false);
                         appconpact_spinner_M_levels.setEnabled(false);
-
                         appconpact_spinner_looking_job.setEnabled(false);
                         appconpact_spinner_graduation_Year.setEnabled(false);
                         edt_current_location.setEnabled(false);
@@ -2274,7 +2444,6 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
                         CoursesData = courses;
                     } else {
                         engagement_main_form.setVisibility(View.GONE);
-
                         //Gone
                         level_layout_.setVisibility(View.VISIBLE);
                         invite_webinar.setVisibility(View.GONE);
@@ -2783,6 +2952,8 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
         textview_header = dialog.findViewById(R.id.textview_header);
         textview_header.setText(user_name + " - " + m_levels);
         appconpact_spinner_M_levels = dialog.findViewById(R.id.appconpact_spinner_levels_visit);
+        appconpact_spinner_U_levels = dialog.findViewById(R.id.appconpact_spinner_U_levels);
+
         cpaCheckbox = dialog.findViewById(R.id.cpa_checked);
         cmaCheckbox = dialog.findViewById(R.id.cma_checked);
         iimlfa_checked = dialog.findViewById(R.id.iimlfa_checked);
@@ -2871,7 +3042,7 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
             iimlsf_checked.setChecked(true);
         }
         if (courses.contains("USP")) {
-            USP_checked.setChecked(true);
+            if (USP_checked != null) USP_checked.setChecked(true);
         }
         if (courses.contains("CFA")) {
             CFA_checked.setChecked(true);
@@ -2904,8 +3075,14 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
         });
         levelsCustomAdapter = new LevelsCustomAdapter(getContext(), R.layout.listitems_layout, R.id.levels_items, spinnerLevelListvisit);
         appconpact_spinner_M_levels.setAdapter(levelsCustomAdapter);
-        levelsCustomAdapter = new LevelsCustomAdapter(getContext(), R.layout.listitems_layout, R.id.levels_items, spinnerLevelListvisit);
-        appconpact_spinner_U_levels.setAdapter(levelsCustomAdapter);
+        levelsCustomAdapter.notifyDataSetChanged();
+
+        if (appconpact_spinner_U_levels != null) {
+            levelsCustomAdapter = new LevelsCustomAdapter(getContext(), R.layout.listitems_layout, R.id.levels_items, spinnerLevelListvisit);
+            appconpact_spinner_U_levels.setAdapter(levelsCustomAdapter);
+            levelsCustomAdapter.notifyDataSetChanged();
+        }
+
         appconpact_spinner_M_levels.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -3671,6 +3848,121 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
 //            }
 //        });
 //    }
+
+//    private void getEngagementData(String accessToken, int person_id) {
+//        historyModelArrayList = new ArrayList<>();
+//        apiClient.getPersonengagement(page, person_id, "Bearer " + accessToken, "application/json").enqueue(new Callback<EngagemmentHistoryModel>() {
+//            @Override
+//            public void onResponse(Call<EngagemmentHistoryModel> call, Response<EngagemmentHistoryModel> response) {
+//                try {
+//                    if (response.body() == null) {
+//                        int statusCode = response.raw().code();
+//                        if (statusCode > 399 && statusCode < 500) {
+//                            SessionLogout(getContext());
+//                        }
+//                    } else {
+//                        List<HistoryModel> getHistoryModelList = response.body().getData();
+//                        for (int i = 0; i < getHistoryModelList.size(); i++) {
+//                            HistoryModel historyModel = new HistoryModel();
+//                            historyModel.setAdded_by_name(getHistoryModelList.get(i).getAdded_by_name());
+//                            historyModel.setDetails(getHistoryModelList.get(i).getDetails());
+//                            historyModel.setLast_call(getHistoryModelList.get(i).getCreated_at());
+//
+//                            historyModelArrayList.add(historyModel);
+//                        }
+//                        historyAdapter = new HistoryAdapter(getContext(), historyModelArrayList);
+//                        HistoryRecyclerView.setAdapter(historyAdapter);
+//                        historyAdapter.notifyDataSetChanged();
+//
+////                        appconpact_spinner_interested_working.setSelection();
+//
+//                    }
+//                } catch (Exception e) {
+//
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<EngagemmentHistoryModel> call, Throwable t) {
+//
+//            }
+//        });
+//    }
+
+    private void getCandidatePersonaDetails(String accessToken, int person_id) {
+        historyModelArrayList = new ArrayList<>();
+        commanApiClient.getCandidatePersonaDetails(person_id, "Bearer " + accessToken, "application/json").enqueue(new Callback<CandidatePersonaDetailsModel>() {
+            @Override
+            public void onResponse(Call<CandidatePersonaDetailsModel> call, Response<CandidatePersonaDetailsModel> response) {
+                try {
+                    if (response.body() == null) {
+                        int statusCode = response.raw().code();
+                        if (statusCode > 399 && statusCode < 500) {
+                            SessionLogout(getContext());
+                        }
+                    } else {
+                        CandidatePersonaDetailsModel candidatePersonaDetailsModel = response.body();
+
+                        if (candidatePersonaDetailsModel.getPathwayValue() != null) {
+                            for (int i = 0; i < spinner_interested_workingArrayList.size(); i++) {
+                                if (spinner_interested_workingArrayList.get(i).contains(candidatePersonaDetailsModel.getPathwayValue())) {
+                                    appconpact_spinner_interested_working.setSelection(i);
+                                    break;
+                                }
+                            }
+
+                        }
+                        if (candidatePersonaDetailsModel.getPlacementAssistance() != null) {
+                            for (int i = 0; i < spinnerLookingJob_workingArrayList.size(); i++) {
+                                if (spinnerLookingJob_workingArrayList.get(i).contains(candidatePersonaDetailsModel.getPathwayValue())) {
+                                    appconpact_spinner_looking_job.setSelection(i);
+                                    break;
+                                }
+                            }
+                        }
+
+                        int thisYear = Calendar.getInstance().get(Calendar.YEAR);
+                        for (int i = thisYear + 3; i >= 1995; i--) {
+                            years.add("");
+                            years.add(Integer.toString(i));
+                        }
+                        if (candidatePersonaDetailsModel.getGraduationYear() != null) {
+                            for (int i = 0; i < years.size(); i++) {
+                                if (years.get(i).contains(candidatePersonaDetailsModel.getGraduationYear())) {
+                                    appconpact_spinner_graduation_Year.setSelection(i);
+                                    break;
+                                }
+                            }
+                        }
+
+//                        if (candidatePersonaDetailsModel.getIndianProfessionalQualification() != null) {
+//                            StringBuilder stringBuilder = new StringBuilder();
+//                            for (int i = 0; i < select_Indian_professional_Qualification.length; i++) {
+//                                if (Arrays.asList(select_Indian_professional_Qualification).get(i).contains(candidatePersonaDetailsModel.getIndianProfessionalQualification())) {
+//                                    stringBuilder.append(select_Indian_professional_Qualification[indianProfessionalLangList.get(i)]);
+//                                    break;
+//                                }
+//                            }
+//                        }
+
+
+                        company_Name.setText(candidatePersonaDetailsModel.getCompany());
+                        work_Experience.setText(candidatePersonaDetailsModel.getYearsOfExperience());
+
+                    }
+                } catch (Exception e) {
+
+                }
+            }
+
+
+            @Override
+            public void onFailure(Call<CandidatePersonaDetailsModel> call, Throwable t) {
+                Log.d("onFailure", t.getMessage());
+            }
+        });
+    }
+
 
 }
 

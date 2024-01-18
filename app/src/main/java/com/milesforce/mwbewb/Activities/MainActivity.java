@@ -1,5 +1,6 @@
 package com.milesforce.mwbewb.Activities;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -159,7 +160,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     RadioGroup radioGroupForReference;
     LinearLayout referal, direct, referal_layout, reference_layout_spinner, corporate_company;
     AppCompatSpinner ewbspinner, mwbspinner, M_levels_spinner, U_levels_spinner, city_spinner, direct_spinner, milesSpos_spinner, appconpact_spinner_connectionstatus;
+    ArrayList<LevelsModel> spinner_M_LevelList;
     EditText direct_reference;
+
     ArrayList<String> levelsArrayList = new ArrayList<>();
     ArrayList<String> ewbArraylist = new ArrayList<>();
     ArrayList<String> mwbArrayList = new ArrayList<>();
@@ -406,7 +409,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ArrayList<String> spinnerLookingJob_workingArrayList = new ArrayList<String>();
 
 
-    EditText work_Ex_profiling, company_Name, work_Experience,edt_current_location;
+    EditText work_Ex_profiling, company_Name, work_Experience, edt_current_location;
     LinearLayout current_location;
     TextView indian_Professional, global_Professional_Qualification, ug_Graduate_Qualification, pg_Graduate_Qualification;
     boolean[] selectedIndian_Professional, selectGlobal_Professional, selectUG_Graduate_Qualification, selectPG_Graduate_Qualification;
@@ -519,14 +522,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        spinnerLevelList.add(new LevelsModel("M2", "M2 - Did not visit & postponed"));
 //        spinnerLevelList.add(new LevelsModel("M1", "M1 - Did not visit & not intersted"));
 
-    final String[] mLevelList = {
-            " ",
-            "M3++ - Ready to enroll - Not visited",
-            "M3+ - Called & Coming",
-            "M3 - Called & positive",
-            "M2 - Did not visit & postponed",
-            "M1 - Did not visit & not intersted",
-    };
+//    final String[] mLevelList = {
+//            " ",
+//            "M3++ - Ready to enroll - Not visited",
+//            "M3+ - Called & Coming",
+//            "M3 - Called & positive",
+//            "M2 - Did not visit & postponed",
+//            "M1 - Did not visit & not intersted",
+//    };
 //    narendra.podugu@serialxtech.com
 //    Podugu@1
 
@@ -552,6 +555,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         getUtilizationData(accessToken);
         InterestedWorkingArrayList();
         LookingJobWorkingArrayList();
+        CustomDataPOints();
 
         if (realm.where(UserToken.class).findFirst() != null) {
             userToken = realm.where(UserToken.class).findFirst();
@@ -585,17 +589,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         }
 
-        spinnerLevelList = new ArrayList<>();
+//        spinnerLevelList = new ArrayList<>();
        /* spinnerLevelList.add(new LevelsModel("M6", "M6 - Visited & Ready to Enroll"));
         spinnerLevelList.add(new LevelsModel("M5", "M5 - Visited & Positive"));
         spinnerLevelList.add(new LevelsModel("M4", "M4 - Visited but not interested"));
         spinnerLevelList.add(new LevelsModel("M4-", "M4- - Visited but not interested"));
         spinnerLevelList.add(new LevelsModel("M3+", "M3+ - Called & Coming"));*/
-        spinnerLevelList.add(new LevelsModel("M3++", "M3++ - Ready to enroll - Not visited"));
-        spinnerLevelList.add(new LevelsModel("M3+", "M3+ - Called & Coming"));
-        spinnerLevelList.add(new LevelsModel("M3", "M3 - Called & positive"));
-        spinnerLevelList.add(new LevelsModel("M2", "M2 - Did not visit & postponed"));
-        spinnerLevelList.add(new LevelsModel("M1", "M1 - Did not visit & not intersted"));
+//        spinnerLevelList.add(new LevelsModel("M3++", "M3++ - Ready to enroll - Not visited"));
+//        spinnerLevelList.add(new LevelsModel("M3+", "M3+ - Called & Coming"));
+//        spinnerLevelList.add(new LevelsModel("M3", "M3 - Called & positive"));
+//        spinnerLevelList.add(new LevelsModel("M2", "M2 - Did not visit & postponed"));
+//        spinnerLevelList.add(new LevelsModel("M1", "M1 - Did not visit & not intersted"));
 
       /*  spinnerLevelList.add(new LevelsModel("M2", "M2 - Did not visit & Postponed"));
         spinnerLevelList.add(new LevelsModel("M1", "M1 - Did not visit & not interested"));*/
@@ -670,17 +674,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         milesSpos_spinnerArrayList.add("Vikas Khosla");
 
 
-        ConnectionTypeArrayList.add("Connected / Busy");
-        ConnectionTypeArrayList.add("Connected / Discussed");
-        ConnectionTypeArrayList.add("Connected / Never call back");
-        ConnectionTypeArrayList.add("Connected / Wrong number");
-        ConnectionTypeArrayList.add("Connected / Not interested");
-        ConnectionTypeArrayList.add("Busy");
-        ConnectionTypeArrayList.add("Not Lifting");
-        ConnectionTypeArrayList.add("Not Reachable");
-        ConnectionTypeArrayList.add("Disconnected");
-        ConnectionTypeArrayList.add("Invalid Number");
-        ConnectionTypeArrayList.add("Switched Off");
 
 
 
@@ -708,6 +701,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
     }
+
+    private void CustomDataPOints() {
+        ConnectionTypeArrayList = new ArrayList<>();
+        ConnectionTypeArrayList.add("Connected / Busy");
+        ConnectionTypeArrayList.add("Connected / Discussed");
+        ConnectionTypeArrayList.add("Connected / Never call back");
+        ConnectionTypeArrayList.add("Connected / Wrong number");
+        ConnectionTypeArrayList.add("Connected / Not Interested");
+        ConnectionTypeArrayList.add("Busy");
+        ConnectionTypeArrayList.add("Not Lifting");
+        ConnectionTypeArrayList.add("Not Reachable");
+        ConnectionTypeArrayList.add("Disconnected");
+        ConnectionTypeArrayList.add("Invalid Number");
+        ConnectionTypeArrayList.add("Switched Off");
+        ConnectionTypeArrayList.add("Communication barrier");
+        ConnectionTypeArrayList.add("Not Educated");
+
+    }
+
 
     private void SendCallRecordingForEveryTenMinutes() {
         callRecordingHandler = new Handler();
@@ -2048,7 +2060,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
         dialog.setContentView(R.layout.dialog_add_engagementform);
         interested_Layout = dialog.findViewById(R.id.interested_Layout);
-        appconpact_spinner_connectionstatus = dialog.findViewById(R.id.appconpact_spinner_connectionstatus);
 
         appconpact_spinner_interested_working = dialog.findViewById(R.id.appconpact_spinner_interested_working);
         ArrayAdapter<String> appconpact_spinner_interested_working_Adapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_spinner_item, spinner_interested_workingArrayList);
@@ -2097,14 +2108,280 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         direct_spinner = dialog.findViewById(R.id.direct_spinner);
         city_spinner = dialog.findViewById(R.id.city_spinner);
         M_levels_spinner = dialog.findViewById(R.id.M_levels_spinner);
-
-        ArrayAdapter<String> M_levels_spinner_Adapter = new ArrayAdapter<String>(getApplicationContext(),
-                android.R.layout.simple_spinner_item, mLevelList);
-        M_levels_spinner_Adapter.setDropDownViewResource(
-                android.R.layout
-                        .simple_spinner_dropdown_item);
-        M_levels_spinner.setAdapter(M_levels_spinner_Adapter);
+        U_levels_spinner = dialog.findViewById(R.id.U_levels_spinner);
         appconpact_spinner_connectionstatus = dialog.findViewById(R.id.appconpact_spinner_connectionstatus);
+//        appconpact_spinner_connectionstatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                try {
+////                    nextTimeLayout.setVisibility(View.VISIBLE);
+//                    String text = appconpact_spinner_connectionstatus.getSelectedItem().toString();
+//                    Log.d("SELECTED_text------>",text);
+//                    if (appconpact_spinner_connectionstatus.getSelectedItem().toString().equals("Connected / Discussed")) {
+//                        engagement_main_form.setVisibility(View.VISIBLE);
+//                        engagement_description.setText(" ");
+//                        M_levels_spinner.setEnabled(true);
+//                        U_levels_spinner.setEnabled(true);
+//
+//                    } else {
+//                        M_levels_spinner.setEnabled(false);
+//                        U_levels_spinner.setEnabled(false);
+//                        engagement_main_form.setVisibility(View.GONE);
+//                        Date c = Calendar.getInstance().getTime();
+//                        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+//                        String formattedDate = df.format(c);
+//
+//                        if (previousEngagement.contains(" | ")) {
+//                            int index = previousEngagement.indexOf(" | ");
+//                            String Result = previousEngagement.substring(index + 2);
+//                            String resul = Result;
+//                            engagement_description.setText(formattedDate + " - " + text + " | " + Result);
+//
+//                        } else {
+//                            engagement_description.setText(formattedDate + " - " + text + " | " + previousEngagement);
+//                        }
+//                        LevelsSelected = levels;
+//                        CoursesData = courses;
+//
+//                    }
+//                } catch (Exception e) {
+//
+//
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
+        appconpact_spinner_connectionstatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                try {
+//                    nextTimeLayout.setVisibility(View.VISIBLE);
+                    SELECTED_STATUS = appconpact_spinner_connectionstatus.getSelectedItem().toString();
+                    Log.d("SELECTED_STATUS------>", SELECTED_STATUS);
+//                    if (User_levels.equals("M6")) {
+//                        myCalendar.add(Calendar.DAY_OF_MONTH, 1);
+//                        MAX_DATE_PRE_SELECT = 30;
+//                    }
+//                    if (User_levels.equals("M5") || (User_levels.equals("M3"))) {
+//                        myCalendar.add(Calendar.DAY_OF_MONTH, 1);
+//                        MAX_DATE_PRE_SELECT = 60;
+//                    }
+//                    if (User_levels.equals("M3++") || (User_levels.equals("M3+"))) {
+//                        myCalendar.add(Calendar.DAY_OF_MONTH, 1);
+//                        MAX_DATE_PRE_SELECT = 40;
+//                    }
+
+//                    if ((SELECTED_STATUS.equals("Connected / Discussed"))) {
+                    if (SELECTED_STATUS.equals("Connected / Discussed")) {
+                        U_levels_spinner.setEnabled(true);
+                        M_levels_spinner.setEnabled(true);
+                        M_levels_spinner.setSelection(2);
+                        U_levels_spinner.setSelection(6);
+                        appconpact_spinner_interested_working.setEnabled(true);
+                        edt_current_location.setEnabled(true);
+                        engagement_description.setText(" ");
+                        ConnectionStatus = "CD";
+                        interested_Layout.setEnabled(true);
+                        appconpact_spinner_interested_working.setEnabled(true);
+//                        M_levels_spinner.setSelection(5);
+
+                        looking_job.setEnabled(true);
+                        appconpact_spinner_looking_job.setEnabled(true);
+                        appconpact_spinner_graduation_Year.setEnabled(true);
+                        edt_current_location.setEnabled(true);
+                        work_Ex_profiling.setEnabled(true);
+                        company_Name.setEnabled(true);
+                        work_Experience.setEnabled(true);
+                        indian_Professional.setEnabled(true);
+                        global_Professional_Qualification.setEnabled(true);
+                        ug_Graduate_Qualification.setEnabled(true);
+                        pg_Graduate_Qualification.setEnabled(true);
+
+
+                    } else if (SELECTED_STATUS.equals("Connected / Busy")) {
+
+                        M_levels_spinner.setEnabled(false);
+                        U_levels_spinner.setEnabled(false);
+                        appconpact_spinner_interested_working.setEnabled(false);
+                        edt_current_location.setEnabled(false);
+                        M_levels_spinner.setSelection(2);
+                        U_levels_spinner.setSelection(6);
+
+
+                    } else if (SELECTED_STATUS.equals("Connected / Never call back")) {
+                        U_levels_spinner.setEnabled(false);
+                        M_levels_spinner.setEnabled(false);
+                        appconpact_spinner_interested_working.setEnabled(false);
+
+
+                        M_levels_spinner.setSelection(0);
+                        U_levels_spinner.setSelection(1);
+
+
+                    } else if (SELECTED_STATUS.equals("Connected / Not Interested")) {
+                        U_levels_spinner.setEnabled(false);
+                        M_levels_spinner.setEnabled(false);
+                        appconpact_spinner_interested_working.setEnabled(false);
+                        edt_current_location.setEnabled(false);
+                        appconpact_spinner_interested_working.setEnabled(false);
+
+                        M_levels_spinner.setSelection(0);
+                        U_levels_spinner.setSelection(1);
+
+
+
+                    } else if (SELECTED_STATUS.equals("Busy")) {
+                        U_levels_spinner.setEnabled(false);
+                        M_levels_spinner.setEnabled(false);
+                        appconpact_spinner_interested_working.setEnabled(false);
+                        edt_current_location.setEnabled(false);
+
+
+                        M_levels_spinner.setSelection(2);
+
+                        U_levels_spinner.setSelection(6);
+
+                    } else if (SELECTED_STATUS.equals("Not Lifting")) {
+                        U_levels_spinner.setEnabled(false);
+                        M_levels_spinner.setEnabled(false);
+                        appconpact_spinner_interested_working.setEnabled(false);
+                        edt_current_location.setEnabled(false);
+
+
+                        M_levels_spinner.setSelection(2);
+                        U_levels_spinner.setSelection(6);
+
+                    } else if (SELECTED_STATUS.equals("Not Reachable")) {
+                        U_levels_spinner.setEnabled(false);
+                        M_levels_spinner.setEnabled(false);
+                        appconpact_spinner_interested_working.setEnabled(false);
+                        edt_current_location.setEnabled(false);
+
+
+                        M_levels_spinner.setSelection(2);
+                        U_levels_spinner.setSelection(6);
+
+
+
+                    } else if (SELECTED_STATUS.equals("Disconnected")) {
+                        U_levels_spinner.setEnabled(false);
+                        M_levels_spinner.setEnabled(false);
+                        appconpact_spinner_interested_working.setEnabled(false);
+                        edt_current_location.setEnabled(false);
+
+
+                        M_levels_spinner.setSelection(2);
+                        U_levels_spinner.setSelection(6);
+
+
+                    } else if (SELECTED_STATUS.equals("Invalid Number")) {
+                        U_levels_spinner.setEnabled(false);
+                        M_levels_spinner.setEnabled(false);
+                        appconpact_spinner_interested_working.setEnabled(false);
+                        edt_current_location.setEnabled(false);
+
+
+                        M_levels_spinner.setSelection(0);
+                        U_levels_spinner.setSelection(1);
+
+
+
+                    } else if (SELECTED_STATUS.equals("Switched Off")) {
+                        U_levels_spinner.setEnabled(false);
+                        M_levels_spinner.setEnabled(false);
+                        appconpact_spinner_interested_working.setEnabled(false);
+                        edt_current_location.setEnabled(false);
+
+
+                        M_levels_spinner.setSelection(2);
+                        U_levels_spinner.setSelection(6);
+
+                    } else if (SELECTED_STATUS.equals("Communication barrier")) {
+                        U_levels_spinner.setEnabled(false);
+                        M_levels_spinner.setEnabled(false);
+                        appconpact_spinner_interested_working.setEnabled(false);
+                        edt_current_location.setEnabled(false);
+
+
+                        M_levels_spinner.setSelection(0);
+                        U_levels_spinner.setSelection(1);
+
+
+                    } else if (SELECTED_STATUS.equals("Not Educated")) {
+                        U_levels_spinner.setEnabled(false);
+                        M_levels_spinner.setEnabled(false);
+                        appconpact_spinner_interested_working.setEnabled(false);
+                        edt_current_location.setEnabled(false);
+                        M_levels_spinner.setSelection(0);
+                        U_levels_spinner.setSelection(1);
+
+                    }
+
+
+                    Date c = Calendar.getInstance().getTime();
+                    SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+                    String formattedDate = df.format(c);
+                    if (previousEngagement == null || previousEngagement.equals(null) || previousEngagement.equals("") || previousEngagement.equals(" ") || previousEngagement.equals("null")) {
+                        engagement_description.setText(formattedDate + " - " + SELECTED_STATUS);
+                    }
+                    if (previousEngagement.contains(" | ")) {
+                        int index = previousEngagement.indexOf(" | ");
+                        String Result = previousEngagement.substring(index + 2);
+                        String resul = Result;
+                        engagement_description.setText(formattedDate + " - " + SELECTED_STATUS + " | " + Result);
+                    } else {
+                        engagement_description.setText(formattedDate + " - " + SELECTED_STATUS + " | " + previousEngagement);
+                    }
+                    CoursesData = courses;
+//                    } else {
+//                    engagement_main_form.setVisibility(View.GONE);
+                    //Gone
+
+                    Date c1 = Calendar.getInstance().getTime();
+                    SimpleDateFormat df1 = new SimpleDateFormat("dd/MM/yyyy");
+                    String formattedDate1 = df1.format(c1);
+                    if (previousEngagement == null || previousEngagement.equals(null) || previousEngagement.equals("") || previousEngagement.equals(" ") || previousEngagement.equals("null")) {
+                        engagement_description.setText(formattedDate1 + " - " + SELECTED_STATUS);
+                    }
+                    if (previousEngagement.contains(" | ")) {
+                        int index = previousEngagement.indexOf(" | ");
+                        String Result = previousEngagement.substring(index + 2);
+                        String resul = Result;
+                        engagement_description.setText(formattedDate + " - " + SELECTED_STATUS + " | " + Result);
+                    } else {
+                        engagement_description.setText(formattedDate + " - " + SELECTED_STATUS + " | " + previousEngagement);
+                    }
+                    CoursesData = courses;
+
+                } catch (Exception e) {
+
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        spinner_M_LevelList = new ArrayList<>();
+        spinner_M_LevelList.add(new LevelsModel("M1", "M1 :Did not visit & not interested"));
+        spinner_M_LevelList.add(new LevelsModel("M2", "M2 :Did not visit & Postponed"));
+        spinner_M_LevelList.add(new LevelsModel("M3", "M3 :Called & positive"));
+        spinner_M_LevelList.add(new LevelsModel("M3+", "M3+ :Called & Coming"));
+        spinner_M_LevelList.add(new LevelsModel("M3++", "M3++ :Ready to enroll - Not visited"));
+//        ArrayAdapter<String> M_levels_spinner_Adapter = new ArrayAdapter<String>(getApplicationContext(),
+//                android.R.layout.simple_spinner_item, spinner_M_LevelList);
+        levelsCustomAdapter = new LevelsCustomAdapter(getApplicationContext(), R.layout.listitems_layout, R.id.levels_items, spinner_M_LevelList);
+        M_levels_spinner.setAdapter(levelsCustomAdapter);
+
+
         //my self
         U_levels_spinner = dialog.findViewById(R.id.U_levels_spinner);
 
@@ -2136,8 +2413,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         company_Name = dialog.findViewById(R.id.company_Name);
         work_Experience = dialog.findViewById(R.id.work_Experience);
-        current_location = dialog.findViewById(R.id.current_location);
-        edt_current_location=dialog.findViewById(R.id.edt_current_location);
+//        current_location = dialog.findViewById(R.id.current_location);
+//        edt_current_location = dialog.findViewById(R.id.edt_current_location);
 
         b2c_iiml_fa_check = dialog.findViewById(R.id.b2c_iiml_fa_check);
         b2c_iiml_ba_check = dialog.findViewById(R.id.b2c_iiml_ba_check);
@@ -2687,8 +2964,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                         } else if (edt_current_location.getText().toString().isEmpty()) {
                             Toast.makeText(getApplicationContext(), "Please enter Current Location", Toast.LENGTH_SHORT).show();
+                        } else if (b2c_lead_engagement.getText().toString().isEmpty()) {
+                            Toast.makeText(getApplicationContext(), "Please add engagement details and Please select source details ", Toast.LENGTH_SHORT).show();
+
                         } else {
-                            SaveMWbB2CLead(dialog);                        }
+                            SaveMWbB2CLead(dialog);
+
+                        }
                     } else {
 
                         if (appconpact_spinner_graduation_Year.getSelectedItem().toString().isEmpty()) {
@@ -2707,8 +2989,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                         } else if (ug_Graduate_Qualification.getText().toString().isEmpty()) {
                             Toast.makeText(getApplicationContext(), "Please select your UG qualification", Toast.LENGTH_SHORT).show();
-                        } else if (pg_Graduate_Qualification.getText().toString().isEmpty()) {
-                            Toast.makeText(getApplicationContext(), "Please select your PG qualification", Toast.LENGTH_SHORT).show();
+                        } else if (b2c_lead_engagement.getText().toString().isEmpty()) {
+                            Toast.makeText(getApplicationContext(), "Please add engagement details and Please select source details ", Toast.LENGTH_SHORT).show();
 
                         } else {
                             SaveMWbB2CLead(dialog);
@@ -2720,8 +3002,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 } else {
                     SaveMWbB2CLead(dialog);
                 }
-
-
 
 
             }
@@ -2912,7 +3192,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
         spinnerLevelList = new ArrayList<>();
-
         spinnerLevelList.add(new LevelsModel("M3++", "M3++ - Ready to enroll - Not visited"));
         spinnerLevelList.add(new LevelsModel("M3+", "M3+ - Called & Coming"));
         spinnerLevelList.add(new LevelsModel("M3", "M3 - Called & positive"));
@@ -2926,74 +3205,146 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ArrayAdapter<String> connection_statusAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, ConnectionTypeArrayList);
         connection_statusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         appconpact_spinner_connectionstatus.setAdapter(connection_statusAdapter);
-        appconpact_spinner_connectionstatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                SELECTED_STATUS = appconpact_spinner_connectionstatus.getSelectedItem().toString();
-                Log.d("SELECTED_STATUS-->", SELECTED_STATUS);
-                if (SELECTED_STATUS.equals("Connected / Discussed")) {
-//                    interested_Layout.setVisibility(View.VISIBLE);
+//        appconpact_spinner_connectionstatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                SELECTED_STATUS = appconpact_spinner_connectionstatus.getSelectedItem().toString();
+//                Log.d("SELECTED_STATUS-->", SELECTED_STATUS);
+//                if (SELECTED_STATUS.equals("Connected / Discussed")) {
+////                    interested_Layout.setVisibility(View.VISIBLE);
+//
+//                    interested_Layout.setEnabled(true);
+//                    appconpact_spinner_interested_working.setEnabled(true);
+//                    looking_job.setEnabled(true);
+//                    appconpact_spinner_looking_job.setEnabled(true);
+//                    appconpact_spinner_graduation_Year.setEnabled(true);
+//                    current_location.setEnabled(true);
+//                    work_Ex_profiling.setEnabled(true);
+//                    company_Name.setEnabled(true);
+//                    work_Experience.setEnabled(true);
+//                    indian_Professional.setEnabled(true);
+//                    global_Professional_Qualification.setEnabled(true);
+//                    ug_Graduate_Qualification.setEnabled(true);
+//                    pg_Graduate_Qualification.setEnabled(true);
+//                } else if (SELECTED_STATUS.equals("Connected / Not interested")) {
+////                    interested_Layout.setVisibility(View.VISIBLE);
+//                    interested_Layout.setEnabled(true);
+//                    appconpact_spinner_interested_working.setEnabled(true);
+//                    looking_job.setEnabled(true);
+//                    appconpact_spinner_looking_job.setEnabled(true);
+//                    appconpact_spinner_graduation_Year.setEnabled(true);
+//                    current_location.setEnabled(true);
+//                    work_Ex_profiling.setEnabled(true);
+//                    company_Name.setEnabled(true);
+//                    work_Experience.setEnabled(true);
+//                    indian_Professional.setEnabled(true);
+//                    global_Professional_Qualification.setEnabled(true);
+//                    ug_Graduate_Qualification.setEnabled(true);
+//                    pg_Graduate_Qualification.setEnabled(true);
+//                } else {
+////                    interested_Layout.setVisibility(View.GONE);
+//                    interested_Layout.setEnabled(false);
+//                    appconpact_spinner_interested_working.setEnabled(false);
+//                    looking_job.setEnabled(false);
+//                    appconpact_spinner_looking_job.setEnabled(false);
+//                    appconpact_spinner_graduation_Year.setEnabled(false);
+//                    current_location.setEnabled(false);
+//                    work_Ex_profiling.setEnabled(false);
+//                    company_Name.setEnabled(false);
+//                    work_Experience.setEnabled(false);
+//                    indian_Professional.setEnabled(false);
+//                    global_Professional_Qualification.setEnabled(false);
+//                    ug_Graduate_Qualification.setEnabled(false);
+//                    pg_Graduate_Qualification.setEnabled(false);
+//
+//
+//                }
+//                Toast.makeText(MainActivity.this, "" + SELECTED_STATUS, Toast.LENGTH_SHORT).show();
+//
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
 
-                    interested_Layout.setEnabled(true);
-                    appconpact_spinner_interested_working.setEnabled(true);
-                    looking_job.setEnabled(true);
-                    appconpact_spinner_looking_job.setEnabled(true);
-                    appconpact_spinner_graduation_Year.setEnabled(true);
-                    current_location.setEnabled(true);
-                    work_Ex_profiling.setEnabled(true);
-                    company_Name.setEnabled(true);
-                    work_Experience.setEnabled(true);
-                    indian_Professional.setEnabled(true);
-                    global_Professional_Qualification.setEnabled(true);
-                    ug_Graduate_Qualification.setEnabled(true);
-                    pg_Graduate_Qualification.setEnabled(true);
-                } else if (SELECTED_STATUS.equals("Connected / Not interested")) {
-//                    interested_Layout.setVisibility(View.VISIBLE);
-                    interested_Layout.setEnabled(true);
-                    appconpact_spinner_interested_working.setEnabled(true);
-                    looking_job.setEnabled(true);
-                    appconpact_spinner_looking_job.setEnabled(true);
-                    appconpact_spinner_graduation_Year.setEnabled(true);
-                    current_location.setEnabled(true);
-                    work_Ex_profiling.setEnabled(true);
-                    company_Name.setEnabled(true);
-                    work_Experience.setEnabled(true);
-                    indian_Professional.setEnabled(true);
-                    global_Professional_Qualification.setEnabled(true);
-                    ug_Graduate_Qualification.setEnabled(true);
-                    pg_Graduate_Qualification.setEnabled(true);
-                } else {
-//                    interested_Layout.setVisibility(View.GONE);
-                    interested_Layout.setEnabled(false);
-                    appconpact_spinner_interested_working.setEnabled(false);
-                    looking_job.setEnabled(false);
-                    appconpact_spinner_looking_job.setEnabled(false);
-                    appconpact_spinner_graduation_Year.setEnabled(false);
-                    current_location.setEnabled(false);
-                    work_Ex_profiling.setEnabled(false);
-                    company_Name.setEnabled(false);
-                    work_Experience.setEnabled(false);
-                    indian_Professional.setEnabled(false);
-                    global_Professional_Qualification.setEnabled(false);
-                    ug_Graduate_Qualification.setEnabled(false);
-                    pg_Graduate_Qualification.setEnabled(false);
-
-
-                }
-                Toast.makeText(MainActivity.this, "" + SELECTED_STATUS, Toast.LENGTH_SHORT).show();
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+//        U_levels_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                LevelsModel levelsModel = spinner_U_LevelList.get(position);
+//                str_U_levels = levelsModel.getLevelCode();
+//                myCalendar = Calendar.getInstance();
+//                myCalendar.set(Calendar.YEAR, myCalendar.get(Calendar.YEAR));
+//                myCalendar.set(Calendar.MONTH, myCalendar.get(Calendar.MONTH));
+//
+//
+//                if (U_levels_spinner.equals("U0") || (U_levels_spinner.equals("U1")) || (U_levels_spinner.equals("U1+")) || (U_levels_spinner.equals("U2"))
+//                        || (U_levels_spinner.equals("U3-"))
+//                ) {
+//                    spinner_M_LevelList.clear();
+//
+//                    spinner_M_LevelList.add(new LevelsModel("M6", "M6 - Visited & Ready to Enroll"));
+//                    spinner_M_LevelList.add(new LevelsModel("M5", "M5 - Visited & Positive"));
+//                    spinner_M_LevelList.add(new LevelsModel("M4", "M4 - Visited but Postponed"));
+//                    spinner_M_LevelList.add(new LevelsModel("M4-", "M4- - Visited but not interested"));
+//                    spinner_M_LevelList.add(new LevelsModel("M3++", "M3++ - Ready to  enrolled -  not visited"));
+//                    spinner_M_LevelList.add(new LevelsModel("M3+", "M3+ - Called & Coming"));
+//                    spinner_M_LevelList.add(new LevelsModel("M3", "M3 - Called & positive"));
+//                    spinner_M_LevelList.add(new LevelsModel("M2", "M2 - Did not visit & Postponed"));
+//                    spinner_M_LevelList.add(new LevelsModel("M1", "M1 - Did not visit & not interested"));
+//
+//
+//                } else if (U_levels_spinner.equals("U3") || (U_levels_spinner.equals("U3+")) || (U_levels_spinner.equals("U3++"))
+//                ) {
+//                    spinner_M_LevelList.clear();
+//
+//                    spinner_M_LevelList.add(new LevelsModel("M6", "M6 - Visited & Ready to Enroll"));
+//                    spinner_M_LevelList.add(new LevelsModel("M5", "M5 - Visited & Positive"));
+//                    spinner_M_LevelList.add(new LevelsModel("M3++", "M3++ - Ready to  enrolled -  not visited"));
+//                    spinner_M_LevelList.add(new LevelsModel("M3+", "M3+ - Called & Coming"));
+//                    spinner_M_LevelList.add(new LevelsModel("M3", "M3 - Called & positive"));
+//                } else if (U_levels_spinner.equals("U5") || (U_levels_spinner.equals("U6"))
+//                ) {
+//                    spinner_M_LevelList.clear();
+//                    spinner_M_LevelList.add(new LevelsModel("M6", "M6 - Visited & Ready to Enroll"));
+//                    spinner_M_LevelList.add(new LevelsModel("M5", "M5 - Visited & Positive"));
+//                } else if (U_levels_spinner.equals("U4")) {
+//                    spinner_M_LevelList.clear();
+//
+//                    spinner_M_LevelList.add(new LevelsModel("M4", "M4 - Visited but Postponed"));
+//                    spinner_M_LevelList.add(new LevelsModel("M4-", "M4- - Visited but not interested"));
+//                    spinner_M_LevelList.add(new LevelsModel("M6", "M6 - Visited & Ready to Enroll"));
+//                    spinner_M_LevelList.add(new LevelsModel("M5", "M5 - Visited & Positive"));
+//
+//                } else if (U_levels_spinner.equals("U7-") || (U_levels_spinner.equals("U7R") || (U_levels_spinner.equals("U7")))) {
+//                    spinner_M_LevelList.clear();
+//                    spinner_M_LevelList.add(new LevelsModel(" ", " "));
+//                    appconpact_spinner_M_levels.setSelection(0);
+//
+//                } else {
+//                    spinner_M_LevelList.clear();
+//                    spinner_M_LevelList.add(new LevelsModel(" ", " "));
+//                    appconpact_spinner_M_levels.setSelection(0);
+//
+//                }
+//
+//
+//
+//                updateLabel();
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
 
 
         M_levels_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemSelected(AdapterView<?> parent, View view, int position,
+                                       long id) {
 //                LevelsModel levelsModel = spinnerLevelList.get(position);
 //                LeadLevels = levelsModel.getLevelCode();
                 LeadLevels = M_levels_spinner.getSelectedItem().toString();
@@ -3029,30 +3380,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        apiClient.getSpocCity("Bearer " + accessToken).enqueue(new Callback<SuccessModel>() {
-            @Override
-            public void onResponse(Call<SuccessModel> call, Response<SuccessModel> response) {
-                try {
-                    if (response.body() == null) {
-                    } else {
-                        String City = response.body().getCity();//the value you want the position for
-                        int spinnerPosition = cityAdpater.getPosition(City);
-                        city_spinner.setSelection(spinnerPosition);
-                        LEADCity = City;
-                        // Toast.makeText(MainActivity.this, ""+LEADCity, Toast.LENGTH_SHORT).show();
+        apiClient.getSpocCity("Bearer " + accessToken).
+
+                enqueue(new Callback<SuccessModel>() {
+                    @Override
+                    public void onResponse
+                            (Call<SuccessModel> call, Response<SuccessModel> response) {
+                        try {
+                            if (response.body() == null) {
+                            } else {
+                                String City = response.body().getCity();//the value you want the position for
+                                int spinnerPosition = cityAdpater.getPosition(City);
+                                city_spinner.setSelection(spinnerPosition);
+                                LEADCity = City;
+                                // Toast.makeText(MainActivity.this, ""+LEADCity, Toast.LENGTH_SHORT).show();
+
+                            }
+                        } catch (Exception e) {
+
+                        }
 
                     }
-                } catch (Exception e) {
 
-                }
+                    @Override
+                    public void onFailure(Call<SuccessModel> call, Throwable t) {
 
-            }
-
-            @Override
-            public void onFailure(Call<SuccessModel> call, Throwable t) {
-
-            }
-        });
+                    }
+                });
 
 
     }
@@ -3307,7 +3661,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    private void showSpamDialog(Dialog dialog, final String last_tendigit_mobile_number, String original_number, final String accessToken) {
+    private void showSpamDialog(Dialog dialog, final String last_tendigit_mobile_number, String
+            original_number, final String accessToken) {
         AlertDialog.Builder builder1 = new AlertDialog.Builder(dialog.getContext());
         builder1.setMessage("This number(" + original_number + " ) is marked as spam. Would you like to remove it from Spam ?");
         builder1.setCancelable(false);
@@ -3332,7 +3687,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         alert11.show();
     }
 
-    private void removeThisNumberFromSpamApi(DialogInterface dialog, String last_tendigit_mobile_number, String bearerAccessToken) {
+    private void removeThisNumberFromSpamApi(DialogInterface dialog, String
+            last_tendigit_mobile_number, String bearerAccessToken) {
         apiClient.removeFromSpam(last_tendigit_mobile_number, bearerAccessToken).enqueue(new Callback<SuccessModel>() {
             @Override
             public void onResponse(Call<SuccessModel> call, Response<SuccessModel> response) {
@@ -3434,8 +3790,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             MWbLeadCourseData = USP_Checked;
 
         }
-
-
 //        if (b2c_cpa_check.isChecked() && b2c_cma_check.isChecked() && b2c_da_check.isChecked()) {
 //            MWbLeadCourseData = CPAChecked_lead + "," + CMAChecked_lead + "," + DAChecked_lead;
 //        } else if (b2c_cpa_check.isChecked() && b2c_cma_check.isChecked()) {
@@ -3479,6 +3833,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        }
         return true;
     }
+
 
     public void showSnakebar(String s) {
         Snackbar snackbar = Snackbar
