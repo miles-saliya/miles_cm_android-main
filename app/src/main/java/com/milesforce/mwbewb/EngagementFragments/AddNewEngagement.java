@@ -189,7 +189,7 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
     ArrayList<String> spinner_interested_workingArrayList;
     ArrayList<String> spinnerLookingJob_workingArrayList;
 
-    EditText work_Ex_profiling, company_Name, work_Experience, edt_current_location;
+    EditText work_Ex_profiling, company_Name, edt_work_Experience, edt_current_location;
     TextView indian_Professional, global_Professional_Qualification, ug_Graduate_Qualification, pg_Graduate_Qualification;
     boolean[] selectedIndian_Professional, selectGlobal_Professional, selectUG_Graduate_Qualification, selectPG_Graduate_Qualification;
     ArrayList<Integer> indianProfessionalLangList = new ArrayList<>();
@@ -390,7 +390,6 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
 
     private void InterestedWorkingArrayList() {
         spinner_interested_workingArrayList = new ArrayList<>();
-        spinner_interested_workingArrayList.add("");
         spinner_interested_workingArrayList.add("Yes");
         spinner_interested_workingArrayList.add("Yes but graduating in 2024 or after");
         spinner_interested_workingArrayList.add("No");
@@ -577,7 +576,7 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
 
 
         company_Name = dialog.findViewById(R.id.company_Name);
-        work_Experience = dialog.findViewById(R.id.work_Experience);
+        edt_work_Experience = dialog.findViewById(R.id.edt_work_Experience);
 
 
         appconpact_spinner_interested_working = dialog.findViewById(R.id.appconpact_spinner_interested_working);
@@ -1307,7 +1306,7 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
             }
         });
 
-        work_Experience.addTextChangedListener(new TextWatcher() {
+        edt_work_Experience.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -1493,7 +1492,7 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
                             Toast.makeText(getActivity(), "Please enter Current Location", Toast.LENGTH_SHORT).show();
                         } else if (company_Name.getText().toString().isEmpty()) {
                             Toast.makeText(getActivity(), "Please enter your Company name", Toast.LENGTH_SHORT).show();
-                        } else if (work_Experience.getText().toString().isEmpty()) {
+                        } else if (edt_work_Experience.getText().toString().isEmpty()) {
                             Toast.makeText(getActivity(), "Please enter your Work Experience", Toast.LENGTH_SHORT).show();
                         } else if (indian_Professional.getText().toString().isEmpty()) {
                             Toast.makeText(getActivity(), "Please select your indian Professional", Toast.LENGTH_SHORT).show();
@@ -1689,6 +1688,17 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
                     appconpact_spinner_U_levels.setEnabled(false);
                     appconpact_spinner_M_levels.setEnabled(false);
                     date_picker_.setEnabled(false);
+                    appconpact_spinner_U_levels.setEnabled(false);
+                    appconpact_spinner_M_levels.setEnabled(false);
+                    appconpact_spinner_looking_job.setEnabled(false);
+                    appconpact_spinner_graduation_Year.setEnabled(false);
+                    work_Ex_profiling.setEnabled(false);
+                    company_Name.setEnabled(false);
+                    edt_work_Experience.setEnabled(false);
+                    indian_Professional.setEnabled(false);
+                    global_Professional_Qualification.setEnabled(false);
+                    ug_Graduate_Qualification.setEnabled(false);
+                    pg_Graduate_Qualification.setEnabled(false);
 
                     appconpact_spinner_interested_working.setEnabled(false);
                     int _temp = 0;
@@ -1702,6 +1712,7 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
                         }
                     }
                     appconpact_spinner_M_levels.setSelection(_temp);
+                    _temp=0;
                     for (int i = 0; i < spinner_U_LevelList.size(); i++) {
                         LevelsModel item = spinner_U_LevelList.get(i);
                         if (Ulevel != null) {
@@ -2090,7 +2101,7 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
                             edt_current_location.setEnabled(true);
                             work_Ex_profiling.setEnabled(true);
                             company_Name.setEnabled(true);
-                            work_Experience.setEnabled(true);
+                            edt_work_Experience.setEnabled(true);
                             indian_Professional.setEnabled(true);
                             global_Professional_Qualification.setEnabled(true);
                             ug_Graduate_Qualification.setEnabled(true);
@@ -2419,7 +2430,7 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
                         edt_current_location.setEnabled(false);
                         work_Ex_profiling.setEnabled(false);
                         company_Name.setEnabled(false);
-                        work_Experience.setEnabled(false);
+                        edt_work_Experience.setEnabled(false);
                         indian_Professional.setEnabled(false);
                         global_Professional_Qualification.setEnabled(false);
                         ug_Graduate_Qualification.setEnabled(false);
@@ -3892,6 +3903,7 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
     private void getCandidatePersonaDetails(String accessToken, int person_id) {
         historyModelArrayList = new ArrayList<>();
         commanApiClient.getCandidatePersonaDetails(person_id, "Bearer " + accessToken, "application/json").enqueue(new Callback<CandidatePersonaDetailsModel>() {
+//        commanApiClient.getCandidatePersonaDetails(1823257, "Bearer " + accessToken, "application/json").enqueue(new Callback<CandidatePersonaDetailsModel>() {
             @Override
             public void onResponse(Call<CandidatePersonaDetailsModel> call, Response<CandidatePersonaDetailsModel> response) {
                 try {
@@ -3928,12 +3940,53 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
                         }
                         if (candidatePersonaDetailsModel.getGraduationYear() != null) {
                             for (int i = 0; i < years.size(); i++) {
-                                if (years.get(i).contains(candidatePersonaDetailsModel.getGraduationYear())) {
+                                if (years.get(i).contains(candidatePersonaDetailsModel.getGraduationYear().toString())) {
                                     appconpact_spinner_graduation_Year.setSelection(i);
                                     break;
                                 }
                             }
                         }
+                        if (candidatePersonaDetailsModel.getIndianProfessionalQualification() != null) {
+                            for (int i = 0; i < select_Indian_professional_Qualification.length; i++) {
+                                if (select_Indian_professional_Qualification[i].contains(candidatePersonaDetailsModel.getIndianProfessionalQualification())) {
+                                    indian_Professional.setText(i);
+                                    break;
+                                }
+                            }
+                        }
+                        indian_Professional.setText(candidatePersonaDetailsModel.getIndianProfessionalQualification());
+
+                        if (candidatePersonaDetailsModel.getGlobalProfessionalQualification() != null) {
+                            for (int i = 0; i < select_Global_professional_Qualification.length; i++) {
+                                if (select_Global_professional_Qualification[i].contains(candidatePersonaDetailsModel.getGlobalProfessionalQualification())) {
+                                    global_Professional_Qualification.setText(i);
+                                    break;
+                                }
+                            }
+                        }
+                        global_Professional_Qualification.setText(candidatePersonaDetailsModel.getGlobalProfessionalQualification());
+
+                        if (candidatePersonaDetailsModel.getUgQualification() != null) {
+                            for (int i = 0; i < UG_professional_Qualification.length; i++) {
+                                if (UG_professional_Qualification[i].contains(candidatePersonaDetailsModel.getUgQualification())) {
+                                    ug_Graduate_Qualification.setText(i);
+                                    break;
+                                }
+                            }
+                        }
+                        ug_Graduate_Qualification.setText(candidatePersonaDetailsModel.getUgQualification());
+
+                        pg_Graduate_Qualification.setText(candidatePersonaDetailsModel.getPgQualification());
+
+                        if (candidatePersonaDetailsModel.getPgQualification() != null) {
+                            for (int i = 0; i < PG_professional_Qualification.length; i++) {
+                                if (PG_professional_Qualification[i].contains(candidatePersonaDetailsModel.getPgQualification())) {
+                                    pg_Graduate_Qualification.setText(i);
+                                    break;
+                                }
+                            }
+                        }
+
 
 //                        if (candidatePersonaDetailsModel.getIndianProfessionalQualification() != null) {
 //                            StringBuilder stringBuilder = new StringBuilder();
@@ -3944,10 +3997,9 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
 //                                }
 //                            }
 //                        }
+                        company_Name.setText(candidatePersonaDetailsModel.getCompany().toString());
+                        edt_work_Experience.setText(candidatePersonaDetailsModel.getYearsOfExperience().toString());
 
-
-                        company_Name.setText(candidatePersonaDetailsModel.getCompany());
-                        work_Experience.setText(candidatePersonaDetailsModel.getYearsOfExperience());
 
                     }
                 } catch (Exception e) {

@@ -856,7 +856,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         break;
                     case R.id.nav_syncMyRecords:
                         new SyncAllMyCallRecords().SyncMyCallLog(MainActivity.this, accessToken);
-                        startActivity(new Intent(MainActivity.this, MyCallRecordsActivity.class));
+                        Log.d("MyApp", "nav_syncMyRecords selected");
+                        startActivity(new Intent(getApplicationContext(), MyCallRecordsActivity.class));
                         break;
                     case R.id.nav_syncMyCallData:
                         new SyncAllMyCallRecords().SyncMyCallLog(MainActivity.this, accessToken);
@@ -4071,12 +4072,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void DeleteFileFromLocal(String file_name) {
         Log.d("aync_test_path", file_name);
+        Log.d("Build.BRAND", Build.BRAND.trim());
         Log.d("currentapiVersion", String.valueOf(currentapiVersion));
         Log.d("versioncode", String.valueOf(versioncode));
-        if (currentapiVersion >= versioncode && currentapiVersion != versioncode) {
-            directoryPath = Environment.getExternalStorageDirectory() + "/Recordings/Call";
-        } else {
-            directoryPath = Environment.getExternalStorageDirectory() + "/Call";
+        if(Build.BRAND.trim().contains("samsung")){
+            if (currentapiVersion >= versioncode && currentapiVersion != versioncode) {
+                directoryPath = Environment.getExternalStorageDirectory() + "/Recordings/Call";
+            } else {
+                directoryPath = Environment.getExternalStorageDirectory() + "/Call";
+            }
+        }else {
+            directoryPath = Environment.getExternalStorageDirectory() + "/MIUI/sound_recorder/call_rec";
+
+
         }
         Log.d("directoryPath", directoryPath);
         try {
@@ -4089,9 +4097,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                UploadFilesToServer();
-            }
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//                UploadFilesToServer();
+//            }
 
 
         } catch (Exception e) {
@@ -4148,10 +4156,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void UploadFilesToServer() {
         try {
-            if (currentapiVersion >= versioncode && currentapiVersion != versioncode) {
-                directoryPath = Environment.getExternalStorageDirectory() + "/Recordings/Call";
-            } else {
-                directoryPath = Environment.getExternalStorageDirectory() + "/Call";
+            if(Build.BRAND.trim().contains("samsung")){
+                if (currentapiVersion >= versioncode && currentapiVersion != versioncode) {
+                    directoryPath = Environment.getExternalStorageDirectory() + "/Recordings/Call";
+                } else {
+                    directoryPath = Environment.getExternalStorageDirectory() + "/Call";
+                }
+            }else {
+                directoryPath = Environment.getExternalStorageDirectory() + "/MIUI/sound_recorder/call_rec";
             }
             File directory = new File(directoryPath);
             File[] files = directory.listFiles();

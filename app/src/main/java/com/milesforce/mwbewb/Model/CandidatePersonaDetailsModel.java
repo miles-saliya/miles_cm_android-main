@@ -25,22 +25,22 @@ public class CandidatePersonaDetailsModel {
     private String persona;
     @SerializedName("placement_assistance")
     @Expose
-    private Object placementAssistance;
+    private String placementAssistance;
     @SerializedName("placement_assistance_created_date")
     @Expose
-    private Object placementAssistanceCreatedDate;
+    private Integer placementAssistanceCreatedDate;
     @SerializedName("company")
     @Expose
     private String company;
     @SerializedName("college")
     @Expose
-    private Object college;
+    private String college;
     @SerializedName("years_of_experience")
     @Expose
     private Integer yearsOfExperience;
     @SerializedName("graduation_year")
     @Expose
-    private String graduationYear;
+    private Integer graduationYear;
     @SerializedName("indian_professional_qualification")
     @Expose
     private String indianProfessionalQualification;
@@ -55,10 +55,10 @@ public class CandidatePersonaDetailsModel {
     private String pgQualification;
     @SerializedName("updated_by_id")
     @Expose
-    private Object updatedById;
+    private Integer updatedById;
     @SerializedName("pathway_updated_date")
     @Expose
-    private Object pathwayUpdatedDate;
+    private Integer pathwayUpdatedDate;
     @SerializedName("created_at")
     @Expose
     private String createdAt;
@@ -71,11 +71,13 @@ public class CandidatePersonaDetailsModel {
 
     /**
      * No args constructor for use in serialization
+     *
      */
     public CandidatePersonaDetailsModel() {
     }
 
     /**
+     *
      * @param college
      * @param pgQualification
      * @param persona
@@ -98,7 +100,7 @@ public class CandidatePersonaDetailsModel {
      * @param ugQualification
      * @param updatedAt
      */
-    public CandidatePersonaDetailsModel(Integer id, Integer mwbId, String identity, Object pathway, String pathwayValue, String persona, Object placementAssistance, Object placementAssistanceCreatedDate, String company, Object college, Integer yearsOfExperience, String graduationYear, String indianProfessionalQualification, String globalProfessionalQualification, String ugQualification, String pgQualification, Object updatedById, Object pathwayUpdatedDate, String createdAt, String updatedAt, String location) {
+    public CandidatePersonaDetailsModel(Integer id, Integer mwbId, String identity, Object pathway, String pathwayValue, String persona, String placementAssistance, Integer placementAssistanceCreatedDate, String company, String college, Integer yearsOfExperience, Integer graduationYear, String indianProfessionalQualification, String globalProfessionalQualification, String ugQualification, String pgQualification, Integer updatedById, Integer pathwayUpdatedDate, String createdAt, String updatedAt, String location) {
         super();
         this.id = id;
         this.mwbId = mwbId;
@@ -171,19 +173,19 @@ public class CandidatePersonaDetailsModel {
         this.persona = persona;
     }
 
-    public Object getPlacementAssistance() {
+    public String getPlacementAssistance() {
         return placementAssistance;
     }
 
-    public void setPlacementAssistance(Object placementAssistance) {
+    public void setPlacementAssistance(String placementAssistance) {
         this.placementAssistance = placementAssistance;
     }
 
-    public Object getPlacementAssistanceCreatedDate() {
+    public Integer getPlacementAssistanceCreatedDate() {
         return placementAssistanceCreatedDate;
     }
 
-    public void setPlacementAssistanceCreatedDate(Object placementAssistanceCreatedDate) {
+    public void setPlacementAssistanceCreatedDate(Integer placementAssistanceCreatedDate) {
         this.placementAssistanceCreatedDate = placementAssistanceCreatedDate;
     }
 
@@ -195,11 +197,11 @@ public class CandidatePersonaDetailsModel {
         this.company = company;
     }
 
-    public Object getCollege() {
+    public String getCollege() {
         return college;
     }
 
-    public void setCollege(Object college) {
+    public void setCollege(String college) {
         this.college = college;
     }
 
@@ -211,11 +213,11 @@ public class CandidatePersonaDetailsModel {
         this.yearsOfExperience = yearsOfExperience;
     }
 
-    public String getGraduationYear() {
+    public Integer getGraduationYear() {
         return graduationYear;
     }
 
-    public void setGraduationYear(String graduationYear) {
+    public void setGraduationYear(Integer graduationYear) {
         this.graduationYear = graduationYear;
     }
 
@@ -251,19 +253,19 @@ public class CandidatePersonaDetailsModel {
         this.pgQualification = pgQualification;
     }
 
-    public Object getUpdatedById() {
+    public Integer getUpdatedById() {
         return updatedById;
     }
 
-    public void setUpdatedById(Object updatedById) {
+    public void setUpdatedById(Integer updatedById) {
         this.updatedById = updatedById;
     }
 
-    public Object getPathwayUpdatedDate() {
+    public Integer getPathwayUpdatedDate() {
         return pathwayUpdatedDate;
     }
 
-    public void setPathwayUpdatedDate(Object pathwayUpdatedDate) {
+    public void setPathwayUpdatedDate(Integer pathwayUpdatedDate) {
         this.pathwayUpdatedDate = pathwayUpdatedDate;
     }
 

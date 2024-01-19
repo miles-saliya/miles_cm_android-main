@@ -279,7 +279,7 @@ public class MyCallRecordsActivity extends AppCompatActivity {
 
 //        apiClient.getGeneratedPresignedUrl(s, "Bearer " + accessToken, "application/json").enqueue(new Callback<SuccessModel>() {
         commanApiClient.getGeneratedPresignedUrl(s, extension,"Bearer " + accessToken, "application/json").enqueue(new Callback<SuccessModel>() {
-        @Override
+            @Override
             public void onResponse(Call<SuccessModel> call, Response<SuccessModel> response) {
                 if (response.body().getUrl() != null) {
                     String URL = response.body().getUrl();
@@ -424,7 +424,7 @@ public class MyCallRecordsActivity extends AppCompatActivity {
 
     private void CheckFileIsExisting(final String file_name, final int index, final String time) {
         Log.d("CheckFileIsExisting", file_name);
-         extension = file_name.substring(file_name.indexOf(".") - 0);
+        extension = file_name.substring(file_name.indexOf(".") - 0);
         Log.d("CheckFileIsExisting", extension);
 //        apiClient.checkCallRecordingExistance(time, "Bearer " + accessToken, "application/json").enqueue(new Callback<SuccessModel>() {
         commanApiClient.checkCallRecordingExistance(time, extension,"Bearer " + accessToken, "application/json").enqueue(new Callback<SuccessModel>() {
