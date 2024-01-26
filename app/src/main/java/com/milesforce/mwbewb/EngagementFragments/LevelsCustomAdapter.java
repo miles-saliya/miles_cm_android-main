@@ -18,16 +18,16 @@ import java.util.List;
 public class LevelsCustomAdapter extends ArrayAdapter<LevelsModel> {
     LayoutInflater flater;
 
-    public LevelsCustomAdapter(Context context, int resouceId, int textviewId, List<LevelsModel> list){
+    public LevelsCustomAdapter(Context context, int resouceId, int textviewId, List<LevelsModel> list) {
 
-        super(context,resouceId,textviewId, list);
+        super(context, resouceId, textviewId, list);
 //        flater = context.getLayoutInflater();
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Log.d("ITEM COUNT",String.valueOf(getCount()));
-        return rowview(convertView,position);
+        Log.d("ITEM COUNT", String.valueOf(getCount()));
+        return rowview(convertView, position);
     }
 
     @Override
@@ -37,15 +37,22 @@ public class LevelsCustomAdapter extends ArrayAdapter<LevelsModel> {
 
     @Override
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
-        return rowview(convertView,position);
+        return rowview(convertView, position);
     }
 
-    private View rowview(View convertView , int position){
-        LevelsModel rowItem = getItem(position);
+    private View rowview(View convertView, int position) {
+        LevelsModel rowItem;
+        if (getCount() < 1) {
 
-        viewHolder holder ;
+            rowItem = new LevelsModel();
+        } else {
+            rowItem = getItem(position);
+
+        }
+
+        viewHolder holder;
         View rowview = convertView;
-        if (rowview==null) {
+        if (rowview == null) {
 
             holder = new viewHolder();
             flater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -53,7 +60,7 @@ public class LevelsCustomAdapter extends ArrayAdapter<LevelsModel> {
 
             holder.txtTitle = (TextView) rowview.findViewById(R.id.levels_items);
             rowview.setTag(holder);
-        }else{
+        } else {
             holder = (viewHolder) rowview.getTag();
         }
         holder.txtTitle.setText(rowItem.getDefinationLevel());
@@ -61,7 +68,7 @@ public class LevelsCustomAdapter extends ArrayAdapter<LevelsModel> {
         return rowview;
     }
 
-    private class viewHolder{
+    private class viewHolder {
         TextView txtTitle;
     }
 }

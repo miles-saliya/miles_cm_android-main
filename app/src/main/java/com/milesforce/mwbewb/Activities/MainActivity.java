@@ -492,7 +492,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     List<ULevelModel> uLevelListModel = new ArrayList<>();
     final String[] uLevelList = {
-            " ",
             "U0-Not interested in US/Canda",
             "U1-Interest expressed, dropped out",
             "U1+-Interest expressed, yet to graduate",

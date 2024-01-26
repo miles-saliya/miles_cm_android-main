@@ -172,7 +172,7 @@
 
 
                             <androidx.appcompat.widget.AppCompatSpinner
-                                android:id="@+id/appconpact_spinner_levels_visit"
+                                android:id="@+id/appconpact_spinner_levels_M_visit"
                                 style="@style/Base.Widget.AppCompat.Spinner.Underlined"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
