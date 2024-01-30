@@ -84,7 +84,6 @@ public class HistoryFragment extends Fragment {
                             historyModel.setAdded_by_name(getHistoryModelList.get(i).getAdded_by_name());
                             historyModel.setDetails(getHistoryModelList.get(i).getDetails());
                             historyModel.setLast_call(getHistoryModelList.get(i).getCreated_at());
-
                             historyModelArrayList.add(historyModel);
                         }
                         historyAdapter = new HistoryAdapter(getContext(), historyModelArrayList);

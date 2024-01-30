@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.provider.CallLog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -109,6 +110,8 @@ public class ToUpdateFragment extends Fragment {
         sharedPreferences = getContext().getSharedPreferences(SaveToken, MODE_PRIVATE);
         // accessToken = sharedPreferences.getString(AccessToken, null);
         AccessToken_new = getArguments().getString(fragment_token);
+        int mwb_id=getArguments().getInt("id");
+        Log.d("UpdateMWB_ID-->",String.valueOf(mwb_id));
         apiClient = ApiUtills.getAPIService();
         return inflater.inflate(R.layout.fragment_to_update, container, false);
     }

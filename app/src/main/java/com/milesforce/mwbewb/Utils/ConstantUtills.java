@@ -20,7 +20,9 @@ public abstract class ConstantUtills {
     public static String UpdatedTimeRecord = "lastUpdatedRecordTime";
     public static String PUSHER_STATUS = "CONNECTING";
     public static String Bde_user_id = "bdeid";
+
     public static String fragment_token = "token";
+
     public static String USER_NAME = "user_name";
     public static String BATTERY_PERCENTAGE = " ";
     public static String BATTERY_STATUS = " ";

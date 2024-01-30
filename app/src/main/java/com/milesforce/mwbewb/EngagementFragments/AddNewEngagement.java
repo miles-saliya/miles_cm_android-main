@@ -58,10 +58,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.milesforce.mwbewb.Activities.LoginActivity;
 import com.milesforce.mwbewb.Model.CandidatePersonaDetailsModel;
-import com.milesforce.mwbewb.Model.EngagemmentHistoryModel;
 import com.milesforce.mwbewb.Model.HistoryModel;
 import com.milesforce.mwbewb.Model.LevelsModel;
 import com.milesforce.mwbewb.Model.TeamModel;
+import com.milesforce.mwbewb.Model.UpdateCandidatePersonaDetailsModel;
 import com.milesforce.mwbewb.R;
 import com.milesforce.mwbewb.Retrofit.ApiClient;
 import com.milesforce.mwbewb.Retrofit.ApiUtills;
@@ -93,6 +93,7 @@ import java.util.Locale;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.FormUrlEncoded;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.milesforce.mwbewb.Utils.ConstantUtills.SaveToken;
@@ -149,10 +150,9 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
 
     String AccessToken;
 
-    int person_id, can_id;
+    int person_id, can_id, mwb_id;
 
     String previousEngagement = null;
-
     String courses, m_levels, u_levels, user_name, phone_number;
     EditText latestEngagement;
     LinearLayout nextTimeLayout, engagement_main_form, level_layout_;
@@ -160,8 +160,7 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
     private static long nextCallTimeStamp = 0;
     ProgressBar add_engagement_progress;
     ApiClient apiClient = ApiUtills.getAPIService();
-    CommanApiClient
-            commanApiClient = CommanApiUtills.getAPIService();
+    CommanApiClient commanApiClient = CommanApiUtills.getAPIService();
 
 
     AlertDialog alert;
@@ -193,7 +192,7 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
     ArrayList<String> spinner_interested_workingArrayList;
     ArrayList<String> spinnerLookingJob_workingArrayList;
 
-    EditText work_Ex_profiling, company_Name, edt_work_Experience, edt_current_location;
+    EditText work_Ex_profiling, company_Name, edt_work_Experience;
     TextView indian_Professional, global_Professional_Qualification, ug_Graduate_Qualification, pg_Graduate_Qualification;
     boolean[] selectedIndian_Professional, selectGlobal_Professional, selectUG_Graduate_Qualification, selectPG_Graduate_Qualification;
     ArrayList<Integer> indianProfessionalLangList = new ArrayList<>();
@@ -316,19 +315,30 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
         return inflater.inflate(R.layout.fragment_add_new_engagement, container, false);
 
     }
+    HistoryModel historyModel = new HistoryModel();
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        mwb_id = getArguments().getInt("id");
+        Log.d("mwb_id->", String.valueOf(mwb_id));
         AccessToken = getArguments().getString("token");
+        Log.d("AccessToken->", String.valueOf(AccessToken));
+//        historyModel.getMWB_ID();
+//        Log.d("getMWB_ID->", String.valueOf(historyModel.getMWB_ID()));
+
         person_id = getArguments().getInt("person_id");
+        Log.d("person_id->", String.valueOf(person_id));
+
         can_id = getArguments().getInt("can_id");
+        Log.d("can_id->", String.valueOf(can_id));
+
         previousEngagement = getArguments().getString("previousEngagement");
         courses = getArguments().getString("courses");
         m_levels = getArguments().getString("levels");
         user_name = getArguments().getString("user_name");
         phone_number = getArguments().getString("phone_number");
-
         u_levels = getArguments().getString("iiml_level");
 
         if (u_levels != null)
@@ -348,7 +358,6 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
         LookingJobWorkingArrayList();
         getTeam(AccessToken);
         initViews(view);
-        getCandidatePersonaDetails(AccessToken, person_id);
         batteryModel = new BatterPercentage().getBattertPercentage(getContext());
 
     }
@@ -403,8 +412,8 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
 
     private void LookingJobWorkingArrayList() {
         spinnerLookingJob_workingArrayList = new ArrayList<>();
-        spinnerLookingJob_workingArrayList.add("Yes");
         spinnerLookingJob_workingArrayList.add("No");
+        spinnerLookingJob_workingArrayList.add("Yes");
         spinnerLookingJob_workingArrayList.add("Maybe");
     }
 
@@ -426,7 +435,7 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
 
     private void showCustomDialog(final String user_name, final String Mlevel, final String Ulevel) {
 
-        getCandidatePersonaDetails(AccessToken, person_id);
+        getCandidatePersonaDetails(AccessToken, mwb_id);
 
         Toast.makeText(getContext(), USER_TEAM, Toast.LENGTH_SHORT).show();
         nextCallTimeStamp = 0;
@@ -1026,10 +1035,7 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
         levelsCustomAdapter.notifyDataSetChanged();
 
         interested_Layout = dialog.findViewById(R.id.interested_Layout);
-//        current_location_layout = dialog.findViewById(R.id.current_location_layout);
-//        edt_current_location = dialog.findViewById(R.id.edt_current_location);
 
-//        current_location.getTe
         add_engagement_progress = dialog.findViewById(R.id.add_engagement_progress);
         responce_radio_group = dialog.findViewById(R.id.responce_radio_group);
         engagement_description = dialog.findViewById(R.id.engagement_description);
@@ -1520,17 +1526,15 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
                         if (appconpact_spinner_graduation_Year.getSelectedItem().toString().isEmpty()) {
                             Toast.makeText(getActivity(), "Please enter graduation Year", Toast.LENGTH_SHORT).show();
 
-                        } else if (edt_current_location.getText().toString().isEmpty()) {
-                            Toast.makeText(getActivity(), "Please enter Current Location", Toast.LENGTH_SHORT).show();
                         } else {
+                            UpdateCandidatePersonaDetails();
                             SubmitCallEngagementForm(dialog);
+
                         }
                     } else {
 
                         if (appconpact_spinner_graduation_Year.getSelectedItem().toString().isEmpty()) {
                             Toast.makeText(getActivity(), "Please enter graduation Year", Toast.LENGTH_SHORT).show();
-                        } else if (edt_current_location.getText().toString().isEmpty()) {
-                            Toast.makeText(getActivity(), "Please enter Current Location", Toast.LENGTH_SHORT).show();
                         } else if (company_Name.getText().toString().isEmpty()) {
                             Toast.makeText(getActivity(), "Please enter your Company name", Toast.LENGTH_SHORT).show();
                         } else if (edt_work_Experience.getText().toString().isEmpty()) {
@@ -1546,6 +1550,7 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
                             Toast.makeText(getActivity(), "Please select your PG qualification", Toast.LENGTH_SHORT).show();
 
                         } else {
+                            UpdateCandidatePersonaDetails();
                             SubmitCallEngagementForm(dialog);
                         }
 
@@ -1553,6 +1558,7 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
 
 
                 } else {
+                    UpdateCandidatePersonaDetails();
                     SubmitCallEngagementForm(dialog);
                 }
             }
@@ -1797,22 +1803,22 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
                 try {
                     nextTimeLayout.setVisibility(View.VISIBLE);
                     SELECTED_STATUS = appconpact_spinner_connectionstatus.getSelectedItem().toString();
-                    if (appconpact_spinner_connectionstatus.getSelectedItem().equals("Connected / Discussed")) {
-                        level_M_layout.setVisibility(View.VISIBLE);
-                        level_U_layout.setVisibility(View.VISIBLE);
-                        appconpact_spinner_M_levels.setEnabled(true);
-                        appconpact_spinner_U_levels.setEnabled(true);
-                    } else if (appconpact_spinner_connectionstatus.getSelectedItem().equals("")) {
-                        level_M_layout.setVisibility(View.GONE);
-                        level_U_layout.setVisibility(View.GONE);
-
-                    } else {
-                        level_M_layout.setVisibility(View.VISIBLE);
-                        level_U_layout.setVisibility(View.VISIBLE);
-                        appconpact_spinner_M_levels.setEnabled(false);
-                        appconpact_spinner_U_levels.setEnabled(false);
-
-                    }
+//                    if (appconpact_spinner_connectionstatus.getSelectedItem().equals("Connected / Discussed")) {
+//                        level_M_layout.setVisibility(View.VISIBLE);
+//                        level_U_layout.setVisibility(View.VISIBLE);
+//                        appconpact_spinner_M_levels.setEnabled(true);
+//                        appconpact_spinner_U_levels.setEnabled(true);
+//                    } else if (appconpact_spinner_connectionstatus.getSelectedItem().equals("")) {
+//                        level_M_layout.setVisibility(View.GONE);
+//                        level_U_layout.setVisibility(View.GONE);
+//
+//                    } else {
+//                        level_M_layout.setVisibility(View.VISIBLE);
+//                        level_U_layout.setVisibility(View.VISIBLE);
+//                        appconpact_spinner_M_levels.setEnabled(false);
+//                        appconpact_spinner_U_levels.setEnabled(false);
+//
+//                    }
                     if (Mlevel.equals("M6")) {
                         myCalendar.add(Calendar.DAY_OF_MONTH, 1);
                         MAX_DATE_PRE_SELECT = 30;
@@ -1831,17 +1837,10 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
 
                             level_M_layout.setVisibility(View.VISIBLE);
                             level_U_layout.setVisibility(View.VISIBLE);
-                            appconpact_spinner_M_levels.setEnabled(true);
-                            appconpact_spinner_U_levels.setEnabled(true);
-                            engagement_main_form.setVisibility(View.VISIBLE);
-                            level_layout_.setVisibility(View.VISIBLE);
 
-                            invite_webinar.setVisibility(View.GONE);
-                            appconpact_spinner_U_levels.setSelection(5);
                             appconpact_spinner_interested_working.setEnabled(true);
                             appconpact_spinner_looking_job.setEnabled(true);
                             appconpact_spinner_graduation_Year.setEnabled(true);
-                            edt_current_location.setEnabled(true);
                             work_Ex_profiling.setEnabled(true);
                             company_Name.setEnabled(true);
                             edt_work_Experience.setEnabled(true);
@@ -1849,7 +1848,12 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
                             global_Professional_Qualification.setEnabled(true);
                             ug_Graduate_Qualification.setEnabled(true);
                             pg_Graduate_Qualification.setEnabled(true);
-
+                            appconpact_spinner_M_levels.setEnabled(true);
+                            appconpact_spinner_U_levels.setEnabled(true);
+                            appconpact_spinner_U_levels.setSelection(5);
+                            engagement_main_form.setVisibility(View.VISIBLE);
+//                            level_layout_.setVisibility(View.VISIBLE);
+//                            invite_webinar.setVisibility(View.GONE);
                             engagement_description.setText(" ");
                             ConnectionStatus = "CD";
                             interested_Layout.setEnabled(true);
@@ -1886,12 +1890,16 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
                             appconpact_spinner_U_levels.setEnabled(false);
                             appconpact_spinner_M_levels.setEnabled(false);
                             date_picker_.setEnabled(false);
+//                            appconpact_spinner_M_levels.setSelection(2);
+//                            appconpact_spinner_U_levels.setSelection(5);
+                            filterMLevelList("M3");
+                            filterULevelList("U3");
 
                             if (Mlevel.equals(null) || Mlevel.isEmpty()) {
                                 appconpact_spinner_M_levels.setSelection(2);
                             }
                             if (Ulevel.equals(null) || Ulevel.isEmpty()) {
-                                appconpact_spinner_U_levels.setSelection(4);
+                                appconpact_spinner_U_levels.setSelection(5);
                             }
                         } else if (SELECTED_STATUS.equals("Connected / Never call back")) {
                             appconpact_spinner_U_levels.setEnabled(false);
@@ -2006,6 +2014,12 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
                         }
 
 
+                    } else if (SELECTED_STATUS.equals("Connected / Busy")) {
+                        filterMLevelList("M3");
+                        filterULevelList("U3");
+                        appconpact_spinner_U_levels.setEnabled(false);
+                        appconpact_spinner_M_levels.setEnabled(false);
+
                     } else if (SELECTED_STATUS.equals("Busy") || (SELECTED_STATUS.equals("Not Lifting"))
                             || (SELECTED_STATUS.equals("Not Reachable")) || (SELECTED_STATUS.equals("Connected / Busy"))
                             || (SELECTED_STATUS.equals("Disconnected")) || (SELECTED_STATUS.equals("Invalid Number"))
@@ -2024,7 +2038,6 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
                         appconpact_spinner_M_levels.setEnabled(false);
                         appconpact_spinner_looking_job.setEnabled(false);
                         appconpact_spinner_graduation_Year.setEnabled(false);
-                        edt_current_location.setEnabled(false);
                         work_Ex_profiling.setEnabled(false);
                         company_Name.setEnabled(false);
                         edt_work_Experience.setEnabled(false);
@@ -2173,7 +2186,12 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
             } else {
                 add_engagement_progress.setVisibility(View.VISIBLE);
                 String engagement_data = engagement_description.getText().toString().trim();
-                apiClient.AddEngagement(ConnectionStatus, "", can_id, person_id, user_name, User_levels, CoursesData, engagement_data, "call", 0, nextCallTimeStamp, " ", 0, "No", batteryModel.getBattey_percentage(), batteryModel.getCharging_status(), VERSION_NUMBER, str_U_levels, "Bearer " + AccessToken, "application/json").enqueue(new Callback<SuccessModel>() {
+
+
+                apiClient.AddEngagement(ConnectionStatus, "", can_id, person_id, user_name, User_levels, CoursesData,
+                        engagement_data, "call", 0, nextCallTimeStamp, " ", 0, "No", batteryModel.getBattey_percentage(),
+                        batteryModel.getCharging_status(), VERSION_NUMBER, str_U_levels,
+                        "Bearer " + AccessToken, "application/json").enqueue(new Callback<SuccessModel>() {
                     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
                     @Override
                     public void onResponse(Call<SuccessModel> call, Response<SuccessModel> response) {
@@ -2215,6 +2233,36 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
                 });
             }
         }
+    }
+
+    private void UpdateCandidatePersonaDetails() {
+        commanApiClient.UpdateCandidatePersonaDetails(
+                String.valueOf(person_id),
+                company_Name.getText().toString().trim(),
+                "location",
+                appconpact_spinner_interested_working.getSelectedItem().toString(),
+                appconpact_spinner_looking_job.getSelectedItem().toString(),
+                indian_Professional.getText().toString().trim(),
+                global_Professional_Qualification.getText().toString().trim(),
+                ug_Graduate_Qualification.getText().toString().trim(),
+                pg_Graduate_Qualification.getText().toString().trim(),
+                edt_work_Experience.getText().toString().trim(),
+                appconpact_spinner_graduation_Year.getSelectedItem().toString(),
+                "Bearer " + AccessToken, "application/json").enqueue(new Callback<UpdateCandidatePersonaDetailsModel>() {
+            @Override
+            public void onResponse(Call<UpdateCandidatePersonaDetailsModel> call, Response<UpdateCandidatePersonaDetailsModel> response) {
+                UpdateCandidatePersonaDetailsModel updateCandidatePersonaDetailsModel = response.body();
+
+                Log.d("onResponse_Update", updateCandidatePersonaDetailsModel.getStatus());
+
+            }
+
+            @Override
+            public void onFailure(Call<UpdateCandidatePersonaDetailsModel> call, Throwable t) {
+                Log.d("UpdateCandidate_Failure", t.getMessage());
+                openAlert(String.valueOf(t.getMessage()));
+            }
+        });
 
 
     }
@@ -3497,9 +3545,9 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
 //        });
 //    }
 
-    private void getCandidatePersonaDetails(String accessToken, int person_id) {
+    private void getCandidatePersonaDetails(String accessToken, int mwb_id) {
         historyModelArrayList = new ArrayList<>();
-        commanApiClient.getCandidatePersonaDetails(person_id, "Bearer " + accessToken, "application/json").enqueue(new Callback<CandidatePersonaDetailsModel>() {
+        commanApiClient.getCandidatePersonaDetails(mwb_id, "Bearer " + accessToken, "application/json").enqueue(new Callback<CandidatePersonaDetailsModel>() {
             //        commanApiClient.getCandidatePersonaDetails(1823257, "Bearer " + accessToken, "application/json").enqueue(new Callback<CandidatePersonaDetailsModel>() {
             @Override
             public void onResponse(Call<CandidatePersonaDetailsModel> call, Response<CandidatePersonaDetailsModel> response) {
@@ -3512,18 +3560,27 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
                     } else {
                         CandidatePersonaDetailsModel candidatePersonaDetailsModel = response.body();
 
+                        company_Name.setText(candidatePersonaDetailsModel.getCompany());
+                        edt_work_Experience.setText(candidatePersonaDetailsModel.getYearsOfExperience().toString());
+                        indian_Professional.setText(candidatePersonaDetailsModel.getIndianProfessionalQualification());
+                        global_Professional_Qualification.setText(candidatePersonaDetailsModel.getGlobalProfessionalQualification());
+                        ug_Graduate_Qualification.setText(candidatePersonaDetailsModel.getUgQualification());
+                        pg_Graduate_Qualification.setText(candidatePersonaDetailsModel.getPgQualification());
+
+
                         if (candidatePersonaDetailsModel.getPathwayValue() != null) {
                             for (int i = 0; i < spinner_interested_workingArrayList.size(); i++) {
-                                if (spinner_interested_workingArrayList.get(i).contains(candidatePersonaDetailsModel.getPathwayValue())) {
+                                if (spinner_interested_workingArrayList.get(i).equals(candidatePersonaDetailsModel.getPathwayValue())) {
                                     appconpact_spinner_interested_working.setSelection(i);
                                     break;
                                 }
                             }
 
+
                         }
                         if (candidatePersonaDetailsModel.getPlacementAssistance() != null) {
                             for (int i = 0; i < spinnerLookingJob_workingArrayList.size(); i++) {
-                                if (spinnerLookingJob_workingArrayList.get(i).contains(candidatePersonaDetailsModel.getPathwayValue())) {
+                                if (spinnerLookingJob_workingArrayList.get(i).equals(candidatePersonaDetailsModel.getPlacementAssistance())) {
                                     appconpact_spinner_looking_job.setSelection(i);
                                     break;
                                 }
@@ -3534,6 +3591,7 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
                         for (int i = thisYear + 3; i >= 1995; i--) {
                             years.add("");
                             years.add(Integer.toString(i));
+
                         }
                         if (candidatePersonaDetailsModel.getGraduationYear() != null) {
                             for (int i = 0; i < years.size(); i++) {
@@ -3543,59 +3601,6 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
                                 }
                             }
                         }
-                        if (candidatePersonaDetailsModel.getIndianProfessionalQualification() != null) {
-                            for (int i = 0; i < select_Indian_professional_Qualification.length; i++) {
-                                if (select_Indian_professional_Qualification[i].contains(candidatePersonaDetailsModel.getIndianProfessionalQualification())) {
-                                    indian_Professional.setText(i);
-                                    break;
-                                }
-                            }
-                        }
-                        indian_Professional.setText(candidatePersonaDetailsModel.getIndianProfessionalQualification());
-
-                        if (candidatePersonaDetailsModel.getGlobalProfessionalQualification() != null) {
-                            for (int i = 0; i < select_Global_professional_Qualification.length; i++) {
-                                if (select_Global_professional_Qualification[i].contains(candidatePersonaDetailsModel.getGlobalProfessionalQualification())) {
-                                    global_Professional_Qualification.setText(i);
-                                    break;
-                                }
-                            }
-                        }
-                        global_Professional_Qualification.setText(candidatePersonaDetailsModel.getGlobalProfessionalQualification());
-
-                        if (candidatePersonaDetailsModel.getUgQualification() != null) {
-                            for (int i = 0; i < UG_professional_Qualification.length; i++) {
-                                if (UG_professional_Qualification[i].contains(candidatePersonaDetailsModel.getUgQualification())) {
-                                    ug_Graduate_Qualification.setText(i);
-                                    break;
-                                }
-                            }
-                        }
-                        ug_Graduate_Qualification.setText(candidatePersonaDetailsModel.getUgQualification());
-
-                        pg_Graduate_Qualification.setText(candidatePersonaDetailsModel.getPgQualification());
-
-                        if (candidatePersonaDetailsModel.getPgQualification() != null) {
-                            for (int i = 0; i < PG_professional_Qualification.length; i++) {
-                                if (PG_professional_Qualification[i].contains(candidatePersonaDetailsModel.getPgQualification())) {
-                                    pg_Graduate_Qualification.setText(i);
-                                    break;
-                                }
-                            }
-                        }
-
-
-//                        if (candidatePersonaDetailsModel.getIndianProfessionalQualification() != null) {
-//                            StringBuilder stringBuilder = new StringBuilder();
-//                            for (int i = 0; i < select_Indian_professional_Qualification.length; i++) {
-//                                if (Arrays.asList(select_Indian_professional_Qualification).get(i).contains(candidatePersonaDetailsModel.getIndianProfessionalQualification())) {
-//                                    stringBuilder.append(select_Indian_professional_Qualification[indianProfessionalLangList.get(i)]);
-//                                    break;
-//                                }
-//                            }
-//                        }
-                        company_Name.setText(candidatePersonaDetailsModel.getCompany().toString());
-                        edt_work_Experience.setText(candidatePersonaDetailsModel.getYearsOfExperience().toString());
 
 
                     }

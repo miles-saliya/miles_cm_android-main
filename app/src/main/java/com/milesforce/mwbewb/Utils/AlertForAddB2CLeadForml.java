@@ -85,7 +85,7 @@ public class AlertForAddB2CLeadForml {
     public static final int PERMISSION_ACCESS_CALL_PHONE = 20;
     RadioGroup radioGroup, radioGroupForReference;
     LinearLayout referal, direct, referal_layout, reference_layout_spinner;
-    AppCompatSpinner ewbspinner, mwbspinner, M_levels_spinner, city_spinner, direct_spinner, milesSpos_spinner,connection_status_spinner;
+    AppCompatSpinner ewbspinner, mwbspinner, M_levels_spinner, city_spinner, direct_spinner, milesSpos_spinner, connection_status_spinner;
     EditText direct_reference;
     ArrayList<String> levelsArrayList = new ArrayList<>();
     ArrayList<String> ewbArraylist = new ArrayList<>();
@@ -126,9 +126,9 @@ public class AlertForAddB2CLeadForml {
     static String IIML_FA_Checked = " ";
     static String IIML_BA_Checked = " ";
     static String IIML_PA_Checked = " ";
-    static  String IIML_HR_Checked= " ";
-    static  String IITR_BF_Checked= " ";
-    static  String IITR_DBE_Checked= " ";
+    static String IIML_HR_Checked = " ";
+    static String IITR_BF_Checked = " ";
+    static String IITR_DBE_Checked = " ";
     static String SELECTED_STATUS = " ";
     static String ConnectionStatus = " ";
     String LAST_TENDIGIT_MOBILE_NUMBER = null;
@@ -143,7 +143,7 @@ public class AlertForAddB2CLeadForml {
     RadioGroup responce_radio_group;
     String RadioBtnResponseType = null;
     EditText engagement_description;
-    AppCompatCheckBox b2c_cpa_check,b2c_cma_check, b2c_iiml_fa_check, b2c_iiml_ba_check,b2c_iiml_pa_check,b2c_iiml_hr_check,b2c_iitr_bf_check,b2c_iitr_dbe_check,b2c_iimlfa_check,b2c_iimlsf_check;
+    AppCompatCheckBox b2c_cpa_check, b2c_cma_check, b2c_iiml_fa_check, b2c_iiml_ba_check, b2c_iiml_pa_check, b2c_iiml_hr_check, b2c_iitr_bf_check, b2c_iitr_dbe_check, b2c_iimlfa_check, b2c_iimlsf_check;
     static String CPAChecked = " ";
     static String CPMChecked = " ";
     static String DaChecked = " ";
@@ -160,7 +160,7 @@ public class AlertForAddB2CLeadForml {
     AppCompatSpinner appconpact_spinner_connectionstatus;
     AlertDialog alert;
     ArrayList<LevelsModel> spinnerLevelList;
-    EditText b2c_lead_name, b2c_lead_mobile, b2c_lead_email, b2c_lead_education, b2c_lead_company, b2c_lead_designation, b2c_lead_experiance, b2c_lead_engagement, b2c_lead_nextCall_picker_,b2c_international,b2c_country;
+    EditText b2c_lead_name, b2c_lead_mobile, b2c_lead_email, b2c_lead_education, b2c_lead_company, b2c_lead_designation, b2c_lead_experiance, b2c_lead_engagement, b2c_lead_nextCall_picker_, b2c_international, b2c_country;
     EditText b2bcr_leadname, b2bcr_leadmobile, b2bcr_lead_email, b2b_cr_lead_company, b2b_cr_lead_designation, b2b_cr_lead_experiance, b2b_cr_lead_engagement, direct_reference_cr;
     EditText lead_b2b_ir_name, lead_b2b_ir_mobile, lead_b2b_ir_email, lead_b2b_ir_institute, lead_b2b_ir_designation, lead_b2b_ir_engagement, lead_b2b_ir_reference;
     LinearLayout user_info_snakebar, corporate_company;
@@ -170,7 +170,7 @@ public class AlertForAddB2CLeadForml {
     BatteryModel batteryModel;
     RadioButton netenquiery, referal_radio, direct_radio, corporate, university;
     LevelsCustomAdapter levelsCustomAdapter;
-    LinearLayout iiml_course_layout,ba_course_layout;
+    LinearLayout iiml_course_layout, ba_course_layout;
     ArrayAdapter<String> cityAdpater;
     private String[] corporates = {
             "Accenture",
@@ -292,8 +292,8 @@ public class AlertForAddB2CLeadForml {
             "RIMT",
             "St Alberts College"};
     AppCompatAutoCompleteTextView autoCompleteText_mwb_b2c;
-    CardView source_layout_layout,source_info_layout;
-    TextView souceText ,SourceID;
+    CardView source_layout_layout, source_info_layout;
+    TextView souceText, SourceID;
     AppCompatSpinner U_levels_spinner;
     final String[] uLevelList = {
             " ",
@@ -321,7 +321,7 @@ public class AlertForAddB2CLeadForml {
     };
 
 
-    public void AddB2cLeadForm(final Context context, String accessToken, String callLogs,String email,String name,String source,String sourceId ,int type,String netEnquiryType) {
+    public void AddB2cLeadForm(final Context context, String accessToken, String callLogs, String email, String name, String source, String sourceId, int type, String netEnquiryType) {
         NETENQUIRY_TYPE = netEnquiryType;
         batteryModel = new BatterPercentage().getBattertPercentage(context);
         apiClient = ApiUtills.getAPIService();
@@ -334,7 +334,7 @@ public class AlertForAddB2CLeadForml {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
         dialog.setContentView(R.layout.dialog_add_engagementform);
         dialog.setCancelable(true);
-        U_levels_spinner=dialog.findViewById(R.id.U_levels_spinner);
+        U_levels_spinner = dialog.findViewById(R.id.U_levels_spinner);
         ArrayAdapter<String> U_levels_spinner_Adapter = new ArrayAdapter<String>(dialog.getContext(),
                 android.R.layout.simple_spinner_item, uLevelList);
         U_levels_spinner_Adapter.setDropDownViewResource(
@@ -390,11 +390,11 @@ public class AlertForAddB2CLeadForml {
         SourceID = dialog.findViewById(R.id.Source_id);
         iiml_course_layout = dialog.findViewById(R.id.iiml_course_layout);
         ba_course_layout = dialog.findViewById(R.id.ba_course_layout);
-        if(IIML_TAB_CHANGE_CODE == 0){
+        if (IIML_TAB_CHANGE_CODE == 0) {
             iiml_course_layout.setVisibility(View.GONE);
             ba_course_layout.setVisibility(View.VISIBLE);
         }
-        if(IIML_TAB_CHANGE_CODE == 1){
+        if (IIML_TAB_CHANGE_CODE == 1) {
             iiml_course_layout.setVisibility(View.VISIBLE);
             ba_course_layout.setVisibility(View.GONE);
 
@@ -446,9 +446,9 @@ public class AlertForAddB2CLeadForml {
         b2c_iitr_bf_check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
+                if (isChecked) {
                     IITR_BF_Checked = "IITR-BF";
-                }else {
+                } else {
                     IITR_BF_Checked = "";
                 }
             }
@@ -456,14 +456,13 @@ public class AlertForAddB2CLeadForml {
         b2c_iitr_dbe_check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked){
+                if (isChecked) {
                     IITR_DBE_Checked = "IITR-DB";
-                }else {
-                    IITR_DBE_Checked="";
+                } else {
+                    IITR_DBE_Checked = "";
                 }
             }
         });
-
 
 
         autoCompleteText_mwb_b2c = dialog.findViewById(R.id.autoCompleteText_mwb_b2c);
@@ -474,14 +473,14 @@ public class AlertForAddB2CLeadForml {
         // b2c_lead_mobile.setFocusable(false);
         b2c_lead_email.setText(email);
         b2c_lead_name.setText(name);
-        if(type == 1){
+        if (type == 1) {
             source_layout_layout.setVisibility(View.GONE);
             source_info_layout.setVisibility(View.VISIBLE);
             LEADSOURCE = source;
             LeadDetails = sourceId;
             souceText.setText(LEADSOURCE);
             SourceID.setText(LeadDetails);
-        }else {
+        } else {
             source_layout_layout.setVisibility(View.VISIBLE);
             source_info_layout.setVisibility(View.GONE);
         }
@@ -543,23 +542,28 @@ public class AlertForAddB2CLeadForml {
                 SaveMWbB2CLead(dialog);
             }
         });
-
-        netenquiery.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    referal.setVisibility(View.GONE);
-                    direct.setVisibility(View.GONE);
-                    reference_layout_spinner.setVisibility(View.GONE);
-                    LEADSOURCE = "Net Enquiry";
-                    direct_radio.setChecked(false);
-                    corporate.setChecked(false);
-                    referal_radio.setChecked(false);
-                    university.setChecked(false);
-                    corporate_company.setVisibility(View.GONE);
+        if (netenquiery != null) {
+            netenquiery.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        referal.setVisibility(View.GONE);
+                        direct.setVisibility(View.GONE);
+                        reference_layout_spinner.setVisibility(View.GONE);
+                        LEADSOURCE = "Net Enquiry";
+                        direct_radio.setChecked(false);
+                        corporate.setChecked(false);
+                        referal_radio.setChecked(false);
+                        university.setChecked(false);
+                        corporate_company.setVisibility(View.GONE);
+                    }
                 }
-            }
-        });
+            });
+
+        } else {
+
+        }
+
         referal_radio.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -575,82 +579,94 @@ public class AlertForAddB2CLeadForml {
                 }
             }
         });
-        direct_radio.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    referal.setVisibility(View.GONE);
-                    direct.setVisibility(View.VISIBLE);
-                    reference_layout_spinner.setVisibility(View.GONE);
-                    LEADSOURCE = "Direct";
-                    netenquiery.setChecked(false);
-                    corporate.setChecked(false);
-                    referal_radio.setChecked(false);
-                    university.setChecked(false);
-                    corporate_company.setVisibility(View.GONE);
+        if (direct_radio != null) {
+            direct_radio.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        referal.setVisibility(View.GONE);
+                        direct.setVisibility(View.VISIBLE);
+                        reference_layout_spinner.setVisibility(View.GONE);
+                        LEADSOURCE = "Direct";
+                        netenquiery.setChecked(false);
+                        corporate.setChecked(false);
+                        referal_radio.setChecked(false);
+                        university.setChecked(false);
+                        corporate_company.setVisibility(View.GONE);
+                    }
                 }
-            }
-        });
-        corporate.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    referal.setVisibility(View.GONE);
-                    direct.setVisibility(View.GONE);
-                    reference_layout_spinner.setVisibility(View.GONE);
-                    LEADSOURCE = "Corporate";
-                    netenquiery.setChecked(false);
-                    direct_radio.setChecked(false);
-                    referal_radio.setChecked(false);
-                    university.setChecked(false);
-                    corporate_company.setVisibility(View.VISIBLE);
-                    getAutoCompleteData();
-                }
-            }
-        });
-        university.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    referal.setVisibility(View.GONE);
-                    direct.setVisibility(View.GONE);
-                    reference_layout_spinner.setVisibility(View.GONE);
-                    LEADSOURCE = "University";
-                    netenquiery.setChecked(false);
-                    direct_radio.setChecked(false);
-                    referal_radio.setChecked(false);
-                    corporate.setChecked(false);
-                    corporate_company.setVisibility(View.VISIBLE);
-                    getUniversitiesData();
+            });
 
+        }
+        if (corporate != null) {
+            corporate.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        referal.setVisibility(View.GONE);
+                        direct.setVisibility(View.GONE);
+                        reference_layout_spinner.setVisibility(View.GONE);
+                        LEADSOURCE = "Corporate";
+                        netenquiery.setChecked(false);
+                        direct_radio.setChecked(false);
+                        referal_radio.setChecked(false);
+                        university.setChecked(false);
+                        corporate_company.setVisibility(View.VISIBLE);
+                        getAutoCompleteData();
+                    }
                 }
-            }
-        });
-        radioGroupForReference.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if (checkedId == R.id.ewb_id) {
-                    reference_layout_spinner.setVisibility(View.VISIBLE);
-                    ewbspinner.setVisibility(View.VISIBLE);
-                    mwbspinner.setVisibility(View.GONE);
-                    direct_reference.setVisibility(View.GONE);
-                }
-                if (checkedId == R.id.mwb_id) {
-                    reference_layout_spinner.setVisibility(View.VISIBLE);
-                    ewbspinner.setVisibility(View.GONE);
-                    mwbspinner.setVisibility(View.VISIBLE);
-                    direct_reference.setVisibility(View.GONE);
-                }
-                if (checkedId == R.id.others_id) {
-                    reference_layout_spinner.setVisibility(View.VISIBLE);
-                    ewbspinner.setVisibility(View.GONE);
-                    mwbspinner.setVisibility(View.GONE);
-                    direct_reference.setVisibility(View.VISIBLE);
-                    other_check_radio_text = "others";
+            });
 
+        }
+        if (university != null) {
+            university.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        referal.setVisibility(View.GONE);
+                        direct.setVisibility(View.GONE);
+                        reference_layout_spinner.setVisibility(View.GONE);
+                        LEADSOURCE = "University";
+                        netenquiery.setChecked(false);
+                        direct_radio.setChecked(false);
+                        referal_radio.setChecked(false);
+                        corporate.setChecked(false);
+                        corporate_company.setVisibility(View.VISIBLE);
+                        getUniversitiesData();
+
+                    }
                 }
-            }
-        });
+            });
+
+        }
+        if (radioGroupForReference != null) {
+            radioGroupForReference.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup group, int checkedId) {
+                    if (checkedId == R.id.ewb_id) {
+                        reference_layout_spinner.setVisibility(View.VISIBLE);
+                        ewbspinner.setVisibility(View.VISIBLE);
+                        mwbspinner.setVisibility(View.GONE);
+                        direct_reference.setVisibility(View.GONE);
+                    }
+                    if (checkedId == R.id.mwb_id) {
+                        reference_layout_spinner.setVisibility(View.VISIBLE);
+                        ewbspinner.setVisibility(View.GONE);
+                        mwbspinner.setVisibility(View.VISIBLE);
+                        direct_reference.setVisibility(View.GONE);
+                    }
+                    if (checkedId == R.id.others_id) {
+                        reference_layout_spinner.setVisibility(View.VISIBLE);
+                        ewbspinner.setVisibility(View.GONE);
+                        mwbspinner.setVisibility(View.GONE);
+                        direct_reference.setVisibility(View.VISIBLE);
+                        other_check_radio_text = "others";
+
+                    }
+                }
+            });
+
+        }
         /*MWB SPINNER*/
         // Creating adapter for spinner
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, mwbArrayList);
@@ -718,7 +734,7 @@ public class AlertForAddB2CLeadForml {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 LeadDetails = direct_spinner.getSelectedItem().toString();
-                Toast.makeText(context, ""+LeadDetails, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "" + LeadDetails, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -750,20 +766,20 @@ public class AlertForAddB2CLeadForml {
                 spinnerLevelList);
         M_levels_spinner.setAdapter(levelsCustomAdapter);
         M_levels_spinner.setEnabled(false);
-        apiClient.getSpocCity("Bearer "+accessToken).enqueue(new Callback<SuccessModel>() {
+        apiClient.getSpocCity("Bearer " + accessToken).enqueue(new Callback<SuccessModel>() {
             @Override
             public void onResponse(Call<SuccessModel> call, Response<SuccessModel> response) {
                 try {
-                    if(response.body() ==null){
-                    }else {
+                    if (response.body() == null) {
+                    } else {
                         String City = response.body().getCity();//the value you want the position for
                         int spinnerPosition = cityAdpater.getPosition(City);
                         city_spinner.setSelection(spinnerPosition);
                         LEADCity = City;
-                        Toast.makeText(context, ""+LEADCity, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "" + LEADCity, Toast.LENGTH_SHORT).show();
 
                     }
-                }catch (Exception e){
+                } catch (Exception e) {
 
                 }
 
@@ -808,7 +824,7 @@ public class AlertForAddB2CLeadForml {
                         .get(Calendar.YEAR), LeadsCalendar.get(Calendar.MONTH),
                         LeadsCalendar.get(Calendar.DAY_OF_MONTH));
                 datePickerDialog.getDatePicker().setMinDate(LeadsCalendar.getTimeInMillis());
-                datePickerDialog .show();
+                datePickerDialog.show();
             }
         });
     }
@@ -874,7 +890,6 @@ public class AlertForAddB2CLeadForml {
         cityArrayList.add("Jaipur");
 
 
-
         directSourceArraylist.add("Google Ads");
         directSourceArraylist.add("Twitter");
         directSourceArraylist.add("WhatsApp");
@@ -934,7 +949,7 @@ public class AlertForAddB2CLeadForml {
     private void SaveMWbB2CLead(final Dialog dialog) {
         if (SELECTED_STATUS.equals(" ")) {
             Toast.makeText(context, "Please select Connection status ", Toast.LENGTH_SHORT).show();
-            return ;
+            return;
         }
         if (SELECTED_STATUS.equals("Connected / Discussed")) {
             ConnectionStatus = "CD";
@@ -977,25 +992,26 @@ public class AlertForAddB2CLeadForml {
                 LeadDetails = direct_reference.getText().toString();
             }
             if (isValidateMwbForm()) {
-                if(MWbLeadCourseData.equals(" ")){
+                if (MWbLeadCourseData.equals(" ")) {
                     Toast.makeText(context, "Please select course.....!", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 add_b2b_progresss.setVisibility(View.VISIBLE);
-                if(b2c_lead_mobile.getText().toString().trim().length() == 10){
+                if (b2c_lead_mobile.getText().toString().trim().length() == 10) {
                     LAST_TENDIGIT_MOBILE_NUMBER = b2c_lead_mobile.getText().toString().trim();
-                }if(b2c_lead_mobile.getText().toString().trim().length() > 10){
+                }
+                if (b2c_lead_mobile.getText().toString().trim().length() > 10) {
                     String Mobile_NUmber = b2c_lead_mobile.getText().toString().trim();
                     LAST_TENDIGIT_MOBILE_NUMBER = Mobile_NUmber.substring(Mobile_NUmber.length() - 10);
                 }
-                if(b2c_lead_mobile.getText().toString().trim().length() < 10){
+                if (b2c_lead_mobile.getText().toString().trim().length() < 10) {
                     Toast.makeText(context, "Please enter 10 digits mobile number", Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
                     return;
                 }
                 String international = b2c_international.getText().toString().trim();
                 String country_intr = b2c_country.getText().toString().trim();
-                apiClient.AddMwbLead(b2c_lead_name.getText().toString().trim(), LeadLevels, MWbLeadCourseData, "B2C", b2c_lead_company.getText().toString(), b2c_lead_designation.getText().toString(), b2c_lead_experiance.getText().toString(), b2c_lead_education.getText().toString(), LEADCity, "", LEADSOURCE, LeadDetails, b2c_lead_email.getText().toString().trim(), LAST_TENDIGIT_MOBILE_NUMBER, b2c_lead_engagement.getText().toString().trim(), nextCallTimeStamp, 0, batteryModel.getBattey_percentage(), batteryModel.getCharging_status(), VERSION_NUMBER,international,country_intr, ConnectionStatus,NETENQUIRY_TYPE,U_levels_spinner.getSelectedItem().toString(),"Bearer " + accessToken, "application/json").enqueue(new Callback<SuccessModel>() {
+                apiClient.AddMwbLead(b2c_lead_name.getText().toString().trim(), LeadLevels, MWbLeadCourseData, "B2C", b2c_lead_company.getText().toString(), b2c_lead_designation.getText().toString(), b2c_lead_experiance.getText().toString(), b2c_lead_education.getText().toString(), LEADCity, "", LEADSOURCE, LeadDetails, b2c_lead_email.getText().toString().trim(), LAST_TENDIGIT_MOBILE_NUMBER, b2c_lead_engagement.getText().toString().trim(), nextCallTimeStamp, 0, batteryModel.getBattey_percentage(), batteryModel.getCharging_status(), VERSION_NUMBER, international, country_intr, ConnectionStatus, NETENQUIRY_TYPE, U_levels_spinner.getSelectedItem().toString(), "Bearer " + accessToken, "application/json").enqueue(new Callback<SuccessModel>() {
                     @Override
                     public void onResponse(Call<SuccessModel> call, Response<SuccessModel> response) {
                         try {
@@ -1010,21 +1026,20 @@ public class AlertForAddB2CLeadForml {
                                     dialog.dismiss();
                                     Toast.makeText(context, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                                     add_b2b_progresss.setVisibility(View.GONE);
-                                }if (response.body().getStatus().equals("error")) {
+                                }
+                                if (response.body().getStatus().equals("error")) {
                                     Toast.makeText(context, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                                     String spam_number_check = response.body().getMessage();
                                     add_b2b_progresss.setVisibility(View.GONE);
-                                    if(spam_number_check.contains("spam")){
-                                        showSpamDialog(dialog,LAST_TENDIGIT_MOBILE_NUMBER,b2c_lead_mobile.getText().toString().trim(),"Bearer " + accessToken);
-                                    }else {
+                                    if (spam_number_check.contains("spam")) {
+                                        showSpamDialog(dialog, LAST_TENDIGIT_MOBILE_NUMBER, b2c_lead_mobile.getText().toString().trim(), "Bearer " + accessToken);
+                                    } else {
                                         Toast.makeText(context, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                                         add_b2b_progresss.setVisibility(View.GONE);
                                         dialog.dismiss();
 
                                     }
-                                }
-
-                                else {
+                                } else {
                                     //   dialog.dismiss();
                                     Toast.makeText(context, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                                     add_b2b_progresss.setVisibility(View.GONE);
@@ -1047,9 +1062,9 @@ public class AlertForAddB2CLeadForml {
 
     }
 
-    private void showSpamDialog(Dialog dialog, final String last_tendigit_mobile_number,String original_number, final String accessToken) {
+    private void showSpamDialog(Dialog dialog, final String last_tendigit_mobile_number, String original_number, final String accessToken) {
         AlertDialog.Builder builder1 = new AlertDialog.Builder(dialog.getContext());
-        builder1.setMessage("This number("+original_number+" ) is marked as spam. Would you like to remove it from Spam ?");
+        builder1.setMessage("This number(" + original_number + " ) is marked as spam. Would you like to remove it from Spam ?");
         builder1.setCancelable(false);
 
 
@@ -1057,7 +1072,7 @@ public class AlertForAddB2CLeadForml {
                 "Remove from Spam",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        removeThisNumberFromSpamApi(dialog,last_tendigit_mobile_number,accessToken);
+                        removeThisNumberFromSpamApi(dialog, last_tendigit_mobile_number, accessToken);
                     }
                 });
 
@@ -1072,20 +1087,21 @@ public class AlertForAddB2CLeadForml {
         AlertDialog alert11 = builder1.create();
         alert11.show();
     }
+
     private void removeThisNumberFromSpamApi(DialogInterface dialog, String last_tendigit_mobile_number, String bearerAccessToken) {
-        apiClient.removeFromSpam(last_tendigit_mobile_number,bearerAccessToken).enqueue(new Callback<SuccessModel>() {
+        apiClient.removeFromSpam(last_tendigit_mobile_number, bearerAccessToken).enqueue(new Callback<SuccessModel>() {
             @Override
             public void onResponse(Call<SuccessModel> call, Response<SuccessModel> response) {
-                if(response.body().getStatus().equals("success")){
+                if (response.body().getStatus().equals("success")) {
                     Toast.makeText(context, "Removed the number from spam. Now add a lead with this number", Toast.LENGTH_SHORT).show();
-                }else {
-                    Toast.makeText(context, ""+response.message(), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, "" + response.message(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<SuccessModel> call, Throwable t) {
-                Toast.makeText(context, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
         dialog.dismiss();
@@ -1102,27 +1118,27 @@ public class AlertForAddB2CLeadForml {
         if (b2c_iiml_ba_check.isChecked()) {
             MWbLeadCourseData = IIML_BA_Checked;
         }
-        if(b2c_iiml_pa_check.isChecked()){
+        if (b2c_iiml_pa_check.isChecked()) {
             MWbLeadCourseData = IIML_PA_Checked;
         }
-        if(b2c_iiml_hr_check.isChecked()){
+        if (b2c_iiml_hr_check.isChecked()) {
             MWbLeadCourseData = IIML_HR_Checked;
         }
-        if(b2c_iitr_bf_check.isChecked()){
-            MWbLeadCourseData = IITR_BF_Checked ;
+        if (b2c_iitr_bf_check.isChecked()) {
+            MWbLeadCourseData = IITR_BF_Checked;
 
         }
-        if(b2c_iitr_dbe_check.isChecked()){
+        if (b2c_iitr_dbe_check.isChecked()) {
             MWbLeadCourseData = IITR_DBE_Checked;
         }
-        if(b2c_iiml_fa_check.isChecked() && b2c_iitr_dbe_check.isChecked()){
-            MWbLeadCourseData =IIML_FA_Checked + ","+ IITR_DBE_Checked;
+        if (b2c_iiml_fa_check.isChecked() && b2c_iitr_dbe_check.isChecked()) {
+            MWbLeadCourseData = IIML_FA_Checked + "," + IITR_DBE_Checked;
         }
-        if(b2c_iiml_ba_check.isChecked() && b2c_iitr_dbe_check.isChecked()){
-            MWbLeadCourseData =IIML_BA_Checked + ","+ IITR_DBE_Checked;
+        if (b2c_iiml_ba_check.isChecked() && b2c_iitr_dbe_check.isChecked()) {
+            MWbLeadCourseData = IIML_BA_Checked + "," + IITR_DBE_Checked;
         }
-        if(b2c_iitr_bf_check.isChecked() && b2c_iitr_dbe_check.isChecked()){
-            MWbLeadCourseData =IITR_BF_Checked + ","+ IITR_DBE_Checked;
+        if (b2c_iitr_bf_check.isChecked() && b2c_iitr_dbe_check.isChecked()) {
+            MWbLeadCourseData = IITR_BF_Checked + "," + IITR_DBE_Checked;
         }
         if (b2c_iiml_pa_check.isChecked() && b2c_iitr_bf_check.isChecked()) {
             MWbLeadCourseData = IIML_PA_Checked + "," + IITR_BF_Checked;
@@ -1130,11 +1146,11 @@ public class AlertForAddB2CLeadForml {
         if (b2c_iiml_fa_check.isChecked() && b2c_iitr_bf_check.isChecked()) {
             MWbLeadCourseData = IIML_FA_Checked + "," + IITR_BF_Checked;
         }
-        if(b2c_iiml_fa_check.isChecked() && b2c_iiml_pa_check.isChecked()){
-            MWbLeadCourseData =IIML_FA_Checked + ","+ IIML_PA_Checked;
+        if (b2c_iiml_fa_check.isChecked() && b2c_iiml_pa_check.isChecked()) {
+            MWbLeadCourseData = IIML_FA_Checked + "," + IIML_PA_Checked;
         }
-        if(b2c_iiml_ba_check.isChecked() && b2c_iiml_pa_check.isChecked()){
-            MWbLeadCourseData =IIML_BA_Checked + ","+ IIML_PA_Checked;
+        if (b2c_iiml_ba_check.isChecked() && b2c_iiml_pa_check.isChecked()) {
+            MWbLeadCourseData = IIML_BA_Checked + "," + IIML_PA_Checked;
         }
         if (b2c_iiml_ba_check.isChecked() && b2c_iiml_hr_check.isChecked()) {
             MWbLeadCourseData = IIML_BA_Checked + "," + IIML_HR_Checked;
@@ -1152,17 +1168,18 @@ public class AlertForAddB2CLeadForml {
         if (b2c_cpa_check.isChecked()) {
             MWbLeadCourseData = CPAChecked_lead;
         }
-        if ( b2c_cma_check.isChecked()) {
+        if (b2c_cma_check.isChecked()) {
             MWbLeadCourseData = CMAChecked_lead;
         }
-        if(b2c_iimlfa_check.isChecked()){
+        if (b2c_iimlfa_check.isChecked()) {
             MWbLeadCourseData = IIML_FA_Checked_lead;
         }
-        if(b2c_iimlsf_check.isChecked()){
+        if (b2c_iimlsf_check.isChecked()) {
             MWbLeadCourseData = IIML_SF_Checked_lead;
         }
-        if(b2c_iimlfa_check.isChecked() && b2c_iimlsf_check.isChecked()){
-            MWbLeadCourseData = IIML_FA_Checked_lead+ "," + IIML_SF_Checked_lead;;
+        if (b2c_iimlfa_check.isChecked() && b2c_iimlsf_check.isChecked()) {
+            MWbLeadCourseData = IIML_FA_Checked_lead + "," + IIML_SF_Checked_lead;
+            ;
         }
         return true;
     }
@@ -1185,8 +1202,6 @@ public class AlertForAddB2CLeadForml {
                     inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.RESULT_SHOWN);
 
                 }
-
-
 
 
             }

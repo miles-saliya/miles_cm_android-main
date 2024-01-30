@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +44,7 @@ public class CallLogFragment extends Fragment {
     private TabLayout tab_layout;
     SharedPreferences sharedPreferences;
     String AccessToken;
+    int mwb_id;
 
     public CallLogFragment() {
         // Required empty public constructor

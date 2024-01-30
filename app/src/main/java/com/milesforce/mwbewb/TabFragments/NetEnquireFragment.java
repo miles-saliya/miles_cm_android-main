@@ -104,7 +104,7 @@ public class NetEnquireFragment extends Fragment {
 
     UserToken userToken;
     String Access_token;
-    RadioButton b2c_check, add_a_lead, irrelevant_check;
+    RadioButton b2c_check, add_a_lead, irrelevant_check,netenquiery;
     CardView b2c_card, releationship_card;
     EditText relationship_name_untrack, et_search_clientsInUntracked;
     LinearLayout personal_save_btn, addLead_saveUpdateuntracked_form, addLead_untracked_form;
@@ -300,6 +300,8 @@ public class NetEnquireFragment extends Fragment {
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         b2c_check = untracked_dialog.findViewById(R.id.b2c_check);
         add_a_lead = untracked_dialog.findViewById(R.id.add_a_lead);
+        netenquiery = untracked_dialog.findViewById(R.id.netenquiery);
+
         irrelevant_check = untracked_dialog.findViewById(R.id.irrelevant_check);
 
 
@@ -339,7 +341,9 @@ public class NetEnquireFragment extends Fragment {
                     b2c_card.setVisibility(View.GONE);
                     releationship_card.setVisibility(View.GONE);
                     untracked_dialog.dismiss();
-                    new AlertForAddB2CLeadForml().AddB2cLeadForm(getContext(), Access_token, netEnquiryData.getMobile(),netEnquiryData.getEmail(),netEnquiryData.getName(),"Net Enquiry",String.valueOf(netEnquiryData.getId()),1,netEnquiryData.getNet_enquiry_type());
+                    new AlertForAddB2CLeadForml().AddB2cLeadForm(getContext(), Access_token, netEnquiryData.getMobile(),
+                            netEnquiryData.getEmail(),netEnquiryData.getName(),
+                            "Net Enquiry",String.valueOf(netEnquiryData.getId()),1,netEnquiryData.getNet_enquiry_type());
                 }
             }
         });

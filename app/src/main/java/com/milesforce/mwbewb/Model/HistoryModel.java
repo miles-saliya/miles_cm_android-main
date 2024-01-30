@@ -19,11 +19,18 @@ public class HistoryModel {
     @Expose
     private String created_at;
 
-    public HistoryModel(String added_by_name, String details, String last_call, String created_at) {
+    @SerializedName("id")
+    @Expose
+    private int mwb_id;
+
+    public HistoryModel(String added_by_name, String details, String last_call, String created_at,
+    int mwb_id
+    ) {
         this.added_by_name = added_by_name;
         this.details = details;
         this.last_call = last_call;
         this.created_at = created_at;
+        this.mwb_id=mwb_id;
     }
 
     public HistoryModel() {
@@ -61,6 +68,13 @@ public class HistoryModel {
         this.created_at = created_at;
     }
 
+    public int getMWB_ID(){
+        return  mwb_id;
+    }
+    public void  setMwb_id(int mwb_id){
+        this.mwb_id=mwb_id;
+    }
+
     @Override
     public String toString() {
         return "HistoryModel{" +
@@ -68,6 +82,7 @@ public class HistoryModel {
                 ", details='" + details + '\'' +
                 ", last_call='" + last_call + '\'' +
                 ", created_at='" + created_at + '\'' +
+                ", id='" + mwb_id + '\'' +
                 '}';
     }
 }

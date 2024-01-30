@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.LongDef;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatCheckBox;
@@ -44,6 +45,8 @@ import android.widget.Toast;
 import com.google.android.material.snackbar.Snackbar;
 import com.milesforce.mwbewb.Model.AddMobileEmailInfo;
 import com.milesforce.mwbewb.Model.EmailModel;
+import com.milesforce.mwbewb.Model.EngagemmentHistoryModel;
+import com.milesforce.mwbewb.Model.HistoryModel;
 import com.milesforce.mwbewb.Model.MobileNumberModel;
 import com.milesforce.mwbewb.R;
 import com.milesforce.mwbewb.Retrofit.ApiClient;
@@ -72,6 +75,7 @@ import static com.milesforce.mwbewb.Utils.ConstantUtills.ZOOM_INVITATION;
  * A simple {@link Fragment} subclass.
  */
 public class UserInfoFragment extends Fragment implements View.OnClickListener, MultiSelectionSpinner.OnMultipleItemsSelectedListener {
+
 
     AppCompatCheckBox cpa_check, cma_checkBox, iiml_fa_check, iiml_ba_check, iiml_pa_check, iiml_hr_check, iitr_bf_check,
             iitr_dbe_check, iimlfa_check, iimlsf_checkBox, CPA_AA_check, CFA_check, FRM_check, USP_check;
@@ -120,6 +124,11 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener, 
     LinearLayout iiml_team_courses, CA_team_courses;
     RelativeLayout updated_experiance, updated_designation, updated_company, invite_webinar;
 
+    ArrayList<HistoryModel> historyModelArrayList;
+
+    int page = 1;
+    HistoryAdapter historyAdapter;
+
 
     public UserInfoFragment() {
         // Required empty public constructor
@@ -148,6 +157,8 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener, 
             experiance = getArguments().getString("experiance");
             can_id = getArguments().getInt("can_id");
             mwb_id = getArguments().getInt("id");
+            Log.d("mwb_id_addnew", String.valueOf(mwb_id));
+
             education = getArguments().getString("education");
             documents_submitted = getArguments().getString("documents_submitted");
             applied_for_loan = getArguments().getInt("applied_for_loan");
@@ -176,11 +187,8 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener, 
 
             }
 
-
-
-
             /*args2.putInt("applied_for_loan", delaysModel.getApplied_for_loan());
-        args2.putString("loan_status", delaysModel.getLoan_status());*/
+             args2.putString("loan_status", delaysModel.getLoan_status());*/
 
         } catch (Exception e) {
 
@@ -189,10 +197,9 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener, 
         initView(view);
         try {
             batteryModel = new BatterPercentage().getBattertPercentage(getContext());
-        }catch (Exception e){
-            Log.d("BatterPercentage","Failed to get Battery Percentage");
+        } catch (Exception e) {
+            Log.d("BatterPercentage", "Failed to get Battery Percentage");
         }
-
 
 
     }
@@ -288,6 +295,7 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener, 
         }
         getUserMobileNumber();
         getUserEmails();
+        getEngagementData(AccessToken,person_id);
         cpa_check = view.findViewById(R.id.cpa_check);
         cma_checkBox = view.findViewById(R.id.cma_checkBox);
         iimlfa_check = view.findViewById(R.id.iimlfa_check);
@@ -616,6 +624,7 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener, 
                             mobileNumberModel.setPhone_number(mobileNumberModels.get(i).getPhone_number());
                             mobileNumberModel.setMasked_number(mobileNumberModels.get(i).getMasked_number());
                             mobileNumberModel.setId(mobileNumberModels.get(i).getId());
+
                             mobileNumberModelArrayList.add(mobileNumberModel);
                         }
                         mobileIconAdapter = new MobileIconAdapter(getContext(), mobileNumberModelArrayList);
@@ -644,6 +653,49 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener, 
 
 
     }
+
+    private void getEngagementData(String accessToken, int person_id) {
+        historyModelArrayList = new ArrayList<>();
+        apiClient.getPersonengagement(page, person_id, "Bearer " + accessToken, "application/json").enqueue(new Callback<EngagemmentHistoryModel>() {
+            @Override
+            public void onResponse(Call<EngagemmentHistoryModel> call, Response<EngagemmentHistoryModel> response) {
+                try {
+                    if (response.body() == null) {
+                        int statusCode = response.raw().code();
+                        if (statusCode > 399 && statusCode < 500) {
+                            openAertDialog();
+                        }
+                    } else {
+                        List<HistoryModel> getHistoryModelList = response.body().getData();
+                        for (int i = 0; i < getHistoryModelList.size(); i++) {
+
+                            HistoryModel historyModel = new HistoryModel();
+                            historyModel.setMwb_id(getHistoryModelList.get(i).getMWB_ID());
+
+                            historyModel.setAdded_by_name(getHistoryModelList.get(i).getAdded_by_name());
+//                            historyModel.setDetails(getHistoryModelList.get(i).getDetails());
+//                            historyModel.setLast_call(getHistoryModelList.get(i).getCreated_at());
+//                            historyModelArrayList.add(historyModel);
+
+                        }
+//                        historyAdapter = new HistoryAdapter(getContext(), historyModelArrayList);
+//                        HistoryRecyclerView.setAdapter(historyAdapter);
+//                        historyAdapter.notifyDataSetChanged();
+
+
+                    }
+                } catch (Exception e) {
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<EngagemmentHistoryModel> call, Throwable t) {
+
+            }
+        });
+    }
+
 
     private void openAertDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
