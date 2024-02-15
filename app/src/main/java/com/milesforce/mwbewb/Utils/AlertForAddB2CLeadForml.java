@@ -321,7 +321,14 @@ public class AlertForAddB2CLeadForml {
     };
 
 
-    public void AddB2cLeadForm(final Context context, String accessToken, String callLogs, String email, String name, String source, String sourceId, int type, String netEnquiryType) {
+    public void AddB2cLeadForm(final Context context, String accessToken,
+                               String callLogs,
+                               String email,
+                               String name,
+                               String source,
+                               String sourceId,
+                               int type,
+                               String netEnquiryType) {
         NETENQUIRY_TYPE = netEnquiryType;
         batteryModel = new BatterPercentage().getBattertPercentage(context);
         apiClient = ApiUtills.getAPIService();
@@ -744,23 +751,23 @@ public class AlertForAddB2CLeadForml {
         });
 
 
-        cityAdpater = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, cityArrayList);
-        // Drop down layout style - list view with radio button
-        cityAdpater.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // attaching data adapter to spinner
-        city_spinner.setAdapter(cityAdpater);
+//        cityAdpater = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, cityArrayList);
+//        // Drop down layout style - list view with radio button
+//        cityAdpater.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        // attaching data adapter to spinner
+//        city_spinner.setAdapter(cityAdpater);
 
-        city_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                LEADCity = city_spinner.getSelectedItem().toString();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+//        city_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                LEADCity = city_spinner.getSelectedItem().toString();
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
 
         levelsCustomAdapter = new LevelsCustomAdapter(context, R.layout.listitems_layout, R.id.levels_items,
                 spinnerLevelList);
@@ -859,6 +866,8 @@ public class AlertForAddB2CLeadForml {
         ConnectionTypeArrayList.add("Disconnected");
         ConnectionTypeArrayList.add("Invalid Number");
         ConnectionTypeArrayList.add("Switched Off");
+        ConnectionTypeArrayList.add("Communication barrier");
+        ConnectionTypeArrayList.add("Not Educated");
 
         ewbArraylist.add("Kiran CPA M7-01");
         ewbArraylist.add("Rafi CPA M7-04");

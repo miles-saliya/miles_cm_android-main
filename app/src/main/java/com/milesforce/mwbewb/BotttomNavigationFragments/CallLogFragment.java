@@ -95,10 +95,7 @@ public class CallLogFragment extends Fragment {
 
     private void setupViewPager(ViewPager viewPager) {
 
-        ToUpdateFragment updateFragment = new ToUpdateFragment();
-        Bundle args2 = new Bundle();
-        args2.putString(fragment_token, AccessToken);
-        updateFragment.setArguments(args2);
+
 
         MissedCallsFragments missedcall = new MissedCallsFragments();
         Bundle args = new Bundle();
@@ -109,6 +106,12 @@ public class CallLogFragment extends Fragment {
         Bundle args1 = new Bundle();
         args1.putString(fragment_token, AccessToken);
         untracked.setArguments(args1);
+
+        ToUpdateFragment updateFragment = new ToUpdateFragment();
+        Bundle args2 = new Bundle();
+        args2.putString(fragment_token, AccessToken);
+        updateFragment.setArguments(args2);
+
 
         CallLogInfoFragment callLogInfoFragment = new CallLogInfoFragment();
         Bundle argsLogs = new Bundle();

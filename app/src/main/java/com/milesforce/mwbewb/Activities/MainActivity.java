@@ -159,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static final int PERMISSION_ACCESS_CALL_PHONE = 20;
     RadioGroup radioGroupForReference;
     LinearLayout referal, direct, referal_layout, reference_layout_spinner, corporate_company;
-    AppCompatSpinner ewbspinner, mwbspinner, M_levels_spinner, U_levels_spinner, city_spinner, direct_spinner, milesSpos_spinner, appconpact_spinner_connectionstatus;
+    AppCompatSpinner ewbspinner, mwbspinner, M_levels_spinner, U_levels_spinner, direct_spinner, milesSpos_spinner, appconpact_spinner_connectionstatus;
     ArrayList<LevelsModel> spinner_M_LevelList;
     EditText direct_reference;
 
@@ -386,7 +386,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     LevelsCustomAdapter levelsCustomAdapter;
     UserToken userToken;
     GetCallLogService getCallLogService;
-    static ArrayAdapter<String> cityAdpater;
+//    static ArrayAdapter<String> cityAdpater;
 
     static LinearLayout iiml_course_layout, ba_course_layout;
 
@@ -1480,7 +1480,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ewbspinner = dialog.findViewById(R.id.MwbSpinner);
         mwbspinner = dialog.findViewById(R.id.ewbSpinner);
         direct_spinner = dialog.findViewById(R.id.direct_spinner);
-        city_spinner = dialog.findViewById(R.id.city_spinner);
         milesSpos_spinner = dialog.findViewById(R.id.milesSpos_spinner);
         lead_b2b_ir_name = dialog.findViewById(R.id.lead_b2b_ir_name);
         lead_b2b_ir_mobile = dialog.findViewById(R.id.lead_b2b_ir_mobile);
@@ -1680,24 +1679,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-
-        cityAdpater = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, cityArrayList);
-        // Drop down layout style - list view with radio button
-        cityAdpater.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // attaching data adapter to spinner
-        city_spinner.setAdapter(cityAdpater);
-
-        city_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                LEADCity = city_spinner.getSelectedItem().toString();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+//
+//        cityAdpater = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, cityArrayList);
+//        // Drop down layout style - list view with radio button
+//        cityAdpater.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        // attaching data adapter to spinner
+//        city_spinner.setAdapter(cityAdpater);
+//
+//        city_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                LEADCity = city_spinner.getSelectedItem().toString();
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
 
 
         ArrayAdapter<String> levelsAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, milesSpos_spinnerArrayList);
@@ -1801,7 +1800,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mwbspinner = dialog.findViewById(R.id.ewbSpinner);
         direct_reference_cr = dialog.findViewById(R.id.direct_reference_cr);
         direct_spinner = dialog.findViewById(R.id.direct_spinner);
-        city_spinner = dialog.findViewById(R.id.city_spinner);
         milesSpos_spinner = dialog.findViewById(R.id.milesSpos_spinner);
         b2bcr_leadname = dialog.findViewById(R.id.b2bcr_leadname);
         b2bcr_leadmobile = dialog.findViewById(R.id.b2bcr_leadmobile);
@@ -2000,23 +1998,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-
-        ArrayAdapter<String> cityAdpater = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, cityArrayList);
-        // Drop down layout style - list view with radio button
-        cityAdpater.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // attaching data adapter to spinner
-        city_spinner.setAdapter(cityAdpater);
-        city_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                LEADCity = city_spinner.getSelectedItem().toString();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+//
+//        ArrayAdapter<String> cityAdpater = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, cityArrayList);
+//        // Drop down layout style - list view with radio button
+//        cityAdpater.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        // attaching data adapter to spinner
+//        city_spinner.setAdapter(cityAdpater);
+//        city_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                LEADCity = city_spinner.getSelectedItem().toString();
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
 
 
         ArrayAdapter<String> levelsAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, milesSpos_spinnerArrayList);
@@ -2106,7 +2104,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mwbspinner = dialog.findViewById(R.id.ewbSpinner);
         direct_reference = dialog.findViewById(R.id.direct_reference);
         direct_spinner = dialog.findViewById(R.id.direct_spinner);
-        city_spinner = dialog.findViewById(R.id.city_spinner);
+//        city_spinner = dialog.findViewById(R.id.city_spinner);
         M_levels_spinner = dialog.findViewById(R.id.M_levels_spinner);
         U_levels_spinner = dialog.findViewById(R.id.U_levels_spinner);
         appconpact_spinner_connectionstatus = dialog.findViewById(R.id.appconpact_spinner_connectionstatus);
@@ -2962,9 +2960,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         if (appconpact_spinner_graduation_Year.getSelectedItem().toString().isEmpty()) {
                             Toast.makeText(getApplicationContext(), "Please enter graduation Year", Toast.LENGTH_SHORT).show();
 
-                        } else if (edt_current_location.getText().toString().isEmpty()) {
-                            Toast.makeText(getApplicationContext(), "Please enter Current Location", Toast.LENGTH_SHORT).show();
-                        } else if (b2c_lead_engagement.getText().toString().isEmpty()) {
+                       } else if (b2c_lead_engagement.getText().toString().isEmpty()) {
                             Toast.makeText(getApplicationContext(), "Please add engagement details and Please select source details ", Toast.LENGTH_SHORT).show();
 
                         } else {
@@ -3174,23 +3170,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
 
-        cityAdpater = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, cityArrayList);
-        // Drop down layout style - list view with radio button
-        cityAdpater.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // attaching data adapter to spinner
-        city_spinner.setAdapter(cityAdpater);
-
-        city_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                LEADCity = city_spinner.getSelectedItem().toString();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+//        cityAdpater = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, cityArrayList);
+//        // Drop down layout style - list view with radio button
+//        cityAdpater.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        // attaching data adapter to spinner
+//        city_spinner.setAdapter(cityAdpater);
+//
+//        city_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                LEADCity = city_spinner.getSelectedItem().toString();
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
         spinnerLevelList = new ArrayList<>();
         spinnerLevelList.add(new LevelsModel("M3++", "M3++ - Ready to enroll - Not visited"));
         spinnerLevelList.add(new LevelsModel("M3+", "M3+ - Called & Coming"));
@@ -3380,33 +3376,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        apiClient.getSpocCity("Bearer " + accessToken).
-
-                enqueue(new Callback<SuccessModel>() {
-                    @Override
-                    public void onResponse
-                            (Call<SuccessModel> call, Response<SuccessModel> response) {
-                        try {
-                            if (response.body() == null) {
-                            } else {
-                                String City = response.body().getCity();//the value you want the position for
-                                int spinnerPosition = cityAdpater.getPosition(City);
-                                city_spinner.setSelection(spinnerPosition);
-                                LEADCity = City;
-                                // Toast.makeText(MainActivity.this, ""+LEADCity, Toast.LENGTH_SHORT).show();
-
-                            }
-                        } catch (Exception e) {
-
-                        }
-
-                    }
-
-                    @Override
-                    public void onFailure(Call<SuccessModel> call, Throwable t) {
-
-                    }
-                });
+//        apiClient.getSpocCity("Bearer " + accessToken).
+//
+//                enqueue(new Callback<SuccessModel>() {
+//                    @Override
+//                    public void onResponse
+//                            (Call<SuccessModel> call, Response<SuccessModel> response) {
+//                        try {
+//                            if (response.body() == null) {
+//                            } else {
+//                                String City = response.body().getCity();//the value you want the position for
+//                                int spinnerPosition = cityAdpater.getPosition(City);
+//                                city_spinner.setSelection(spinnerPosition);
+//                                LEADCity = City;
+//                                // Toast.makeText(MainActivity.this, ""+LEADCity, Toast.LENGTH_SHORT).show();
+//
+//                            }
+//                        } catch (Exception e) {
+//
+//                        }
+//
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<SuccessModel> call, Throwable t) {
+//
+//                    }
+//                });
 
 
     }

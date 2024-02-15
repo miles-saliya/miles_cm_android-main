@@ -276,13 +276,13 @@
                             android:minHeight="?attr/actionBarSize"
                             android:paddingLeft="@dimen/spacing_middle"
                             android:paddingRight="@dimen/spacing_middle" />
-<!--                        <androidx.appcompat.widget.AppCompatSpinner-->
-<!--                            android:id="@+id/M_levels_spinner"-->
-<!--                            style="@style/Base.Widget.AppCompat.Spinner.Underlined"-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:minHeight="?attr/actionBarSize"-->
-<!--                            android:spinnerMode="dialog" />-->
+                        <!--                        <androidx.appcompat.widget.AppCompatSpinner-->
+                        <!--                            android:id="@+id/M_levels_spinner"-->
+                        <!--                            style="@style/Base.Widget.AppCompat.Spinner.Underlined"-->
+                        <!--                            android:layout_width="match_parent"-->
+                        <!--                            android:layout_height="wrap_content"-->
+                        <!--                            android:minHeight="?attr/actionBarSize"-->
+                        <!--                            android:spinnerMode="dialog" />-->
 
                         <TextView
                             style="@style/EditText.Flat.Grey"
@@ -359,22 +359,22 @@
                             android:paddingLeft="@dimen/spacing_middle"
                             android:paddingRight="@dimen/spacing_middle" />
 
-<!--                        <TextView-->
-<!--                            style="@style/EditText.Flat.Grey"-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:layout_marginTop="@dimen/spacing_large"-->
-<!--                            android:text="City" />-->
+                        <!--                        <TextView-->
+                        <!--                            style="@style/EditText.Flat.Grey"-->
+                        <!--                            android:layout_width="match_parent"-->
+                        <!--                            android:layout_height="wrap_content"-->
+                        <!--                            android:layout_marginTop="@dimen/spacing_large"-->
+                        <!--                            android:text="City" />-->
 
-<!--                        <androidx.appcompat.widget.AppCompatSpinner-->
-<!--                            android:id="@+id/city_spinner"-->
-<!--                            style="@style/EditText.Flat.Grey"-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="45dp"-->
-<!--                            android:layout_marginTop="@dimen/spacing_medium"-->
-<!--                            android:background="@drawable/edit_text_round_bg_gray_50"-->
-<!--                            android:paddingLeft="@dimen/spacing_middle"-->
-<!--                            android:paddingRight="@dimen/spacing_middle" />-->
+                        <!--                        <androidx.appcompat.widget.AppCompatSpinner-->
+                        <!--                            android:id="@+id/city_spinner"-->
+                        <!--                            style="@style/EditText.Flat.Grey"-->
+                        <!--                            android:layout_width="match_parent"-->
+                        <!--                            android:layout_height="45dp"-->
+                        <!--                            android:layout_marginTop="@dimen/spacing_medium"-->
+                        <!--                            android:background="@drawable/edit_text_round_bg_gray_50"-->
+                        <!--                            android:paddingLeft="@dimen/spacing_middle"-->
+                        <!--                            android:paddingRight="@dimen/spacing_middle" />-->
                         <!--                        <TextView-->
                         <!--                            style="@style/EditText.Flat.Grey"-->
                         <!--                            android:layout_width="match_parent"-->
@@ -600,41 +600,41 @@
 
                             </LinearLayout>
 
-<!--                            <LinearLayout-->
-<!--                                android:id="@+id/current_location"-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="wrap_content"-->
-<!--                                android:orientation="vertical"-->
-<!--                                android:paddingTop="20dp">-->
+                            <!--                            <LinearLayout-->
+                            <!--                                android:id="@+id/current_location"-->
+                            <!--                                android:layout_width="match_parent"-->
+                            <!--                                android:layout_height="wrap_content"-->
+                            <!--                                android:orientation="vertical"-->
+                            <!--                                android:paddingTop="20dp">-->
 
-<!--                                <TextView-->
-<!--                                    android:layout_width="match_parent"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:text="Current Location *"-->
-<!--                                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"-->
-<!--                                    android:textSize="14sp" />-->
+                            <!--                                <TextView-->
+                            <!--                                    android:layout_width="match_parent"-->
+                            <!--                                    android:layout_height="wrap_content"-->
+                            <!--                                    android:text="Current Location *"-->
+                            <!--                                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"-->
+                            <!--                                    android:textSize="14sp" />-->
 
-<!--                                &lt;!&ndash;        <androidx.appcompat.widget.AppCompatSpinner&ndash;&gt;-->
-<!--                                &lt;!&ndash;            android:id="@+id/appconpact_spinner_current_location"&ndash;&gt;-->
-<!--                                &lt;!&ndash;            style="@style/Base.Widget.AppCompat.Spinner.Underlined"&ndash;&gt;-->
-<!--                                &lt;!&ndash;            android:layout_width="match_parent"&ndash;&gt;-->
-<!--                                &lt;!&ndash;            android:layout_height="wrap_content"&ndash;&gt;-->
-<!--                                &lt;!&ndash;            android:minHeight="?attr/actionBarSize"&ndash;&gt;-->
-<!--                                &lt;!&ndash;            android:spinnerMode="dialog" />&ndash;&gt;-->
-<!--                                <EditText-->
-<!--                                    android:id="@+id/edt_current_location"-->
-<!--                                    style="@style/EditText.Flat.Grey"-->
-<!--                                    android:layout_width="match_parent"-->
-<!--                                    android:layout_height="50dp"-->
-<!--                                    android:layout_marginTop="@dimen/spacing_large"-->
-<!--                                    android:background="@drawable/edit_text_round_bg_gray_50"-->
-<!--                                    android:hint="please type location"-->
-<!--                                    android:paddingLeft="@dimen/spacing_middle"-->
-<!--                                    android:paddingRight="@dimen/spacing_middle"-->
-<!--                                    android:paddingBottom="20dp" />-->
+                            <!--                                &lt;!&ndash;        <androidx.appcompat.widget.AppCompatSpinner&ndash;&gt;-->
+                            <!--                                &lt;!&ndash;            android:id="@+id/appconpact_spinner_current_location"&ndash;&gt;-->
+                            <!--                                &lt;!&ndash;            style="@style/Base.Widget.AppCompat.Spinner.Underlined"&ndash;&gt;-->
+                            <!--                                &lt;!&ndash;            android:layout_width="match_parent"&ndash;&gt;-->
+                            <!--                                &lt;!&ndash;            android:layout_height="wrap_content"&ndash;&gt;-->
+                            <!--                                &lt;!&ndash;            android:minHeight="?attr/actionBarSize"&ndash;&gt;-->
+                            <!--                                &lt;!&ndash;            android:spinnerMode="dialog" />&ndash;&gt;-->
+                            <!--                                <EditText-->
+                            <!--                                    android:id="@+id/edt_current_location"-->
+                            <!--                                    style="@style/EditText.Flat.Grey"-->
+                            <!--                                    android:layout_width="match_parent"-->
+                            <!--                                    android:layout_height="50dp"-->
+                            <!--                                    android:layout_marginTop="@dimen/spacing_large"-->
+                            <!--                                    android:background="@drawable/edit_text_round_bg_gray_50"-->
+                            <!--                                    android:hint="please type location"-->
+                            <!--                                    android:paddingLeft="@dimen/spacing_middle"-->
+                            <!--                                    android:paddingRight="@dimen/spacing_middle"-->
+                            <!--                                    android:paddingBottom="20dp" />-->
 
 
-<!--                            </LinearLayout>-->
+                            <!--                            </LinearLayout>-->
 
                             <TextView
                                 android:layout_width="match_parent"
@@ -1330,34 +1330,34 @@
                                 <!--                                    android:text="Net enquiry" />-->
                             </LinearLayout>
 
-<!--                            <LinearLayout-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="wrap_content"-->
-<!--                                android:background="@drawable/edit_text_round_bg_gray_50"-->
-<!--                                android:gravity="center"-->
-<!--                                android:orientation="horizontal"-->
-<!--                                android:weightSum="3">-->
+                            <!--                            <LinearLayout-->
+                            <!--                                android:layout_width="match_parent"-->
+                            <!--                                android:layout_height="wrap_content"-->
+                            <!--                                android:background="@drawable/edit_text_round_bg_gray_50"-->
+                            <!--                                android:gravity="center"-->
+                            <!--                                android:orientation="horizontal"-->
+                            <!--                                android:weightSum="3">-->
 
-<!--                                <RadioButton-->
-<!--                                    android:id="@+id/corporate"-->
-<!--                                    android:layout_width="0dp"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_weight="1"-->
-<!--                                    android:text="Corporate" />-->
+                            <!--                                <RadioButton-->
+                            <!--                                    android:id="@+id/corporate"-->
+                            <!--                                    android:layout_width="0dp"-->
+                            <!--                                    android:layout_height="wrap_content"-->
+                            <!--                                    android:layout_weight="1"-->
+                            <!--                                    android:text="Corporate" />-->
 
-<!--                                <RadioButton-->
-<!--                                    android:id="@+id/university"-->
-<!--                                    android:layout_width="0dp"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_weight="1"-->
-<!--                                    android:text="University" />-->
+                            <!--                                <RadioButton-->
+                            <!--                                    android:id="@+id/university"-->
+                            <!--                                    android:layout_width="0dp"-->
+                            <!--                                    android:layout_height="wrap_content"-->
+                            <!--                                    android:layout_weight="1"-->
+                            <!--                                    android:text="University" />-->
 
-<!--                                <RadioButton-->
-<!--                                    android:layout_width="0dp"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_weight="1"-->
-<!--                                    android:visibility="invisible" />-->
-<!--                            </LinearLayout>-->
+                            <!--                                <RadioButton-->
+                            <!--                                    android:layout_width="0dp"-->
+                            <!--                                    android:layout_height="wrap_content"-->
+                            <!--                                    android:layout_weight="1"-->
+                            <!--                                    android:visibility="invisible" />-->
+                            <!--                            </LinearLayout>-->
                         </LinearLayout>
 
                         <LinearLayout
@@ -1541,7 +1541,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="Source : "/>
+                                android:text="Source : "></TextView>
 
                             <TextView
                                 android:id="@+id/Source_test"
@@ -1549,7 +1549,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text=""/>
+                                android:text=""></TextView>
                         </LinearLayout>
 
                         <LinearLayout
@@ -1563,7 +1563,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="Source ID : "/>
+                                android:text="Source ID : "></TextView>
 
                             <TextView
                                 android:id="@+id/Source_id"
@@ -1571,7 +1571,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text=""/>
+                                android:text=""></TextView>
                         </LinearLayout>
 
 

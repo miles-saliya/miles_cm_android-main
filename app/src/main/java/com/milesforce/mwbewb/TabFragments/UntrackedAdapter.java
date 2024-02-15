@@ -9,9 +9,11 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.milesforce.mwbewb.Model.CallLogs;
+import com.milesforce.mwbewb.Model.DashboardDatum;
 import com.milesforce.mwbewb.R;
 import com.milesforce.mwbewb.Utils.TriggerCallWIthTelephoneManager;
 
@@ -25,15 +27,17 @@ public class UntrackedAdapter extends RecyclerView.Adapter<UntrackedAdapter.View
     static Context context;
     static OnClickListner onClickListner;
     static ArrayList<CallLogs> untrackedModelArrayList;
+    static ArrayList<DashboardDatum> DashboardDatumlArrayList;
+
 
     public void setOnItemClickListner(OnClickListner onClickListner) {
         this.onClickListner = onClickListner;
 
     }
 
-    public UntrackedAdapter(Context context, ArrayList<CallLogs> untrackedModelArrayList) {
+    public UntrackedAdapter(Context context,ArrayList<DashboardDatum> DashboardDatumlArrayList) {
         this.context = context;
-        this.untrackedModelArrayList = untrackedModelArrayList;
+        this.DashboardDatumlArrayList = DashboardDatumlArrayList;
 
     }
 
@@ -41,16 +45,15 @@ public class UntrackedAdapter extends RecyclerView.Adapter<UntrackedAdapter.View
     @Override
     public UntrackedAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.untracked_layout, parent, false));
+
     }
 
     @Override
     public void onBindViewHolder(@NonNull UntrackedAdapter.ViewHolder holder, final int position) {
         try {
-            holder.untrack_mobile_number.setText(untrackedModelArrayList.get(position).getPhone_number());
-            holder.untrack_type.setText(untrackedModelArrayList.get(position).getDirectory() + " a call at - " + getStringTimeStamp(untrackedModelArrayList.get(position).getTime()));
-
-
-            Long totalSecs = Long.valueOf(untrackedModelArrayList.get(position).getCall_duration());
+            holder.untrack_mobile_number.setText(DashboardDatumlArrayList.get(position).getPhoneNumber());
+            holder.untrack_type.setText(DashboardDatumlArrayList.get(position).getDirectory() + " a call at - " + getStringTimeStamp(untrackedModelArrayList.get(position).getTime()));
+            Long totalSecs = Long.valueOf(DashboardDatumlArrayList.get(position).getCallDuration());
             Long hours = totalSecs / 3600;
             Long minutes = (totalSecs % 3600) / 60;
             Long seconds = totalSecs % 60;
@@ -65,7 +68,7 @@ public class UntrackedAdapter extends RecyclerView.Adapter<UntrackedAdapter.View
 
     @Override
     public int getItemCount() {
-        return untrackedModelArrayList.size();
+        return DashboardDatumlArrayList.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -92,7 +95,7 @@ public class UntrackedAdapter extends RecyclerView.Adapter<UntrackedAdapter.View
                     onClickListner.OnItemCLicked(v, getAdapterPosition());
                     break;
                 case R.id.call_Image_btn:
-                    TriggerCallWIthTelephoneManager.TriggerCall(String.valueOf(untrackedModelArrayList.get(getAdapterPosition()).getPhone_number()), context);
+                    TriggerCallWIthTelephoneManager.TriggerCall(String.valueOf(DashboardDatumlArrayList.get(getAdapterPosition()).getPhoneNumber()), context);
                     break;
             }
 
@@ -104,7 +107,7 @@ public class UntrackedAdapter extends RecyclerView.Adapter<UntrackedAdapter.View
     }
 
     private String getStringTimeStamp(String next_call) {
-        Date date = new Date(Long.valueOf(next_call));
+        Date date = new Date(Long.parseLong(next_call));
         DateFormat format = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
         String formatted = format.format(date);
         return formatted;

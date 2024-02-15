@@ -4,22 +4,24 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
-
 public class UntrackedMainModel {
     @SerializedName("dashboard_category")
     @Expose
     private String dashboard_category;
+
     @SerializedName("dashboard_data")
     @Expose
-    private ArrayList<CallLogs> dashboard_data;
+    private DashboardData dashboard_data;
+
     @SerializedName("status")
     @Expose
     private int status;
+
     @SerializedName("message")
     @Expose
     private String message;
 
-    public UntrackedMainModel(String dashboard_category, ArrayList<CallLogs> dashboard_data, int status, String message) {
+    public UntrackedMainModel(String dashboard_category, DashboardData dashboard_data, int status, String message) {
         this.dashboard_category = dashboard_category;
         this.dashboard_data = dashboard_data;
         this.status = status;
@@ -38,10 +40,10 @@ public class UntrackedMainModel {
     }
 
     public ArrayList<CallLogs> getDashboard_data() {
-        return dashboard_data;
+        return dashboard_data.getData();
     }
 
-    public void setDashboard_data(ArrayList<CallLogs> dashboard_data) {
+    public void setDashboard_data(DashboardData dashboard_data) {
         this.dashboard_data = dashboard_data;
     }
 
@@ -70,4 +72,34 @@ public class UntrackedMainModel {
                 ", message='" + message + '\'' +
                 '}';
     }
+}
+
+class DashboardData {
+    @SerializedName("current_page")
+    @Expose
+    private int current_page;
+
+    @SerializedName("data")
+    @Expose
+    private ArrayList<CallLogs> data;
+
+    // Add other fields as needed
+
+    public int getCurrent_page() {
+        return current_page;
+    }
+
+    public void setCurrent_page(int current_page) {
+        this.current_page = current_page;
+    }
+
+    public ArrayList<CallLogs> getData() {
+        return data;
+    }
+
+    public void setData(ArrayList<CallLogs> data) {
+        this.data = data;
+    }
+
+    // Add getters and setters for other fields as needed
 }

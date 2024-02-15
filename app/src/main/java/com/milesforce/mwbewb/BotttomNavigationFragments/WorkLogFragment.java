@@ -21,6 +21,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
+import com.milesforce.mwbewb.Model.DelaysModel;
 import com.milesforce.mwbewb.R;
 import com.milesforce.mwbewb.TabFragments.EscalationFragment;
 import com.milesforce.mwbewb.TabFragments.FLagFragment;
@@ -53,7 +54,8 @@ public class WorkLogFragment extends androidx.fragment.app.Fragment {
     private TabLayout tab_layout;
     SharedPreferences sharedPreferences;
     String AccessToken;
-
+    DelaysModel delaysModel;
+    ArrayList<DelaysModel> delaysModelArrayList;
 
     public WorkLogFragment() {
         // Required empty public constructor
@@ -66,6 +68,12 @@ public class WorkLogFragment extends androidx.fragment.app.Fragment {
         // Inflate the layout for this fragment
         sharedPreferences = getContext().getSharedPreferences(SaveToken, Context.MODE_PRIVATE);
         AccessToken = sharedPreferences.getString(ConstantUtills.AccessToken, null);
+        try {
+            delaysModelArrayList = new ArrayList<>();
+            delaysModel = (DelaysModel) getActivity().getIntent().getExtras().getSerializable("value");
+            delaysModelArrayList.add(delaysModel);
+        } catch (Exception e) {
+        }
         return inflater.inflate(R.layout.fragment_work_log, container, false);
     }
 
@@ -82,7 +90,9 @@ public class WorkLogFragment extends androidx.fragment.app.Fragment {
 
         tab_layout = (TabLayout) view.findViewById(R.id.tab_layout_workLog);
         tab_layout.setupWithViewPager(view_pager);
-        setupTabIcons(TAB_CHANGE_CODE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            setupTabIcons(TAB_CHANGE_CODE);
+        }
         tab_layout.addOnTabSelectedListener(new TabLayout.BaseOnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -135,6 +145,10 @@ public class WorkLogFragment extends androidx.fragment.app.Fragment {
 
         NetEnquireFragment netEnquireFragment = new NetEnquireFragment();
         Bundle new_enquiery = new Bundle();
+//        Bundle args_netEnquireFragment = new Bundle();
+//        args_netEnquireFragment.putInt("id", delaysModel.getId());
+//        netEnquireFragment.setArguments(args_netEnquireFragment);
+
         new_enquiery.putString(fragment_token,AccessToken);
         netEnquireFragment.setArguments(new_enquiery);
 

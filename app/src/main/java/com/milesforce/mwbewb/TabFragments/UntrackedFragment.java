@@ -11,12 +11,10 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
@@ -24,6 +22,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,9 +30,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -41,29 +38,22 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
-import com.milesforce.mwbewb.Activities.AddEngagementActivity;
 import com.milesforce.mwbewb.Activities.LoginActivity;
-import com.milesforce.mwbewb.Activities.SearchAdapter;
-import com.milesforce.mwbewb.Activities.SearchClient;
-import com.milesforce.mwbewb.Model.CallDataLogModel;
 import com.milesforce.mwbewb.Model.CallLogs;
+import com.milesforce.mwbewb.Model.DashboardDatum;
 import com.milesforce.mwbewb.Model.DelaysModel;
-import com.milesforce.mwbewb.Model.UntrackedMainModel;
-import com.milesforce.mwbewb.Model.UntrackedModel;
-import com.milesforce.mwbewb.Model.WorkLogModel;
+import com.milesforce.mwbewb.Model.UntrackedCallsModel;
 import com.milesforce.mwbewb.R;
 import com.milesforce.mwbewb.Retrofit.ApiClient;
 import com.milesforce.mwbewb.Retrofit.ApiUtills;
 import com.milesforce.mwbewb.Retrofit.SuccessModel;
 import com.milesforce.mwbewb.Utils.AlertForAddB2BCRLeadForm;
 import com.milesforce.mwbewb.Utils.AlertForAddB2CLeadForml;
-import com.milesforce.mwbewb.Utils.BatterPercentage;
 import com.milesforce.mwbewb.Utils.BatteryModel;
 import com.milesforce.mwbewb.Utils.ConstantUtills;
 import com.milesforce.mwbewb.Utils.CustomEngagementFormForUntracked;
@@ -72,7 +62,6 @@ import com.milesforce.mwbewb.Utils.ResumeWork;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -90,7 +79,9 @@ public class UntrackedFragment extends Fragment {
     RecyclerView untrackedRecyclerView;
     UntrackedAdapter untrackedAdapter;
     ApiClient apiClient;
-    ArrayList<CallLogs> untrackedModelArrayList;
+    ArrayList<CallLogs> untrackedModelArrayList = new ArrayList<CallLogs>();
+    ArrayList<DashboardDatum> DashboardDatumlArrayList;
+
     SwipeRefreshLayout untrackedSwipeToRefresh;
     String AccessToken;
     int page_number = 1;
@@ -140,6 +131,7 @@ public class UntrackedFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         apiClient = ApiUtills.getAPIService();
+
         sharedPreferences = getContext().getSharedPreferences(SaveToken, MODE_PRIVATE);
         AccessToken = getArguments().getString(fragment_token);
         return inflater.inflate(R.layout.fragment_untracked, container, false);
@@ -149,18 +141,20 @@ public class UntrackedFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initViews(view);
+        untrackedRecyclerView = view.findViewById(R.id.untrackedRecyclerView);
+
+
         getUntrackedData();
-        batteryModel = new BatterPercentage().getBattertPercentage(getContext());
     }
 
     private void getUntrackedData() {
         untracked_progress.setVisibility(View.VISIBLE);
-        untrackedModelArrayList = new ArrayList<>();
-        apiClient.getUntrackedCallLogs(1, "Bearer " + AccessToken, "").enqueue(new Callback<UntrackedMainModel>() {
+        DashboardDatumlArrayList = new ArrayList<>();
+        apiClient.getUntrackedCallLogsMobileApp(1, "Bearer " + AccessToken, "").enqueue(new Callback<UntrackedCallsModel>() {
             @Override
-            public void onResponse(Call<UntrackedMainModel> call, Response<UntrackedMainModel> response) {
+            public void onResponse(Call<UntrackedCallsModel> call, Response<UntrackedCallsModel> response) {
                 try {
-                    if(response.raw().code() == 515){
+                    if (response.raw().code() == 515) {
                         new ResumeWork().stResumeWork(getContext());
                         return;
                     }
@@ -171,29 +165,35 @@ public class UntrackedFragment extends Fragment {
                             untracked_progress.setVisibility(View.GONE);
                         }
                     } else {
-                        List<CallLogs> untrackedModelList = response.body().getDashboard_data();
+                        List<DashboardDatum> untrackedModelList = response.body().getDashboardData();
                         for (int i = 0; i < untrackedModelList.size(); i++) {
-                            CallLogs callLogs = new CallLogs();
-                            callLogs.setId(untrackedModelList.get(i).getId());
-                            callLogs.setPerson_id(untrackedModelList.get(i).getPerson_id());
-                            callLogs.setPerson_name(untrackedModelList.get(i).getPerson_name());
-                            callLogs.setPhone_number(untrackedModelList.get(i).getPhone_number());
-                            callLogs.setDirectory(untrackedModelList.get(i).getDirectory());
-                            callLogs.setCreated_at(untrackedModelList.get(i).getCreated_at());
-                            callLogs.setCall_duration(untrackedModelList.get(i).getCall_duration());
-                            callLogs.setTime(untrackedModelList.get(i).getTime());
-                            untrackedModelArrayList.add(callLogs);
+                            DashboardDatum dashboardDatum = new DashboardDatum();
+                            dashboardDatum.setId(untrackedModelList.get(i).getId());
+                            dashboardDatum.setPersonId(untrackedModelList.get(i).getPersonId());
+                            dashboardDatum.setPersonName(untrackedModelList.get(i).getPersonName());
+                            dashboardDatum.setPhoneNumber(untrackedModelList.get(i).getPhoneNumber());
+                            dashboardDatum.setDirectory(untrackedModelList.get(i).getDirectory());
+                            dashboardDatum.setCreatedAt(untrackedModelList.get(i).getCreatedAt());
+                            dashboardDatum.setCallDuration(untrackedModelList.get(i).getCallDuration());
+                            dashboardDatum.setTime(untrackedModelList.get(i).getTime());
+                            DashboardDatumlArrayList.add(dashboardDatum);
                         }
-                        untrackedAdapter = new UntrackedAdapter(getContext(), untrackedModelArrayList);
-                        untrackedRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+
+                        untrackedAdapter = new UntrackedAdapter(getContext(), DashboardDatumlArrayList);
+                        untrackedRecyclerView.setHasFixedSize(true);
                         untrackedRecyclerView.setAdapter(untrackedAdapter);
+                        untrackedRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                         untrackedAdapter.notifyDataSetChanged();
-                        floating_untracked.setImageBitmap(textAsBitmap(String.valueOf(untrackedModelArrayList.size()), 40, Color.BLUE));
+
+
+                        floating_untracked.setImageBitmap(textAsBitmap(String.valueOf(DashboardDatumlArrayList.size()), 40, Color.BLUE));
                         untrackedAdapter.setOnItemClickListner(new UntrackedAdapter.OnClickListner() {
                             @Override
                             public void OnItemCLicked(View view, int position) {
-                                CallLogs callLogs = untrackedModelArrayList.get(position);
-                                OpenUntrackedForm(callLogs);
+                                DashboardDatum dashboardDatum = DashboardDatumlArrayList.get(position);
+                                OpenUntrackedForm(dashboardDatum);
+
                             }
                         });
                         untrackedSwipeToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -207,21 +207,102 @@ public class UntrackedFragment extends Fragment {
 
                 } catch (Exception e) {
                     untracked_progress.setVisibility(View.GONE);
-                    showAlertForStatus(String.valueOf(response.body().getMessage()));
+//                    showAlertForStatus(String.valueOf(response.body().getMessage()));
                 }
 
             }
 
             @Override
-            public void onFailure(Call<UntrackedMainModel> call, Throwable t) {
+            public void onFailure(Call<UntrackedCallsModel> call, Throwable t) {
+                Log.d("UNTRACKED onFailure", t.toString());
                 untracked_progress.setVisibility(View.GONE);
-               // showAlertForStatus(String.valueOf(t.getMessage()));
-              //  showAlertForStatus("Some thing went wrong .Please Try again after some time..!");
+                showAlertForStatus(String.valueOf(t.getMessage()));
+                //  showAlertForStatus("Some thing went wrong .Please Try again after some time..!");
             }
         });
 
 
     }
+
+//    private void getUntrackedData() {
+//        untracked_progress.setVisibility(View.VISIBLE);
+//        untrackedModelArrayList = new ArrayList<>();
+//        apiClient.getUntrackedCallLogs(1, "Bearer " + AccessToken, "").enqueue(new Callback<UntrackedMainModel>() {
+//            @Override
+//            public void onResponse(Call<UntrackedMainModel> call, Response<UntrackedMainModel> response) {
+//                try {
+//                    if (response.raw().code() == 515) {
+//                        new ResumeWork().stResumeWork(getContext());
+//                        return;
+//                    }
+//                    if (response.body() == null) {
+//                        int statusCode = response.raw().code();
+//                        if (statusCode == 401) {
+//                            SessionLogout(getContext());
+//                            untracked_progress.setVisibility(View.GONE);
+//                        }
+//                    } else {
+//                        List<CallLogs> untrackedModelList = response.body().getDashboard_data();
+//                        for (int i = 0; i < untrackedModelList.size(); i++) {
+//                            CallLogs callLogs = new CallLogs();
+//                            callLogs.setId(untrackedModelList.get(i).getId());
+//                            callLogs.setPerson_id(untrackedModelList.get(i).getPerson_id());
+//                            callLogs.setPerson_name(untrackedModelList.get(i).getPerson_name());
+//                            callLogs.setPhone_number(untrackedModelList.get(i).getPhone_number());
+//                            callLogs.setDirectory(untrackedModelList.get(i).getDirectory());
+//                            callLogs.setCreated_at(untrackedModelList.get(i).getCreated_at());
+//                            callLogs.setCall_duration(untrackedModelList.get(i).getCall_duration());
+//                            callLogs.setTime(untrackedModelList.get(i).getTime());
+//                            untrackedModelArrayList.add(callLogs);
+//                        }
+//
+//
+//
+//
+//
+//                        UntrackedAdapter untrackedAdapter = new UntrackedAdapter(getContext(), untrackedModelArrayList);
+//                        untrackedRecyclerView.setHasFixedSize(true);
+//                        untrackedRecyclerView.setAdapter(untrackedAdapter);
+//                        untrackedRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+//                        untrackedAdapter.notifyDataSetChanged();
+//
+//
+//
+//                        floating_untracked.setImageBitmap(textAsBitmap(String.valueOf(untrackedModelArrayList.size()), 40, Color.BLUE));
+//                        untrackedAdapter.setOnItemClickListner(new UntrackedAdapter.OnClickListner() {
+//                            @Override
+//                            public void OnItemCLicked(View view, int position) {
+//                                CallLogs callLogs = untrackedModelArrayList.get(position);
+//                                OpenUntrackedForm(callLogs);
+//                            }
+//                        });
+//                        untrackedSwipeToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//                            @Override
+//                            public void onRefresh() {
+//                                untrackedSwipeToRefresh.setRefreshing(false);
+//                            }
+//                        });
+//                        untracked_progress.setVisibility(View.GONE);
+//                    }
+//
+//                } catch (Exception e) {
+//                    untracked_progress.setVisibility(View.GONE);
+//                    showAlertForStatus(String.valueOf(response.body().getMessage()));
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<UntrackedMainModel> call, Throwable t) {
+//                Log.d("UNTRACKED onFailure",t.toString());
+//                untracked_progress.setVisibility(View.GONE);
+//                 showAlertForStatus(String.valueOf(t.getMessage()));
+//                //  showAlertForStatus("Some thing went wrong .Please Try again after some time..!");
+//            }
+//        });
+//
+//
+//    }
 
     private void SessionLogout(Context context) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -337,13 +418,13 @@ public class UntrackedFragment extends Fragment {
         return image;
     }
 
-    private void OpenUntrackedForm(final CallLogs callLogs) {
+    private void OpenUntrackedForm(final DashboardDatum callLogs) {
         final Dialog untracked_dialog = new Dialog(getContext());
         untracked_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
         untracked_dialog.setContentView(R.layout.untrackednumberlayout);
         untracked_dialog.setCancelable(true);
         mobile_number_header = untracked_dialog.findViewById(R.id.mobile_number_header);
-        mobile_number_header.setText(callLogs.getPhone_number());
+        mobile_number_header.setText(callLogs.getPhoneNumber());
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         lp.copyFrom(untracked_dialog.getWindow().getAttributes());
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;
@@ -448,7 +529,7 @@ public class UntrackedFragment extends Fragment {
                     b2b_cr_card.setVisibility(View.GONE);
                     releationship_card.setVisibility(View.VISIBLE);
                     submit_card.setVisibility(View.GONE);
-                    ContactAsPersonal(callLogs.getPhone_number(), untracked_dialog);
+                    ContactAsPersonal(callLogs.getPhoneNumber(), untracked_dialog);
                     milesEmployee_name_Card.setVisibility(View.GONE);
                 }
             }
@@ -469,7 +550,7 @@ public class UntrackedFragment extends Fragment {
                     releationship_card.setVisibility(View.GONE);
                     submit_card.setVisibility(View.VISIBLE);
                     milesEmployee_name_Card.setVisibility(View.VISIBLE);
-                    SaveContactNumberAsMilesEmployee(untracked_dialog, callLogs.getPhone_number());
+                    SaveContactNumberAsMilesEmployee(untracked_dialog, callLogs.getPhoneNumber());
                 }
             }
         });
@@ -490,7 +571,7 @@ public class UntrackedFragment extends Fragment {
                     submit_card.setVisibility(View.VISIBLE);
                     milesEmployee_name_Card.setVisibility(View.VISIBLE);
                     milesEmployee_untracked.setHint("Info");
-                    saveNumberAsSpam(untracked_dialog, callLogs.getPhone_number());
+                    saveNumberAsSpam(untracked_dialog, callLogs.getPhoneNumber());
                 }
             }
         });
@@ -510,7 +591,7 @@ public class UntrackedFragment extends Fragment {
                     submit_card.setVisibility(View.VISIBLE);
                     milesEmployee_untracked.setHint("Vendor Name");
                     milesEmployee_name_Card.setVisibility(View.VISIBLE);
-                    saveAsVendor(untracked_dialog, callLogs.getPhone_number());
+                    saveAsVendor(untracked_dialog, callLogs.getPhoneNumber());
                     // SaveContactNumberAsMilesEmployee(untracked_dialog, callLogs.getPhone_number());
                 }
             }
@@ -536,7 +617,7 @@ public class UntrackedFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 untracke_progress.setVisibility(View.VISIBLE);
-                apiClient.AddUntrackedAsVendor(milesEmployee_untracked.getText().toString().trim(), phone_number, batteryModel.getBattey_percentage(), batteryModel.getCharging_status(), VERSION_NUMBER,"Bearer " + AccessToken, "application/json").enqueue(new Callback<SuccessModel>() {
+                apiClient.AddUntrackedAsVendor(milesEmployee_untracked.getText().toString().trim(), phone_number, batteryModel.getBattey_percentage(), batteryModel.getCharging_status(), VERSION_NUMBER, "Bearer " + AccessToken, "application/json").enqueue(new Callback<SuccessModel>() {
                     @Override
                     public void onResponse(Call<SuccessModel> call, Response<SuccessModel> response) {
                         try {
@@ -574,7 +655,7 @@ public class UntrackedFragment extends Fragment {
 
     }
 
-    private void AddB2bUntrackedLead(final Dialog untracked_dialog, final CallLogs callLogs, final String B2C) {
+    private void AddB2bUntrackedLead(final Dialog untracked_dialog, final DashboardDatum callLogs, final String B2C) {
         et_search_clientsInUntracked.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -595,13 +676,13 @@ public class UntrackedFragment extends Fragment {
             public void onClick(View v) {
                 untracked_dialog.dismiss();
                 if (B2C.equals("B2C")) {
-                    new AlertForAddB2CLeadForml().AddB2cLeadForm(getContext(), AccessToken, callLogs.getPhone_number(),"","","","",0,"");
+                    new AlertForAddB2CLeadForml().AddB2cLeadForm(getContext(), AccessToken, callLogs.getPhoneNumber(), "", "", "", "", 0, "");
                 }
                 if (B2C.equals("B2BCR")) {
-                    new AlertForAddB2BCRLeadForm().addb2bcrLeadForm(getContext(), AccessToken, callLogs.getPhone_number());
+                    new AlertForAddB2BCRLeadForm().addb2bcrLeadForm(getContext(), AccessToken, callLogs.getPhoneNumber());
                 }
                 if (B2C.equals("B2BIR")) {
-                    new AlertForAddB2BIRLeadForm().addb2bIRLeadForm(getContext(), AccessToken, callLogs.getPhone_number());
+                    new AlertForAddB2BIRLeadForm().addb2bIRLeadForm(getContext(), AccessToken, callLogs.getPhoneNumber());
                 }
 
 
@@ -611,7 +692,7 @@ public class UntrackedFragment extends Fragment {
 
     }
 
-    private void getSearchedUSerData(String accessToken, String person_name, final String B2C, final Dialog dialog, final CallLogs callLogs) {
+    private void getSearchedUSerData(String accessToken, String person_name, final String B2C, final Dialog dialog, final DashboardDatum callLogs) {
         untracke_progress.setVisibility(View.VISIBLE);
         delaysModelArrayList = new ArrayList<>();
         untrack_user_info_details.setText("");
@@ -636,7 +717,9 @@ public class UntrackedFragment extends Fragment {
                         delaysModelArrayList.add(delaysModel);
                     }
                     customSearchAdapter = new CustomSearchAdapter(getContext(), delaysModelArrayList);
+
                     untrackedLeadsSpinner_m2b.setAdapter(customSearchAdapter);
+
                     customSearchAdapter.notifyDataSetChanged();
 
 
@@ -677,12 +760,12 @@ public class UntrackedFragment extends Fragment {
 
     }
 
-    private void AddLeadWithPersonDetails(final DelaysModel delaysModel, final Dialog dialog, final CallLogs callLogs, final String B2c) {
+    private void AddLeadWithPersonDetails(final DelaysModel delaysModel, final Dialog dialog, final DashboardDatum callLogs, final String B2c) {
         addLead_untracked_form.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 untracke_progress.setVisibility(View.VISIBLE);
-                apiClient.AddUntrackedToExistingPerson(delaysModel.getPerson_id(), delaysModel.getPerson_name(), delaysModel.getCan_id(), delaysModel.getMiles_type(), callLogs.getPhone_number(), batteryModel.getBattey_percentage(), batteryModel.getCharging_status(), VERSION_NUMBER,"Bearer " + AccessToken, "application/json").enqueue(new Callback<SuccessModel>() {
+                apiClient.AddUntrackedToExistingPerson(delaysModel.getPerson_id(), delaysModel.getPerson_name(), delaysModel.getCan_id(), delaysModel.getMiles_type(), callLogs.getPhoneNumber(), batteryModel.getBattey_percentage(), batteryModel.getCharging_status(), VERSION_NUMBER, "Bearer " + AccessToken, "application/json").enqueue(new Callback<SuccessModel>() {
                     @Override
                     public void onResponse(Call<SuccessModel> call, Response<SuccessModel> response) {
                         try {
@@ -728,7 +811,7 @@ public class UntrackedFragment extends Fragment {
                     milesEmployee_untracked.setError("Please Enter Name");
                 } else {
                     untracke_progress.setVisibility(View.VISIBLE);
-                    apiClient.AddUntrackedAsMilesemployee(milesEmployee_untracked.getText().toString().trim(), phone_number, batteryModel.getBattey_percentage(), batteryModel.getCharging_status(), VERSION_NUMBER,"Bearer " + AccessToken, "application/json").enqueue(new Callback<SuccessModel>() {
+                    apiClient.AddUntrackedAsMilesemployee(milesEmployee_untracked.getText().toString().trim(), phone_number, batteryModel.getBattey_percentage(), batteryModel.getCharging_status(), VERSION_NUMBER, "Bearer " + AccessToken, "application/json").enqueue(new Callback<SuccessModel>() {
                         @Override
                         public void onResponse(Call<SuccessModel> call, Response<SuccessModel> response) {
                             try {
@@ -772,7 +855,7 @@ public class UntrackedFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 untracke_progress.setVisibility(View.VISIBLE);
-                apiClient.AddUntrackedAsSpam(phone_number, milesEmployee_untracked.getText().toString().trim(), batteryModel.getBattey_percentage(), batteryModel.getCharging_status(), VERSION_NUMBER,"Bearer " + AccessToken, "application/json").enqueue(new Callback<SuccessModel>() {
+                apiClient.AddUntrackedAsSpam(phone_number, milesEmployee_untracked.getText().toString().trim(), batteryModel.getBattey_percentage(), batteryModel.getCharging_status(), VERSION_NUMBER, "Bearer " + AccessToken, "application/json").enqueue(new Callback<SuccessModel>() {
                     @Override
                     public void onResponse(Call<SuccessModel> call, Response<SuccessModel> response) {
                         try {
@@ -884,4 +967,5 @@ public class UntrackedFragment extends Fragment {
         alert = builder.create();
         alert.show();
     }
+
 }

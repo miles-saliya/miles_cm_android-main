@@ -20,6 +20,7 @@ import com.milesforce.mwbewb.Model.SuggestModel;
 import com.milesforce.mwbewb.Model.TeamModel;
 import com.milesforce.mwbewb.Model.TokenDataModel;
 import com.milesforce.mwbewb.Model.TokenModel;
+import com.milesforce.mwbewb.Model.UntrackedCallsModel;
 import com.milesforce.mwbewb.Model.UntrackedMainModel;
 import com.milesforce.mwbewb.Model.UntrackedModel;
 import com.milesforce.mwbewb.TabFragments.ModelForAllData;
@@ -62,7 +63,7 @@ public interface ApiClient {
 
     /*Getting Delays WorkLog*/
     @GET()
-    Call<ModelForAllData> getDelaysModel(@Url String url,@Query("page") int page, @Header("Authorization") String s, @Header("Accept") String s1);
+    Call<ModelForAllData> getDelaysModel(@Url String url, @Query("page") int page, @Header("Authorization") String s, @Header("Accept") String s1);
 
     /*Getting Missed Call Data*/
     @GET("getMissedCallData")
@@ -78,11 +79,11 @@ public interface ApiClient {
 
     /*Getting Waiting data*/
     @GET()
-    Call<ModelForAllData> getImWaitingData(@Url String url,@Query("page") int page, @Header("Authorization") String s, @Header("Accept") String s1);
+    Call<ModelForAllData> getImWaitingData(@Url String url, @Query("page") int page, @Header("Authorization") String s, @Header("Accept") String s1);
 
     /*Getting getTodays Data*/
     @GET()
-    Call<ModelForAllData> getJobsForToday(@Url String Url,@Query("page") int page, @Header("Authorization") String s, @Header("Accept") String s1);
+    Call<ModelForAllData> getJobsForToday(@Url String Url, @Query("page") int page, @Header("Authorization") String s, @Header("Accept") String s1);
 
     /*Getting Bussiness call Data for Call Recording sorting */
     @GET("getAllBusinessCalls")
@@ -106,14 +107,14 @@ public interface ApiClient {
 
     /*Getting Untapped Data*/
     @GET()
-    Call<ModelForAllData> getUntappedData(@Url String url,@Query("page") int page, @Header("Authorization") String s, @Header("Accept") String s1);
+    Call<ModelForAllData> getUntappedData(@Url String url, @Query("page") int page, @Header("Authorization") String s, @Header("Accept") String s1);
 
     @GET("getEngagementHistory")
     Call<EngagemmentHistoryModel> getPersonengagement(@Query("page") int page, @Query("person_id") int person_id, @Header("Authorization") String s, @Header("Accept") String s1);
 
     @POST("addEngagement")
     @FormUrlEncoded
-    Call<SuccessModel> AddEngagement(@Field("connection_status") String connection_status,@Field("phone_number") String phone_number, @Field("can_id") int can_id, @Field("person_id") int person_id, @Field("person_name") String person_name, @Field("level") String level, @Field("courses") String courses, @Field("details") String details, @Field("type") String type, @Field("acads") int acads, @Field("next_call") long next_call, @Field("update_call_log") String update_call_log, @Field("mobile_id") int mobile_id,@Field("enrollment")String enrollment, @Field("battery_percentage") String battery_percentage, @Field("battery_status") String battery_status, @Field("version_number") String version_number,@Field("iiml_level") String Uleve, @Header("Authorization") String s, @Header("Accept") String s1);
+    Call<SuccessModel> AddEngagement(@Field("connection_status") String connection_status, @Field("phone_number") String phone_number, @Field("can_id") int can_id, @Field("person_id") int person_id, @Field("person_name") String person_name, @Field("level") String level, @Field("courses") String courses, @Field("details") String details, @Field("type") String type, @Field("acads") int acads, @Field("next_call") long next_call, @Field("update_call_log") String update_call_log, @Field("mobile_id") int mobile_id, @Field("enrollment") String enrollment, @Field("battery_percentage") String battery_percentage, @Field("battery_status") String battery_status, @Field("version_number") String version_number, @Field("iiml_level") String Uleve, @Header("Authorization") String s, @Header("Accept") String s1);
 
 
     @GET("searchMwbNameByType")
@@ -132,6 +133,11 @@ public interface ApiClient {
 
     @GET("getUntrackedCalls")
     Call<UntrackedMainModel> getUntrackedCallLogs(@Query("page") int page, @Header("Authorization") String s, @Header("Accept") String s1);
+
+    //    https://crm.milesforce.com/api/getUntrackedCallsMobileApp
+    @GET("getUntrackedCallsMobileApp")
+    Call<UntrackedCallsModel> getUntrackedCallLogsMobileApp(@Query("page") int page, @Header("Authorization") String s, @Header("Accept") String s1);
+
 
     @POST("addMobile")
     @FormUrlEncoded
@@ -159,7 +165,7 @@ public interface ApiClient {
 
     @POST("addMwb")
     @FormUrlEncoded
-    Call<SuccessModel> AddMwbLead(@Field("name") String name, @Field("level") String level, @Field("courses") String courses, @Field("type") String type, @Field("company") String company, @Field("designation") String designation, @Field("experience") String experience, @Field("education") String education, @Field("city") String city, @Field("eligibility") String eligibility, @Field("source") String source, @Field("source_details") String source_details, @Field("emails") String emails, @Field("mobiles") String mobiles, @Field("details") String details, @Field("next_call") long next_call, @Field("acads") int acads, @Field("battery_percentage") String battery_percentage, @Field("battery_status") String battery_status, @Field("Version_number") String Version_number, @Field("international_city") String international_city,@Field("country") String country,@Field("connection_status") String connection_status,@Field("net_enquiry_type") String net_enquiry_type, @Field("iiml_level") String iiULevel,@Header("Authorization") String s, @Header("Accept") String s1);
+    Call<SuccessModel> AddMwbLead(@Field("name") String name, @Field("level") String level, @Field("courses") String courses, @Field("type") String type, @Field("company") String company, @Field("designation") String designation, @Field("experience") String experience, @Field("education") String education, @Field("city") String city, @Field("eligibility") String eligibility, @Field("source") String source, @Field("source_details") String source_details, @Field("emails") String emails, @Field("mobiles") String mobiles, @Field("details") String details, @Field("next_call") long next_call, @Field("acads") int acads, @Field("battery_percentage") String battery_percentage, @Field("battery_status") String battery_status, @Field("Version_number") String Version_number, @Field("international_city") String international_city, @Field("country") String country, @Field("connection_status") String connection_status, @Field("net_enquiry_type") String net_enquiry_type, @Field("iiml_level") String iiULevel, @Header("Authorization") String s, @Header("Accept") String s1);
 
     @POST("saveAsPersonalCall")
     @FormUrlEncoded
@@ -210,32 +216,32 @@ public interface ApiClient {
     Call<MobileSearchModel> getSearchedLeadsWithMobileNumber(@Query("phone_number") String phone_number, @Header("Authorization") String s, @Header("Accept") String s1);
 
     @GET
-    Call<SRDataModel>getEwbDataWithSpocId(@Url String url, @Header("Authorization") String s, @Header("Accept") String s1);
+    Call<SRDataModel> getEwbDataWithSpocId(@Url String url, @Header("Authorization") String s, @Header("Accept") String s1);
 
     @POST("addCPAPlanOfAction")
     @FormUrlEncoded
-    Call<SuccessModel>updatePlanOffAction(@Field("cpa_id") int cpa_id, @Field("evaluation") String evaluation, @Field("nts") String nts, @Field("aud") String aud, @Field("bec") String bec, @Field("far") String far, @Field("reg") String reg,@Header("Authorization") String s, @Header("Accept") String s1);
+    Call<SuccessModel> updatePlanOffAction(@Field("cpa_id") int cpa_id, @Field("evaluation") String evaluation, @Field("nts") String nts, @Field("aud") String aud, @Field("bec") String bec, @Field("far") String far, @Field("reg") String reg, @Header("Authorization") String s, @Header("Accept") String s1);
 
     @POST("addCMAPlanOfAction")
     @FormUrlEncoded
-    Call<SuccessModel>updateCMAPlanOffAction(@Field("cma_id") int cpa_id, @Field("target1") String evaluation, @Field("target2") String nts,@Header("Authorization") String s, @Header("Accept") String s1);
+    Call<SuccessModel> updateCMAPlanOffAction(@Field("cma_id") int cpa_id, @Field("target1") String evaluation, @Field("target2") String nts, @Header("Authorization") String s, @Header("Accept") String s1);
 
     @GET("searchMwbNameForReference")
     Call<ArrayList<SuggestModel>> getSuggestNamesForMWB(@Query("name") String name, @Header("Authorization") String s, @Header("Accept") String s1);
 
     @POST("addStudentReference")
     @FormUrlEncoded
-    Call<SuccessModel>AddReferrelPersonTocandidate(@Field("person_id") int person_id, @Field("mwb_id") int mwb_id, @Field("bank_details") String back_details, @Field("reference_given_date") String reference_given_date, @Field("referred_person_id") int referred_person_id, @Field("referred_person_name") String referred_person_name, @Field("referred_mwb_id") int referred_mwb_id,@Header("Authorization") String s, @Header("Accept") String s1);
+    Call<SuccessModel> AddReferrelPersonTocandidate(@Field("person_id") int person_id, @Field("mwb_id") int mwb_id, @Field("bank_details") String back_details, @Field("reference_given_date") String reference_given_date, @Field("referred_person_id") int referred_person_id, @Field("referred_person_name") String referred_person_name, @Field("referred_mwb_id") int referred_mwb_id, @Header("Authorization") String s, @Header("Accept") String s1);
 
     @GET("checkCallRecordingExistence")
-    Call<SuccessModel>checkCallRecordingExistance(@Query("timestamp") String timestamp,@Header("Authorization") String s, @Header("Accept") String s1);
+    Call<SuccessModel> checkCallRecordingExistance(@Query("timestamp") String timestamp, @Header("Authorization") String s, @Header("Accept") String s1);
 
     @GET("searchWithCanId")
-    Call<SearchWithId>searchWithCanId(@Query("identity") String identity, @Header("Authorization") String s, @Header("Accept") String s1);
+    Call<SearchWithId> searchWithCanId(@Query("identity") String identity, @Header("Authorization") String s, @Header("Accept") String s1);
 
     @POST("AddClass")
     @FormUrlEncoded
-    Call<SuccessModel>addClass(@Field("class_date") String class_date,@Field("venue") String venue,@Field("course") String course,@Field("class") String studen_class,@Field("trainer") String trainer,@Header("Authorization") String s, @Header("Accept") String s1);
+    Call<SuccessModel> addClass(@Field("class_date") String class_date, @Field("venue") String venue, @Field("course") String course, @Field("class") String studen_class, @Field("trainer") String trainer, @Header("Authorization") String s, @Header("Accept") String s1);
 
     @POST("indexFace")
     Call<SuccessModel> registerWithIndentity(@Body RequestBody file, @Header("Authorization") String accessToken, @Header("Accept") String accptance);
@@ -244,41 +250,41 @@ public interface ApiClient {
     Call<SuccessModel> searchWithStudentPic(@Body RequestBody file, @Header("Authorization") String accessToken, @Header("Accept") String accptance);
 
     @GET("getClassrooms")
-    Call<ClassModel>getClassesData(@Header("Authorization") String accessToken, @Header("Accept") String accptance);
+    Call<ClassModel> getClassesData(@Header("Authorization") String accessToken, @Header("Accept") String accptance);
 
     @GET("searchWithPhone")
-    Call<SearchWithId>searchWithPhone(@Query("phone_number") String identity, @Header("Authorization") String s, @Header("Accept") String s1);
+    Call<SearchWithId> searchWithPhone(@Query("phone_number") String identity, @Header("Authorization") String s, @Header("Accept") String s1);
 
     @GET("getClassroomAttendance")
-    Call<MobileSearchModel>getAttandance(@Query("class_id") String identity, @Header("Authorization") String s, @Header("Accept") String s1);
+    Call<MobileSearchModel> getAttandance(@Query("class_id") String identity, @Header("Authorization") String s, @Header("Accept") String s1);
 
     //Get AcadesEscalation
     @GET()
-    Call<ModelForAllData> getAccadesData(@Url String url,@Query("page") int page, @Header("Authorization") String s, @Header("Accept") String s1);
+    Call<ModelForAllData> getAccadesData(@Url String url, @Query("page") int page, @Header("Authorization") String s, @Header("Accept") String s1);
 
-   @GET()
-   Call<NetEnquiry>getNetEnquiresData(@Url String url,@Query("page") int page, @Header("Authorization") String s, @Header("Accept") String s1);
+    @GET()
+    Call<NetEnquiry> getNetEnquiresData(@Url String url, @Query("page") int page, @Header("Authorization") String s, @Header("Accept") String s1);
 
     @POST("invalidNetEnquiry")
     @FormUrlEncoded
-    Call<SuccessModel>markNetEnquiryInValid(@Field("net_enquiry_id") int net_enquiry_id, @Field("comments") String comments,@Header("Authorization") String s, @Header("Accept") String s1);
+    Call<SuccessModel> markNetEnquiryInValid(@Field("net_enquiry_id") int net_enquiry_id, @Field("comments") String comments, @Header("Authorization") String s, @Header("Accept") String s1);
 
     @POST("matchNetEnquiryWithMwb")
     @FormUrlEncoded
-    Call<SuccessModel>markNetEnquiryWIthMwbID(@Field("identity") String identity, @Field("mobile") String mobile,@Field("mwb_id") int mwb_id,@Field("person_id") int person_id,@Field("person_name") String person_name,@Header("Authorization") String s, @Header("Accept") String s1);
+    Call<SuccessModel> markNetEnquiryWIthMwbID(@Field("identity") String identity, @Field("mobile") String mobile, @Field("mwb_id") int mwb_id, @Field("person_id") int person_id, @Field("person_name") String person_name, @Header("Authorization") String s, @Header("Accept") String s1);
 
     @POST("addEngagement")
     @FormUrlEncoded
-    Call<SuccessModel> AddEngagementForIIML(@Field("level") String level_,@Field("connection_status") String connection_status,@Field("phone_number") String phone_number, @Field("can_id") int can_id, @Field("person_id") int person_id, @Field("person_name") String person_name, @Field("iiml_level") String level, @Field("courses") String courses, @Field("details") String details, @Field("type") String type, @Field("acads") int acads, @Field("next_call") long next_call, @Field("update_call_log") String update_call_log, @Field("mobile_id") int mobile_id,@Field("enrollment")String enrollment, @Field("battery_percentage") String battery_percentage, @Field("battery_status") String battery_status, @Field("version_number") String version_number, @Header("Authorization") String s, @Header("Accept") String s1);
+    Call<SuccessModel> AddEngagementForIIML(@Field("level") String level_, @Field("connection_status") String connection_status, @Field("phone_number") String phone_number, @Field("can_id") int can_id, @Field("person_id") int person_id, @Field("person_name") String person_name, @Field("iiml_level") String level, @Field("courses") String courses, @Field("details") String details, @Field("type") String type, @Field("acads") int acads, @Field("next_call") long next_call, @Field("update_call_log") String update_call_log, @Field("mobile_id") int mobile_id, @Field("enrollment") String enrollment, @Field("battery_percentage") String battery_percentage, @Field("battery_status") String battery_status, @Field("version_number") String version_number, @Header("Authorization") String s, @Header("Accept") String s1);
 
     @GET("getCmFlagPaginationMobile")
     Call<ModelForAllData> getFlaggedData(@Query("page") int page, @Header("Authorization") String s, @Header("Accept") String s1);
 
     @GET()
-    Call<ModelForAllData> getMHPData(@Url String Url,@Query("page") int page, @Header("Authorization") String s, @Header("Accept") String s1);
+    Call<ModelForAllData> getMHPData(@Url String Url, @Query("page") int page, @Header("Authorization") String s, @Header("Accept") String s1);
 
     @GET("getSpocCity")
-    Call<SuccessModel> getSpocCity( @Header("Authorization") String s);
+    Call<SuccessModel> getSpocCity(@Header("Authorization") String s);
 
     @GET("getMHPMobileWithoutPagination")
     Call<ModelForAllData> getMHPDataWithOutPagination(@Query("page") int page, @Header("Authorization") String s, @Header("Accept") String s1);
@@ -286,30 +292,30 @@ public interface ApiClient {
 
     @POST("editCompany")
     @FormUrlEncoded
-    Call<SuccessModel> editCompany(@Field("edited_company") String edited_company,@Field("mwb_id") int mwb_id,@Field("person_id") int person_id,@Header("Authorization") String s);
+    Call<SuccessModel> editCompany(@Field("edited_company") String edited_company, @Field("mwb_id") int mwb_id, @Field("person_id") int person_id, @Header("Authorization") String s);
 
     @POST("editExperience")
     @FormUrlEncoded
-    Call<SuccessModel> editExperiance(@Field("edited_experience") String editExperience,@Field("mwb_id") int mwb_id,@Field("person_id") int person_id,@Header("Authorization") String s);
+    Call<SuccessModel> editExperiance(@Field("edited_experience") String editExperience, @Field("mwb_id") int mwb_id, @Field("person_id") int person_id, @Header("Authorization") String s);
 
     @POST("editDesignation")
     @FormUrlEncoded
-    Call<SuccessModel> editDesignation(@Field("edited_designation") String editDesignation,@Field("mwb_id") int mwb_id,@Field("person_id") int person_id,@Header("Authorization") String s);
+    Call<SuccessModel> editDesignation(@Field("edited_designation") String editDesignation, @Field("mwb_id") int mwb_id, @Field("person_id") int person_id, @Header("Authorization") String s);
 
     @POST()
     @FormUrlEncoded
-    Call<SuccessModel> inviteToWebinar(@Url String Url,@Field("mwb_id") int mwb_id,@Header("Authorization") String s);
+    Call<SuccessModel> inviteToWebinar(@Url String Url, @Field("mwb_id") int mwb_id, @Header("Authorization") String s);
 
     @POST("removeFromSpamVendor")
     @FormUrlEncoded
-    Call<SuccessModel> removeFromSpam(@Field("phone_number") String phone_number,@Header("Authorization") String s);
+    Call<SuccessModel> removeFromSpam(@Field("phone_number") String phone_number, @Header("Authorization") String s);
 
     @GET
     Call<TokenModel> getAccessTokenFromGoogle(@Url String Url);
 
     @POST("updateWorkingStatus")
     @FormUrlEncoded
-    Call<SuccessModel>updateWorkingStatus(@Field("status") String status,@Header("Authorization") String s);
+    Call<SuccessModel> updateWorkingStatus(@Field("status") String status, @Header("Authorization") String s);
 
     @GET("getTeam")
     Call<TeamModel> getTeam(@Header("Authorization") String s);

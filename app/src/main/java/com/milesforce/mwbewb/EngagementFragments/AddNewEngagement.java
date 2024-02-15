@@ -83,7 +83,6 @@ import java.io.OutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -93,7 +92,6 @@ import java.util.Locale;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.http.FormUrlEncoded;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.milesforce.mwbewb.Utils.ConstantUtills.SaveToken;
@@ -165,13 +163,12 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
 
     AlertDialog alert;
     EditText engagement_description_visit, date_picker_visit;
-    String User_levels = " ";
+    String m_level = " ";
     String str_U_levels = " ";
 
     SharedPreferences sharedPreferences;
     BatteryModel batteryModel;
     LevelsCustomAdapter levelsCustomAdapter;
-    String NewLevel;
     static String ConnectionStatus = " ";
     static String SELECTED_STATUS = "";
     static String Enrollment_status = "No";
@@ -315,6 +312,7 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
         return inflater.inflate(R.layout.fragment_add_new_engagement, container, false);
 
     }
+
     HistoryModel historyModel = new HistoryModel();
 
     @Override
@@ -339,7 +337,7 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
         m_levels = getArguments().getString("levels");
         user_name = getArguments().getString("user_name");
         phone_number = getArguments().getString("phone_number");
-        u_levels = getArguments().getString("iiml_level");
+        u_levels = getArguments().getString("iimllevels");
 
         if (u_levels != null)
             if (u_levels.equals("U4R")) {
@@ -347,13 +345,10 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
             }
         LevelsSelected = m_levels;
         str_U_levels = u_levels;
-        User_levels = m_levels;
-        NewLevel = m_levels;
+        m_level = m_levels;
         CustomDataPOints();
 
         ninjaApiClient = NinjaApiUtills.getAPIService();
-//        GetMLevelList(AccessToken);
-//        GetULevelList(AccessToken);
         InterestedWorkingArrayList();
         LookingJobWorkingArrayList();
         getTeam(AccessToken);
@@ -528,6 +523,8 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
         latestEngagement.setOnClickListener(this);
         latestEngagement.setText(previousEngagement);
         textview_header = dialog.findViewById(R.id.textview_header);
+        date_picker_ = dialog.findViewById(R.id.date_picker_);
+
         if (u_levels == null) {
             textview_header.setText(user_name + " - " + m_levels);
 
@@ -535,19 +532,46 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
             textview_header.setText(user_name + " - " + m_levels + " - " + str_U_levels);
 
         }
-        if (Mlevel.equals("M6")) {
+//        if (m_level.equals("M6") || (Mlevel.equals("M6"))) {
+//            nextTimeLayout.setVisibility(View.VISIBLE);
+//            myCalendar.add(Calendar.DAY_OF_MONTH, 1);
+//            MAX_DATE_PRE_SELECT = 30;
+//        } else if (m_level.equals("M5") || (m_level.equals("M3")) || (Mlevel.equals("M5") || (Mlevel.equals("M3")))) {
+//            nextTimeLayout.setVisibility(View.VISIBLE);
+//            myCalendar.add(Calendar.DAY_OF_MONTH, 1);
+//            MAX_DATE_PRE_SELECT = 60;
+//        } else if (m_level.equals("M3++") || (m_level.equals("M3+")) || (Mlevel.equals("M3++") || (Mlevel.equals("M3+")))) {
+//            nextTimeLayout.setVisibility(View.VISIBLE);
+//            myCalendar.add(Calendar.DAY_OF_MONTH, 1);
+//            MAX_DATE_PRE_SELECT = 40;
+//        } else {
+//            nextTimeLayout.setVisibility(View.GONE);
+//
+//        }
+        if ((Mlevel.equals("M6"))) {
+            nextTimeLayout.setVisibility(View.VISIBLE);
             myCalendar.add(Calendar.DAY_OF_MONTH, 1);
             MAX_DATE_PRE_SELECT = 30;
-        }
-        if (Mlevel.equals("M5") || (Mlevel.equals("M3"))) {
+            date_picker_.setEnabled(true);
+
+        } else if ((Mlevel.equals("M5") || (Mlevel.equals("M3")))) {
+            nextTimeLayout.setVisibility(View.VISIBLE);
             myCalendar.add(Calendar.DAY_OF_MONTH, 1);
             MAX_DATE_PRE_SELECT = 60;
-        }
-        if (Mlevel.equals("M3++") || (Mlevel.equals("M3+"))) {
+            date_picker_.setEnabled(true);
+
+        } else if ((Mlevel.equals("M3++") || (Mlevel.equals("M3+")))) {
+            nextTimeLayout.setVisibility(View.VISIBLE);
             myCalendar.add(Calendar.DAY_OF_MONTH, 1);
             MAX_DATE_PRE_SELECT = 40;
-        }
+            date_picker_.setEnabled(true);
 
+        } else {
+            nextTimeLayout.setVisibility(View.GONE);
+            date_picker_.setEnabled(false);
+
+
+        }
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         lp.copyFrom(dialog.getWindow().getAttributes());
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;
@@ -594,15 +618,6 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
             years.add(Integer.toString(i));
         }
 
-//        Log.d("Testing M Leave", m_levels);
-//        Log.d("Testing U Leave", str_U_levels);
-
-//        int selectedIndex = getIndex(appconpact_spinner_M_levels, m_levels);
-//        Log.d("Testing U Leave Index", String.valueOf(selectedIndex));
-
-//        YourCustomAdapter customAdapter = new YourCustomAdapter(context, R.layout.your_item_layout, items);
-//        Spinner spinner = findViewById(R.id.your_spinner_id);
-//        spinner.setAdapter(customAdapter);
         levelsCustomAdapter = new LevelsCustomAdapter(getContext(), R.layout.listitems_layout, R.id.levels_items, spinner_M_LevelList);
         appconpact_spinner_M_levels.setAdapter(levelsCustomAdapter);
         levelsCustomAdapter.notifyDataSetChanged();
@@ -611,27 +626,13 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
         appconpact_spinner_U_levels.setAdapter(levelsCustomAdapter);
         levelsCustomAdapter.notifyDataSetChanged();
 
-//        int position = levelsCustomAdapter.getPosition();
-
-//        if (position != -1) {
-//            appconpact_spinner_M_levels.setSelection(position);
-//        } else {
-//            // Handle the case where the item is not found in the adapter's data
-//        }
-
-//        for (int i = 0; i < spinner_M_LevelList.size(); i++) {
-//            if (spinner_M_LevelList.get(i).getLevelCode().equalsIgnoreCase(m_levels)) {
-//                appconpact_spinner_M_levels.setSelection(i);
-//                break;
-//            }
-//        }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, years);
         appconpact_spinner_graduation_Year.setAdapter(adapter);
         if (spinner_M_LevelList.size() > 0) {
             spinner_M_LevelList.clear();
             spinner_M_LevelList = new ArrayList<>();
-            if (Mlevel.equals("M1") || (Mlevel.equals("M2")) || (Mlevel.equals("M3") || (Mlevel.equals("M3+")) || (Mlevel.equals("M3++") || (Mlevel.equals(" "))))) {
+            if (Mlevel.equals("M1") || (Mlevel.equals("M2")) || (Mlevel.equals("M3") || (Mlevel.equals("M3+")) || (Mlevel.equals("M3++") || (Mlevel.isEmpty())))) {
                 //1
                 spinner_M_LevelList.add(new LevelsModel("M1", "M1 :Did not visit & not interested"));
                 spinner_M_LevelList.add(new LevelsModel("M2", "M2 :Did not visit & Postponed"));
@@ -870,12 +871,13 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
         }
 
         if (Ulevel == null) {
+
+            spinner_U_LevelList.clear();
+
             //1
             spinner_U_LevelList.add(new LevelsModel("U0", "U0 :Not interested in US/Canda"));
             spinner_U_LevelList.add(new LevelsModel("U1", "U1 :Interest expressed, dropped out"));
-
             spinner_U_LevelList.add(new LevelsModel("U1+", "U1+ :Interest expressed, yet to graduate"));
-
             spinner_U_LevelList.add(new LevelsModel("U2", "U2 :Interest expressed, in pipeline (warm)"));
             spinner_U_LevelList.add(new LevelsModel("U3-", "U3- :Postponed"));
             spinner_U_LevelList.add(new LevelsModel("U3", "U3 :Interest expressed, in pipeline (hot)"));
@@ -907,14 +909,14 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
                     (Ulevel.equals("U3")) || (Ulevel.equals("U3+")) || (Ulevel.equals("U3++"))) {
                 spinner_U_LevelList = new ArrayList<>();
                 if (spinner_U_LevelList != null) {
-//                    spinner_U_LevelList.clear();
+                    spinner_U_LevelList.clear();
                 }
+                spinner_U_LevelList.clear();
+
                 //1
                 spinner_U_LevelList.add(new LevelsModel("U0", "U0 :Not interested in US/Canda"));
                 spinner_U_LevelList.add(new LevelsModel("U1", "U1 :Interest expressed, dropped out"));
-
                 spinner_U_LevelList.add(new LevelsModel("U1+", "U1+ :Interest expressed, yet to graduate"));
-
                 spinner_U_LevelList.add(new LevelsModel("U2", "U2 :Interest expressed, in pipeline (warm)"));
                 spinner_U_LevelList.add(new LevelsModel("U3-", "U3- :Postponed"));
                 spinner_U_LevelList.add(new LevelsModel("U3", "U3 :Interest expressed, in pipeline (hot)"));
@@ -943,19 +945,8 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
             if (Ulevel.equals("U5") || (Ulevel.equals("U6")) || (Ulevel.equals("U4"))) {
                 spinner_U_LevelList = new ArrayList<>();
                 if (spinner_U_LevelList != null) {
-//                    spinner_U_LevelList.clear();
+                    spinner_U_LevelList.clear();
                 }
-                spinner_U_LevelList.add(new LevelsModel("U0", "U0 :Not interested in US/Canda"));
-                spinner_U_LevelList.add(new LevelsModel("U1", "U1 :Interest expressed, dropped out"));
-
-                spinner_U_LevelList.add(new LevelsModel("U1+", "U1+ :Interest expressed, yet to graduate"));
-
-                spinner_U_LevelList.add(new LevelsModel("U2", "U2 :Interest expressed, in pipeline (warm)"));
-                spinner_U_LevelList.add(new LevelsModel("U3-", "U3- :Postponed"));
-                spinner_U_LevelList.add(new LevelsModel("U3", "U3 :Interest expressed, in pipeline (hot)"));
-                spinner_U_LevelList.add(new LevelsModel("U3+", "U3+ :Zoom Attended(Very Hot)"));
-                spinner_U_LevelList.add(new LevelsModel("U3++", "U3++ :Ready to Enroll"));
-
                 //2
                 spinner_U_LevelList.add(new LevelsModel("U5", "U5 :Visited and Very Interested"));
                 spinner_U_LevelList.add(new LevelsModel("U6", "U6 :Visited and Ready to Enroll"));
@@ -981,23 +972,8 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
                     || (Ulevel.equals("U11")) || (Ulevel.equals("U11+")) || (Ulevel.equals("U12")) || (Ulevel.equals("U4R")))) {
                 spinner_U_LevelList = new ArrayList<>();
                 if (spinner_U_LevelList != null) {
-//                    spinner_U_LevelList.clear();
+                    spinner_U_LevelList.clear();
                 }
-                //1
-                spinner_U_LevelList.add(new LevelsModel("U0", "U0 :Not interested in US/Canda"));
-                spinner_U_LevelList.add(new LevelsModel("U1", "U1 :Interest expressed, dropped out"));
-
-                spinner_U_LevelList.add(new LevelsModel("U1+", "U1+ :Interest expressed, yet to graduate"));
-
-                spinner_U_LevelList.add(new LevelsModel("U2", "U2 :Interest expressed, in pipeline (warm)"));
-                spinner_U_LevelList.add(new LevelsModel("U3-", "U3- :Postponed"));
-                spinner_U_LevelList.add(new LevelsModel("U3", "U3 :Interest expressed, in pipeline (hot)"));
-                spinner_U_LevelList.add(new LevelsModel("U3+", "U3+ :Zoom Attended(Very Hot)"));
-                spinner_U_LevelList.add(new LevelsModel("U3++", "U3++ :Ready to Enroll"));
-                //2
-                spinner_U_LevelList.add(new LevelsModel("U5", "U5 :Visited and Very Interested"));
-                spinner_U_LevelList.add(new LevelsModel("U6", "U6 :Visited and Ready to Enroll"));
-                spinner_U_LevelList.add(new LevelsModel("U4", "U4 :Visited but Postpone/Not Interested"));
 
                 //3
                 spinner_U_LevelList.add(new LevelsModel("U7", "U7 :Enrolled (20k)"));
@@ -1015,15 +991,7 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
                 spinner_U_LevelList.add(new LevelsModel("U11+", "U11+ :Started program in USA "));
                 spinner_U_LevelList.add(new LevelsModel("U12", "U12 :Completed program in USA "));
             }
-
-
         }
-
-
-//        ArrayAdapter<LevelsModel> LevelsModeladapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, spinner_U_LevelList);
-//        LevelsModeladapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//
-//        appconpact_spinner_U_levels.setAdapter(adapter);
 
 
         levelsCustomAdapter = new LevelsCustomAdapter(getContext(), R.layout.listitems_layout, R.id.levels_items, spinner_M_LevelList);
@@ -1478,6 +1446,8 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
                 if (SELECTED_STATUS_interested_working.equals("Yes")) {
                     appconpact_spinner_looking_job.setEnabled(false);
                     appconpact_spinner_looking_job.setClickable(false);
+                    appconpact_spinner_U_levels.setSelection(4);
+
                     appconpact_spinner_looking_job.setAdapter(appconpact_spinner_looking_job_Adapter);
                 } else if (SELECTED_STATUS_interested_working.equals("No")) {
                     appconpact_spinner_U_levels.setSelection(0);
@@ -1496,8 +1466,8 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
                     appconpact_spinner_looking_job.setClickable(true);
 
                 } else {
-                    appconpact_spinner_looking_job.setEnabled(true);
-                    appconpact_spinner_looking_job.setClickable(true);
+                    appconpact_spinner_looking_job.setEnabled(false);
+                    appconpact_spinner_looking_job.setClickable(false);
                     appconpact_spinner_looking_job.setAdapter(appconpact_spinner_looking_job_Adapter);
                     appconpact_spinner_U_levels.setSelection(0);
 
@@ -1571,6 +1541,8 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
 
         } else {
             Log.d("M Level Empty", "");
+            appconpact_spinner_M_levels.setSelection(2);
+
 
         }
         if (!spinner_U_LevelList.isEmpty()) {
@@ -1580,6 +1552,8 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
 
         } else {
             Log.d("U Level Empty", "");
+            appconpact_spinner_U_levels.setSelection(4);
+
         }
 
 
@@ -1589,25 +1563,53 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
                 if (!spinner_M_LevelList.isEmpty()) {
                     levelsModel = spinner_M_LevelList.get(position);
                 }
-                User_levels = levelsModel.getLevelCode();
+                m_level = levelsModel.getLevelCode();
                 myCalendar = Calendar.getInstance();
                 myCalendar.set(Calendar.YEAR, myCalendar.get(Calendar.YEAR));
                 myCalendar.set(Calendar.MONTH, myCalendar.get(Calendar.MONTH));
                 MAX_DATE_PRE_SELECT = 0;
-                if (User_levels.equals("M6")) {
+//                if (m_level.equals("M6")) {
+//                    nextTimeLayout.setVisibility(View.VISIBLE);
+//
+//                    myCalendar.add(Calendar.DAY_OF_MONTH, 1);
+//                    MAX_DATE_PRE_SELECT = 30;
+//                } else if (m_level.equals("M5") || (m_level.equals("M3"))) {
+//                    nextTimeLayout.setVisibility(View.VISIBLE);
+//
+//                    myCalendar.add(Calendar.DAY_OF_MONTH, 1);
+//                    MAX_DATE_PRE_SELECT = 60;
+//                } else if (m_level.equals("M3++") || (m_level.equals("M3+"))) {
+//                    nextTimeLayout.setVisibility(View.VISIBLE);
+//
+//                    myCalendar.add(Calendar.DAY_OF_MONTH, 1);
+//                    MAX_DATE_PRE_SELECT = 40;
+//                } else {
+//                    nextTimeLayout.setVisibility(View.GONE);
+//                }
+                if ((Mlevel.equals("M6"))) {
+                    nextTimeLayout.setVisibility(View.VISIBLE);
                     myCalendar.add(Calendar.DAY_OF_MONTH, 1);
                     MAX_DATE_PRE_SELECT = 30;
-                }
-                if (User_levels.equals("M5") || (User_levels.equals("M3"))) {
+                    date_picker_.setEnabled(true);
+
+                } else if ((Mlevel.equals("M5") || (Mlevel.equals("M3")))) {
+                    nextTimeLayout.setVisibility(View.VISIBLE);
                     myCalendar.add(Calendar.DAY_OF_MONTH, 1);
                     MAX_DATE_PRE_SELECT = 60;
-                }
-                if (User_levels.equals("M3++") || (User_levels.equals("M3+"))) {
+                    date_picker_.setEnabled(true);
+
+                } else if ((Mlevel.equals("M3++") || (Mlevel.equals("M3+")))) {
+                    nextTimeLayout.setVisibility(View.VISIBLE);
                     myCalendar.add(Calendar.DAY_OF_MONTH, 1);
                     MAX_DATE_PRE_SELECT = 40;
+                    date_picker_.setEnabled(true);
+
+                } else {
+                    nextTimeLayout.setVisibility(View.GONE);
+                    date_picker_.setEnabled(false);
+
+
                 }
-
-
                 updateLabel();
                 filterULevelList(str_U_levels);
 //                parent.getAdapter().notifyAll();
@@ -1640,16 +1642,43 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
                     ) {
                         spinner_M_LevelList.clear();
                         appconpact_spinner_M_levels.setEnabled(true);
+                        //1
+                        spinner_M_LevelList.add(new LevelsModel("M1", "M1 :Did not visit & not interested"));
+                        spinner_M_LevelList.add(new LevelsModel("M2", "M2 :Did not visit & Postponed"));
+                        spinner_M_LevelList.add(new LevelsModel("M3", "M3 :Called & positive"));
+                        spinner_M_LevelList.add(new LevelsModel("M3+", "M3+ :Called & Coming"));
+                        spinner_M_LevelList.add(new LevelsModel("M3++", "M3++ :Ready to enroll - Not visited"));
+                        //2
+                        spinner_M_LevelList.add(new LevelsModel("M4", "M4 :Visited but Postponed"));
+                        spinner_M_LevelList.add(new LevelsModel("M4-", "M4- :Visited but not interested"));
+                        spinner_M_LevelList.add(new LevelsModel("M5", "M5 :Visited & Positive"));
+                        spinner_M_LevelList.add(new LevelsModel("M6", "M6 :Visited & Ready to Enroll"));
+                        //3
+                        spinner_M_LevelList.add(new LevelsModel("M7", "M7 :Enrolled"));
+                        //4
+                        spinner_M_LevelList.add(new LevelsModel("M7-", "M7- :Drop-out (30 days),"));
+                        spinner_M_LevelList.add(new LevelsModel("M7-JJ", "M7-JJ :Non Miles Jain Enrolled Candidates (30-60 days),"));
+                        spinner_M_LevelList.add(new LevelsModel("M7X", "M7X :Do Not Ever Call (NFD - Blank),"));
+                        //5
+                        spinner_M_LevelList.add(new LevelsModel("M7+", "M7+ :LMS demo completed (30-60 days),"));
+                        spinner_M_LevelList.add(new LevelsModel("M7+", "M7+ :LMS demo completed (30-60 days),"));
+                        spinner_M_LevelList.add(new LevelsModel("M7#", "M7# :Onboarding Done (30-60 days),"));
+                        spinner_M_LevelList.add(new LevelsModel("M8", "M8 :Evaluation (30 days),"));
+                        //6
+                        spinner_M_LevelList.add(new LevelsModel("M8+", "M8+ :Exam Registration,"));
+                        //7
+                        spinner_M_LevelList.add(new LevelsModel("M8-", "M8- :Drop-out (after evaluation) (once every 3 months),"));
+                        //8
+                        spinner_M_LevelList.add(new LevelsModel("M9", "M9 : One exam cleared (30 days)"));
+                        spinner_M_LevelList.add(new LevelsModel("M9-", "M9- : Drop-out (after clearing an exam) (once every 3 months),"));
+                        //9
+                        spinner_M_LevelList.add(new LevelsModel("M10", "M10 : Alumini (30 days)"));
+                        //10
+                        spinner_M_LevelList.add(new LevelsModel("M7-IR", "M7-IR"));
+                        spinner_M_LevelList.add(new LevelsModel("M7-INT", "M7-INT"));
+                        spinner_M_LevelList.add(new LevelsModel("M7D1", "M7D1 : Defaulter,"));
+                        spinner_M_LevelList.add(new LevelsModel("M7D2", "M7D2 : Loan Defaulter,"));
 
-                        spinner_M_LevelList.add(new LevelsModel("M6", "M6 - Visited & Ready to Enroll"));
-                        spinner_M_LevelList.add(new LevelsModel("M5", "M5 - Visited & Positive"));
-                        spinner_M_LevelList.add(new LevelsModel("M4", "M4 - Visited but Postponed"));
-                        spinner_M_LevelList.add(new LevelsModel("M4-", "M4- - Visited but not interested"));
-                        spinner_M_LevelList.add(new LevelsModel("M3++", "M3++ - Ready to  enrolled -  not visited"));
-                        spinner_M_LevelList.add(new LevelsModel("M3+", "M3+ - Called & Coming"));
-                        spinner_M_LevelList.add(new LevelsModel("M3", "M3 - Called & positive"));
-                        spinner_M_LevelList.add(new LevelsModel("M2", "M2 - Did not visit & Postponed"));
-                        spinner_M_LevelList.add(new LevelsModel("M1", "M1 - Did not visit & not interested"));
 
                         filterMLevelList(m_levels);
 
@@ -1663,14 +1692,68 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
                         spinner_M_LevelList.add(new LevelsModel("M3++", "M3++ - Ready to  enrolled -  not visited"));
                         spinner_M_LevelList.add(new LevelsModel("M3+", "M3+ - Called & Coming"));
                         spinner_M_LevelList.add(new LevelsModel("M3", "M3 - Called & positive"));
+
+                        spinner_M_LevelList.add(new LevelsModel("M7", "M7 :Enrolled"));
+                        //4
+                        spinner_M_LevelList.add(new LevelsModel("M7-", "M7- :Drop-out (30 days),"));
+                        spinner_M_LevelList.add(new LevelsModel("M7-JJ", "M7-JJ :Non Miles Jain Enrolled Candidates (30-60 days),"));
+                        spinner_M_LevelList.add(new LevelsModel("M7X", "M7X :Do Not Ever Call (NFD - Blank),"));
+                        //5
+                        spinner_M_LevelList.add(new LevelsModel("M7+", "M7+ :LMS demo completed (30-60 days),"));
+                        spinner_M_LevelList.add(new LevelsModel("M7+", "M7+ :LMS demo completed (30-60 days),"));
+                        spinner_M_LevelList.add(new LevelsModel("M7#", "M7# :Onboarding Done (30-60 days),"));
+                        spinner_M_LevelList.add(new LevelsModel("M8", "M8 :Evaluation (30 days),"));
+                        //6
+                        spinner_M_LevelList.add(new LevelsModel("M8+", "M8+ :Exam Registration,"));
+                        //7
+                        spinner_M_LevelList.add(new LevelsModel("M8-", "M8- :Drop-out (after evaluation) (once every 3 months),"));
+                        //8
+                        spinner_M_LevelList.add(new LevelsModel("M9", "M9 : One exam cleared (30 days)"));
+                        spinner_M_LevelList.add(new LevelsModel("M9-", "M9- : Drop-out (after clearing an exam) (once every 3 months),"));
+                        //9
+                        spinner_M_LevelList.add(new LevelsModel("M10", "M10 : Alumini (30 days)"));
+                        //10
+                        spinner_M_LevelList.add(new LevelsModel("M7-IR", "M7-IR"));
+                        spinner_M_LevelList.add(new LevelsModel("M7-INT", "M7-INT"));
+                        spinner_M_LevelList.add(new LevelsModel("M7D1", "M7D1 : Defaulter,"));
+                        spinner_M_LevelList.add(new LevelsModel("M7D2", "M7D2 : Loan Defaulter,"));
+
+
 //                        appconpact_spinner_M_levels.setSelection(0);
                     } else if (str_U_levels.equals("U5") || (str_U_levels.equals("U6"))
                     ) {
                         spinner_M_LevelList.clear();
                         appconpact_spinner_M_levels.setEnabled(true);
 
-                        spinner_M_LevelList.add(new LevelsModel("M6", "M6 - Visited & Ready to Enroll"));
                         spinner_M_LevelList.add(new LevelsModel("M5", "M5 - Visited & Positive"));
+                        spinner_M_LevelList.add(new LevelsModel("M6", "M6 - Visited & Ready to Enroll"));
+
+                        spinner_M_LevelList.add(new LevelsModel("M7", "M7 :Enrolled"));
+                        //4
+                        spinner_M_LevelList.add(new LevelsModel("M7-", "M7- :Drop-out (30 days),"));
+                        spinner_M_LevelList.add(new LevelsModel("M7-JJ", "M7-JJ :Non Miles Jain Enrolled Candidates (30-60 days),"));
+                        spinner_M_LevelList.add(new LevelsModel("M7X", "M7X :Do Not Ever Call (NFD - Blank),"));
+                        //5
+                        spinner_M_LevelList.add(new LevelsModel("M7+", "M7+ :LMS demo completed (30-60 days),"));
+                        spinner_M_LevelList.add(new LevelsModel("M7+", "M7+ :LMS demo completed (30-60 days),"));
+                        spinner_M_LevelList.add(new LevelsModel("M7#", "M7# :Onboarding Done (30-60 days),"));
+                        spinner_M_LevelList.add(new LevelsModel("M8", "M8 :Evaluation (30 days),"));
+                        //6
+                        spinner_M_LevelList.add(new LevelsModel("M8+", "M8+ :Exam Registration,"));
+                        //7
+                        spinner_M_LevelList.add(new LevelsModel("M8-", "M8- :Drop-out (after evaluation) (once every 3 months),"));
+                        //8
+                        spinner_M_LevelList.add(new LevelsModel("M9", "M9 : One exam cleared (30 days)"));
+                        spinner_M_LevelList.add(new LevelsModel("M9-", "M9- : Drop-out (after clearing an exam) (once every 3 months),"));
+                        //9
+                        spinner_M_LevelList.add(new LevelsModel("M10", "M10 : Alumini (30 days)"));
+                        //10
+                        spinner_M_LevelList.add(new LevelsModel("M7-IR", "M7-IR"));
+                        spinner_M_LevelList.add(new LevelsModel("M7-INT", "M7-INT"));
+                        spinner_M_LevelList.add(new LevelsModel("M7D1", "M7D1 : Defaulter,"));
+                        spinner_M_LevelList.add(new LevelsModel("M7D2", "M7D2 : Loan Defaulter,"));
+
+
                     } else if (str_U_levels.equals("U4")) {
                         spinner_M_LevelList.clear();
                         appconpact_spinner_M_levels.setEnabled(true);
@@ -1680,12 +1763,65 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
                         spinner_M_LevelList.add(new LevelsModel("M6", "M6 - Visited & Ready to Enroll"));
                         spinner_M_LevelList.add(new LevelsModel("M5", "M5 - Visited & Positive"));
 
+
+                        spinner_M_LevelList.add(new LevelsModel("M7", "M7 :Enrolled"));
+                        //4
+                        spinner_M_LevelList.add(new LevelsModel("M7-", "M7- :Drop-out (30 days),"));
+                        spinner_M_LevelList.add(new LevelsModel("M7-JJ", "M7-JJ :Non Miles Jain Enrolled Candidates (30-60 days),"));
+                        spinner_M_LevelList.add(new LevelsModel("M7X", "M7X :Do Not Ever Call (NFD - Blank),"));
+                        //5
+                        spinner_M_LevelList.add(new LevelsModel("M7+", "M7+ :LMS demo completed (30-60 days),"));
+                        spinner_M_LevelList.add(new LevelsModel("M7+", "M7+ :LMS demo completed (30-60 days),"));
+                        spinner_M_LevelList.add(new LevelsModel("M7#", "M7# :Onboarding Done (30-60 days),"));
+                        spinner_M_LevelList.add(new LevelsModel("M8", "M8 :Evaluation (30 days),"));
+                        //6
+                        spinner_M_LevelList.add(new LevelsModel("M8+", "M8+ :Exam Registration,"));
+                        //7
+                        spinner_M_LevelList.add(new LevelsModel("M8-", "M8- :Drop-out (after evaluation) (once every 3 months),"));
+                        //8
+                        spinner_M_LevelList.add(new LevelsModel("M9", "M9 : One exam cleared (30 days)"));
+                        spinner_M_LevelList.add(new LevelsModel("M9-", "M9- : Drop-out (after clearing an exam) (once every 3 months),"));
+                        //9
+                        spinner_M_LevelList.add(new LevelsModel("M10", "M10 : Alumini (30 days)"));
+                        //10
+                        spinner_M_LevelList.add(new LevelsModel("M7-IR", "M7-IR"));
+                        spinner_M_LevelList.add(new LevelsModel("M7-INT", "M7-INT"));
+                        spinner_M_LevelList.add(new LevelsModel("M7D1", "M7D1 : Defaulter,"));
+                        spinner_M_LevelList.add(new LevelsModel("M7D2", "M7D2 : Loan Defaulter,"));
+
+
                     } else if (str_U_levels.equals("U7-") || (str_U_levels.equals("U7R") || (str_U_levels.equals("U7")))) {
                         spinner_M_LevelList.clear();
-                        spinner_M_LevelList.add(new LevelsModel("M4", "M4 - Visited but Postponed"));
-                        spinner_M_LevelList.add(new LevelsModel("M4-", "M4- - Visited but not interested"));
-                        spinner_M_LevelList.add(new LevelsModel("M6", "M6 - Visited & Ready to Enroll"));
-                        spinner_M_LevelList.add(new LevelsModel("M5", "M5 - Visited & Positive"));
+//                        spinner_M_LevelList.add(new LevelsModel("M4", "M4 - Visited but Postponed"));
+//                        spinner_M_LevelList.add(new LevelsModel("M4-", "M4- - Visited but not interested"));
+//                        spinner_M_LevelList.add(new LevelsModel("M6", "M6 - Visited & Ready to Enroll"));
+//                        spinner_M_LevelList.add(new LevelsModel("M5", "M5 - Visited & Positive"));
+
+                        spinner_M_LevelList.add(new LevelsModel("M7", "M7 :Enrolled"));
+                        //4
+                        spinner_M_LevelList.add(new LevelsModel("M7-", "M7- :Drop-out (30 days),"));
+                        spinner_M_LevelList.add(new LevelsModel("M7-JJ", "M7-JJ :Non Miles Jain Enrolled Candidates (30-60 days),"));
+                        spinner_M_LevelList.add(new LevelsModel("M7X", "M7X :Do Not Ever Call (NFD - Blank),"));
+                        //5
+                        spinner_M_LevelList.add(new LevelsModel("M7+", "M7+ :LMS demo completed (30-60 days),"));
+                        spinner_M_LevelList.add(new LevelsModel("M7+", "M7+ :LMS demo completed (30-60 days),"));
+                        spinner_M_LevelList.add(new LevelsModel("M7#", "M7# :Onboarding Done (30-60 days),"));
+                        spinner_M_LevelList.add(new LevelsModel("M8", "M8 :Evaluation (30 days),"));
+                        //6
+                        spinner_M_LevelList.add(new LevelsModel("M8+", "M8+ :Exam Registration,"));
+                        //7
+                        spinner_M_LevelList.add(new LevelsModel("M8-", "M8- :Drop-out (after evaluation) (once every 3 months),"));
+                        //8
+                        spinner_M_LevelList.add(new LevelsModel("M9", "M9 : One exam cleared (30 days)"));
+                        spinner_M_LevelList.add(new LevelsModel("M9-", "M9- : Drop-out (after clearing an exam) (once every 3 months),"));
+                        //9
+                        spinner_M_LevelList.add(new LevelsModel("M10", "M10 : Alumini (30 days)"));
+                        //10
+                        spinner_M_LevelList.add(new LevelsModel("M7-IR", "M7-IR"));
+                        spinner_M_LevelList.add(new LevelsModel("M7-INT", "M7-INT"));
+                        spinner_M_LevelList.add(new LevelsModel("M7D1", "M7D1 : Defaulter,"));
+                        spinner_M_LevelList.add(new LevelsModel("M7D2", "M7D2 : Loan Defaulter,"));
+
 
                     } else if (str_U_levels.equals("U7+") || (str_U_levels.equals("U8")) || (str_U_levels.equals("U8+")) ||
                             (str_U_levels.equals("U9-")) || (str_U_levels.equals("U9")) || (str_U_levels.equals("U9+")) ||
@@ -1693,55 +1829,89 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
                             (str_U_levels.equals("U11+")) ||
                             (str_U_levels.equals("U12"))) {
 
+                        spinner_M_LevelList.clear();
                         //1
-                        spinner_U_LevelList.add(new LevelsModel("U0", "U0 :Not interested in US/Canda"));
-                        spinner_U_LevelList.add(new LevelsModel("U1", "U1 :Interest expressed, dropped out"));
-
-                        spinner_U_LevelList.add(new LevelsModel("U1+", "U1+ :Interest expressed, yet to graduate"));
-
-                        spinner_U_LevelList.add(new LevelsModel("U2", "U2 :Interest expressed, in pipeline (warm)"));
-                        spinner_U_LevelList.add(new LevelsModel("U3-", "U3- :Postponed"));
-                        spinner_U_LevelList.add(new LevelsModel("U3", "U3 :Interest expressed, in pipeline (hot)"));
-                        spinner_U_LevelList.add(new LevelsModel("U3+", "U3+ :Zoom Attended(Very Hot)"));
-                        spinner_U_LevelList.add(new LevelsModel("U3++", "U3++ :Ready to Enroll"));
+                        spinner_M_LevelList.add(new LevelsModel("M1", "M1 :Did not visit & not interested"));
+                        spinner_M_LevelList.add(new LevelsModel("M2", "M2 :Did not visit & Postponed"));
+                        spinner_M_LevelList.add(new LevelsModel("M3", "M3 :Called & positive"));
+                        spinner_M_LevelList.add(new LevelsModel("M3+", "M3+ :Called & Coming"));
+                        spinner_M_LevelList.add(new LevelsModel("M3++", "M3++ :Ready to enroll - Not visited"));
                         //2
-                        spinner_U_LevelList.add(new LevelsModel("U5", "U5 :Visited and Very Interested"));
-                        spinner_U_LevelList.add(new LevelsModel("U6", "U6 :Visited and Ready to Enroll"));
-                        spinner_U_LevelList.add(new LevelsModel("U4", "U4 :Visited but Postpone/Not Interested"));
+                        spinner_M_LevelList.add(new LevelsModel("M4", "M4 :Visited but Postponed"));
+                        spinner_M_LevelList.add(new LevelsModel("M4-", "M4- :Visited but not interested"));
+                        spinner_M_LevelList.add(new LevelsModel("M5", "M5 :Visited & Positive"));
+                        spinner_M_LevelList.add(new LevelsModel("M6", "M6 :Visited & Ready to Enroll"));
                         //3
-                        spinner_U_LevelList.add(new LevelsModel("U7", "U7 :Enrolled (20k)"));
+                        spinner_M_LevelList.add(new LevelsModel("M7", "M7 :Enrolled"));
                         //4
-                        spinner_U_LevelList.add(new LevelsModel("U7-", "U7- :Application initiated, dropped out"));
-                        spinner_U_LevelList.add(new LevelsModel("U7R", "U7R :Refunded 20k"));
-                        spinner_U_LevelList.add(new LevelsModel("U7+", "U7+ :Application Initiated"));
-                        spinner_U_LevelList.add(new LevelsModel("U8", "U8 :Application done, I-20 yet to be received"));
-                        spinner_U_LevelList.add(new LevelsModel("U8+", "U8+ :Conditional Offer Received"));
-                        spinner_U_LevelList.add(new LevelsModel("U9-", "U9- :I-20 received, Dropped Out"));
-                        spinner_U_LevelList.add(new LevelsModel("U9", "U9 :I 20 Rec. Yet to apply for Visa"));
-                        spinner_U_LevelList.add(new LevelsModel("U9+", "U9+ :I 20 Rec. Applied for Visa"));
-                        spinner_U_LevelList.add(new LevelsModel("U10-", "U10- :Visa Received But Dropped out"));
-                        spinner_U_LevelList.add(new LevelsModel("U10", "U10 :Visa Received "));
-                        spinner_U_LevelList.add(new LevelsModel("U11", "U11 :IIM Indore "));
-                        spinner_U_LevelList.add(new LevelsModel("U11+", "U11+ :Started program in USA "));
-                        spinner_U_LevelList.add(new LevelsModel("U12", "U12 :Completed program in USA "));
-//                        appconpact_spinner_M_levels.setEnabled(false);
+                        spinner_M_LevelList.add(new LevelsModel("M7-", "M7- :Drop-out (30 days),"));
+                        spinner_M_LevelList.add(new LevelsModel("M7-JJ", "M7-JJ :Non Miles Jain Enrolled Candidates (30-60 days),"));
+                        spinner_M_LevelList.add(new LevelsModel("M7X", "M7X :Do Not Ever Call (NFD - Blank),"));
+                        //5
+                        spinner_M_LevelList.add(new LevelsModel("M7+", "M7+ :LMS demo completed (30-60 days),"));
+                        spinner_M_LevelList.add(new LevelsModel("M7+", "M7+ :LMS demo completed (30-60 days),"));
+                        spinner_M_LevelList.add(new LevelsModel("M7#", "M7# :Onboarding Done (30-60 days),"));
+                        spinner_M_LevelList.add(new LevelsModel("M8", "M8 :Evaluation (30 days),"));
+                        //6
+                        spinner_M_LevelList.add(new LevelsModel("M8+", "M8+ :Exam Registration,"));
+                        //7
+                        spinner_M_LevelList.add(new LevelsModel("M8-", "M8- :Drop-out (after evaluation) (once every 3 months),"));
+                        //8
+                        spinner_M_LevelList.add(new LevelsModel("M9", "M9 : One exam cleared (30 days)"));
+                        spinner_M_LevelList.add(new LevelsModel("M9-", "M9- : Drop-out (after clearing an exam) (once every 3 months),"));
+                        //9
+                        spinner_M_LevelList.add(new LevelsModel("M10", "M10 : Alumini (30 days)"));
+                        //10
+                        spinner_M_LevelList.add(new LevelsModel("M7-IR", "M7-IR"));
+                        spinner_M_LevelList.add(new LevelsModel("M7-INT", "M7-INT"));
+                        spinner_M_LevelList.add(new LevelsModel("M7D1", "M7D1 : Defaulter,"));
+                        spinner_M_LevelList.add(new LevelsModel("M7D2", "M7D2 : Loan Defaulter,"));
+
 
                     }
 
 
-                    if (User_levels.equals("M6")) {
+//                    if (m_level.equals("M6") || (Mlevel.equals("M6"))) {
+//                        nextTimeLayout.setVisibility(View.VISIBLE);
+//                        myCalendar.add(Calendar.DAY_OF_MONTH, 1);
+//                        MAX_DATE_PRE_SELECT = 30;
+//                    } else if (m_level.equals("M5") || (m_level.equals("M3")) || (Mlevel.equals("M5") || (Mlevel.equals("M3")))) {
+//                        nextTimeLayout.setVisibility(View.VISIBLE);
+//                        myCalendar.add(Calendar.DAY_OF_MONTH, 1);
+//                        MAX_DATE_PRE_SELECT = 60;
+//                    } else if (m_level.equals("M3++") || (m_level.equals("M3+")) || (Mlevel.equals("M3++") || (Mlevel.equals("M3+")))) {
+//                        nextTimeLayout.setVisibility(View.VISIBLE);
+//                        myCalendar.add(Calendar.DAY_OF_MONTH, 1);
+//                        MAX_DATE_PRE_SELECT = 40;
+//                    } else {
+//                        nextTimeLayout.setVisibility(View.GONE);
+//
+//                    }
+
+                    if ((Mlevel.equals("M6"))) {
+                        nextTimeLayout.setVisibility(View.VISIBLE);
                         myCalendar.add(Calendar.DAY_OF_MONTH, 1);
+                        date_picker_.setEnabled(true);
+
                         MAX_DATE_PRE_SELECT = 30;
-                    }
-                    if (User_levels.equals("M5") || (User_levels.equals("M3"))) {
+                    } else if ((Mlevel.equals("M5") || (Mlevel.equals("M3")))) {
+                        nextTimeLayout.setVisibility(View.VISIBLE);
                         myCalendar.add(Calendar.DAY_OF_MONTH, 1);
                         MAX_DATE_PRE_SELECT = 60;
-                    }
-                    if (User_levels.equals("M3++") || (User_levels.equals("M3+"))) {
+                        date_picker_.setEnabled(true);
+
+                    } else if ((Mlevel.equals("M3++") || (Mlevel.equals("M3+")))) {
+                        nextTimeLayout.setVisibility(View.VISIBLE);
                         myCalendar.add(Calendar.DAY_OF_MONTH, 1);
                         MAX_DATE_PRE_SELECT = 40;
-                    }
-                    updateLabel();
+                        date_picker_.setEnabled(true);
+
+                    } else {
+                        nextTimeLayout.setVisibility(View.GONE);
+                        date_picker_.setEnabled(false);
+
+
+                    }                    updateLabel();
                     levelsCustomAdapter.notifyDataSetChanged();
                     appconpact_spinner_M_levels.setSelection(0);
 
@@ -1749,7 +1919,9 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
                     Log.d("U LEVELS", "NO STATUS SELCTED");
                     level_M_layout.setVisibility(View.GONE);
                     level_U_layout.setVisibility(View.GONE);
+                    nextTimeLayout.setVisibility(View.GONE);
                     date_picker_.setEnabled(false);
+
                     appconpact_spinner_U_levels.setEnabled(false);
                     appconpact_spinner_M_levels.setEnabled(false);
                     appconpact_spinner_interested_working.setEnabled(false);
@@ -1801,42 +1973,56 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 try {
-                    nextTimeLayout.setVisibility(View.VISIBLE);
                     SELECTED_STATUS = appconpact_spinner_connectionstatus.getSelectedItem().toString();
-//                    if (appconpact_spinner_connectionstatus.getSelectedItem().equals("Connected / Discussed")) {
-//                        level_M_layout.setVisibility(View.VISIBLE);
-//                        level_U_layout.setVisibility(View.VISIBLE);
-//                        appconpact_spinner_M_levels.setEnabled(true);
-//                        appconpact_spinner_U_levels.setEnabled(true);
-//                    } else if (appconpact_spinner_connectionstatus.getSelectedItem().equals("")) {
-//                        level_M_layout.setVisibility(View.GONE);
-//                        level_U_layout.setVisibility(View.GONE);
-//
+
+//                    if (m_level.equals("M6") || (Mlevel.equals("M6"))) {
+//                        nextTimeLayout.setVisibility(View.VISIBLE);
+//                        myCalendar.add(Calendar.DAY_OF_MONTH, 1);
+//                        MAX_DATE_PRE_SELECT = 30;
+//                    } else if (m_level.equals("M5") || (m_level.equals("M3")) || (Mlevel.equals("M5") || (Mlevel.equals("M3")))) {
+//                        nextTimeLayout.setVisibility(View.VISIBLE);
+//                        myCalendar.add(Calendar.DAY_OF_MONTH, 1);
+//                        MAX_DATE_PRE_SELECT = 60;
+//                    } else if (m_level.equals("M3++") || (m_level.equals("M3+")) || (Mlevel.equals("M3++") || (Mlevel.equals("M3+")))) {
+//                        nextTimeLayout.setVisibility(View.VISIBLE);
+//                        myCalendar.add(Calendar.DAY_OF_MONTH, 1);
+//                        MAX_DATE_PRE_SELECT = 40;
 //                    } else {
-//                        level_M_layout.setVisibility(View.VISIBLE);
-//                        level_U_layout.setVisibility(View.VISIBLE);
-//                        appconpact_spinner_M_levels.setEnabled(false);
-//                        appconpact_spinner_U_levels.setEnabled(false);
-//
+//                        nextTimeLayout.setVisibility(View.GONE);
 //                    }
-                    if (Mlevel.equals("M6")) {
+                    if ((Mlevel.equals("M6"))) {
+                        nextTimeLayout.setVisibility(View.VISIBLE);
                         myCalendar.add(Calendar.DAY_OF_MONTH, 1);
                         MAX_DATE_PRE_SELECT = 30;
-                    }
-                    if (Mlevel.equals("M5") || (Mlevel.equals("M3"))) {
+                        date_picker_.setEnabled(true);
+
+                    } else if ((Mlevel.equals("M5") || (Mlevel.equals("M3")))) {
+                        nextTimeLayout.setVisibility(View.VISIBLE);
                         myCalendar.add(Calendar.DAY_OF_MONTH, 1);
                         MAX_DATE_PRE_SELECT = 60;
-                    }
-                    if (Mlevel.equals("M3++") || (Mlevel.equals("M3+"))) {
+                        date_picker_.setEnabled(true);
+
+                    } else if ((Mlevel.equals("M3++") || (Mlevel.equals("M3+")))) {
+                        nextTimeLayout.setVisibility(View.VISIBLE);
                         myCalendar.add(Calendar.DAY_OF_MONTH, 1);
                         MAX_DATE_PRE_SELECT = 40;
+                        date_picker_.setEnabled(true);
+
+                    } else {
+                        nextTimeLayout.setVisibility(View.GONE);
+                        date_picker_.setEnabled(false);
+
+
                     }
+
                     if ((SELECTED_STATUS.equals("Connected / Discussed"))) {
 
                         if (SELECTED_STATUS.contains("Connected / Discussed")) {
 
                             level_M_layout.setVisibility(View.VISIBLE);
                             level_U_layout.setVisibility(View.VISIBLE);
+                            appconpact_spinner_M_levels.setEnabled(true);
+                            appconpact_spinner_U_levels.setEnabled(true);
 
                             appconpact_spinner_interested_working.setEnabled(true);
                             appconpact_spinner_looking_job.setEnabled(true);
@@ -1848,12 +2034,71 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
                             global_Professional_Qualification.setEnabled(true);
                             ug_Graduate_Qualification.setEnabled(true);
                             pg_Graduate_Qualification.setEnabled(true);
-                            appconpact_spinner_M_levels.setEnabled(true);
-                            appconpact_spinner_U_levels.setEnabled(true);
-                            appconpact_spinner_U_levels.setSelection(5);
+
                             engagement_main_form.setVisibility(View.VISIBLE);
-//                            level_layout_.setVisibility(View.VISIBLE);
-//                            invite_webinar.setVisibility(View.GONE);
+
+//                            if (m_level.equals("M6") || (Mlevel.equals("M6"))) {
+//                                nextTimeLayout.setVisibility(View.VISIBLE);
+//                                myCalendar.add(Calendar.DAY_OF_MONTH, 1);
+//                                MAX_DATE_PRE_SELECT = 30;
+//                            } else if (m_level.equals("M5") || (m_level.equals("M3")) || (Mlevel.equals("M5") || (Mlevel.equals("M3")))) {
+//                                nextTimeLayout.setVisibility(View.VISIBLE);
+//                                myCalendar.add(Calendar.DAY_OF_MONTH, 1);
+//                                MAX_DATE_PRE_SELECT = 60;
+//                            } else if (m_level.equals("M3++") || (m_level.equals("M3+")) || (Mlevel.equals("M3++") || (Mlevel.equals("M3+")))) {
+//                                nextTimeLayout.setVisibility(View.VISIBLE);
+//                                myCalendar.add(Calendar.DAY_OF_MONTH, 1);
+//                                MAX_DATE_PRE_SELECT = 40;
+//                            } else {
+//                                nextTimeLayout.setVisibility(View.GONE);
+//
+//                            }
+
+                            if ((Mlevel.equals("M6"))) {
+                                nextTimeLayout.setVisibility(View.VISIBLE);
+                                myCalendar.add(Calendar.DAY_OF_MONTH, 1);
+                                MAX_DATE_PRE_SELECT = 30;
+                                date_picker_.setEnabled(true);
+
+                            } else if ((Mlevel.equals("M5") || (Mlevel.equals("M3")))) {
+                                nextTimeLayout.setVisibility(View.VISIBLE);
+                                myCalendar.add(Calendar.DAY_OF_MONTH, 1);
+                                MAX_DATE_PRE_SELECT = 60;
+                                date_picker_.setEnabled(true);
+
+                            } else if ((Mlevel.equals("M3++") || (Mlevel.equals("M3+")))) {
+                                nextTimeLayout.setVisibility(View.VISIBLE);
+                                myCalendar.add(Calendar.DAY_OF_MONTH, 1);
+                                MAX_DATE_PRE_SELECT = 40;
+                                date_picker_.setEnabled(true);
+
+                            } else {
+                                nextTimeLayout.setVisibility(View.GONE);
+                                date_picker_.setEnabled(false);
+
+
+                            }
+                            if (Mlevel.equals(null) || Mlevel.isEmpty()) {
+                                appconpact_spinner_M_levels.setSelection(2);
+                            }
+                            if (Ulevel.equals(null) || Ulevel.isEmpty()) {
+                                appconpact_spinner_U_levels.setSelection(4);
+                            }
+
+
+                            appconpact_spinner_interested_working.setEnabled(true);
+                            appconpact_spinner_looking_job.setEnabled(true);
+                            appconpact_spinner_graduation_Year.setEnabled(true);
+                            work_Ex_profiling.setEnabled(true);
+                            company_Name.setEnabled(true);
+                            edt_work_Experience.setEnabled(true);
+                            indian_Professional.setEnabled(true);
+                            global_Professional_Qualification.setEnabled(true);
+                            ug_Graduate_Qualification.setEnabled(true);
+                            pg_Graduate_Qualification.setEnabled(true);
+
+                            engagement_main_form.setVisibility(View.VISIBLE);
+
                             engagement_description.setText(" ");
                             ConnectionStatus = "CD";
                             interested_Layout.setEnabled(true);
@@ -2033,7 +2278,7 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
                         appconpact_spinner_interested_working.setEnabled(false);
                         looking_job.setEnabled(false);
                         date_picker_.setEnabled(false);
-
+                        nextTimeLayout.setVisibility(View.GONE);
                         appconpact_spinner_U_levels.setEnabled(false);
                         appconpact_spinner_M_levels.setEnabled(false);
                         appconpact_spinner_looking_job.setEnabled(false);
@@ -2045,7 +2290,6 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
                         global_Professional_Qualification.setEnabled(false);
                         ug_Graduate_Qualification.setEnabled(false);
                         pg_Graduate_Qualification.setEnabled(false);
-
 
                         Date c = Calendar.getInstance().getTime();
                         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
@@ -2178,7 +2422,7 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
                     return;
                 }
             }
-            if ((!User_levels.equals("M7")) && nextCallTimeStamp == 0) {
+            if ((!m_level.equals("M7")) && nextCallTimeStamp == 0) {
                 date_picker_.setError("Please select the Date...");
                 Toast.makeText(getContext(), "Please select Date", Toast.LENGTH_SHORT).show();
 
@@ -2188,7 +2432,7 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
                 String engagement_data = engagement_description.getText().toString().trim();
 
 
-                apiClient.AddEngagement(ConnectionStatus, "", can_id, person_id, user_name, User_levels, CoursesData,
+                apiClient.AddEngagement(ConnectionStatus, "", can_id, person_id, user_name, m_level, CoursesData,
                         engagement_data, "call", 0, nextCallTimeStamp, " ", 0, "No", batteryModel.getBattey_percentage(),
                         batteryModel.getCharging_status(), VERSION_NUMBER, str_U_levels,
                         "Bearer " + AccessToken, "application/json").enqueue(new Callback<SuccessModel>() {
@@ -2237,7 +2481,7 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
 
     private void UpdateCandidatePersonaDetails() {
         commanApiClient.UpdateCandidatePersonaDetails(
-                String.valueOf(person_id),
+                String.valueOf(mwb_id),
                 company_Name.getText().toString().trim(),
                 "location",
                 appconpact_spinner_interested_working.getSelectedItem().toString(),
@@ -2347,7 +2591,7 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.call_:
-                showCustomDialog(user_name, NewLevel, u_levels);
+                showCustomDialog(user_name, m_level, u_levels);
                 break;
             case R.id.visit_:
                 showCustomDialogForVisit(user_name);
@@ -2739,37 +2983,37 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
             levelsCustomAdapter.notifyDataSetChanged();
         }
 
-        appconpact_spinner_M_levels.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                LevelsModel levelsModel = spinnerLevelListvisit.get(position);
-                User_levels = levelsModel.getLevelCode();
-                myCalendar = Calendar.getInstance();
-                myCalendar.set(Calendar.YEAR, myCalendar.get(Calendar.YEAR));
-                myCalendar.set(Calendar.MONTH, myCalendar.get(Calendar.MONTH));
-                if (User_levels.equals("M6")) {
-                    myCalendar.add(Calendar.DAY_OF_MONTH, 7);
-                }
-                if (User_levels.equals("M5")) {
-                    myCalendar.add(Calendar.DAY_OF_MONTH, 7);
-                }
-                if (User_levels.equals("M4")) {
-                    myCalendar.add(Calendar.DAY_OF_MONTH, 90);
-                }
-                if (User_levels.equals("M4-")) {
-                    myCalendar.add(Calendar.DAY_OF_MONTH, 120);
-                }
-
-                updateLabelForVisit();
-                Log.d("User_levels", User_levels);
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+//        appconpact_spinner_M_levels.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                LevelsModel levelsModel = spinnerLevelListvisit.get(position);
+//                User_levels = levelsModel.getLevelCode();
+//                myCalendar = Calendar.getInstance();
+//                myCalendar.set(Calendar.YEAR, myCalendar.get(Calendar.YEAR));
+//                myCalendar.set(Calendar.MONTH, myCalendar.get(Calendar.MONTH));
+//                if (User_levels.equals("M6")) {
+//                    myCalendar.add(Calendar.DAY_OF_MONTH, 7);
+//                }
+//                if (User_levels.equals("M5")) {
+//                    myCalendar.add(Calendar.DAY_OF_MONTH, 7);
+//                }
+//                if (User_levels.equals("M4")) {
+//                    myCalendar.add(Calendar.DAY_OF_MONTH, 90);
+//                }
+//                if (User_levels.equals("M4-")) {
+//                    myCalendar.add(Calendar.DAY_OF_MONTH, 120);
+//                }
+//
+//                updateLabelForVisit();
+//                Log.d("User_levels", User_levels);
+//
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
 
         // SpinnerSelection(appconpact_spinner_levels, levels);
 
@@ -3092,7 +3336,7 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
                 Enrollment_status = "No";
             }
             add_engagement_progress.setVisibility(View.VISIBLE);
-            apiClient.AddEngagement(ConnectionStatus, phone_number, can_id, person_id, user_name, User_levels, CoursesData, engagement_description_visit.getText().toString().trim(), "visit", 0, nextCallTimeStamp, " ", 0, Enrollment_status, batteryModel.getBattey_percentage(), batteryModel.getCharging_status(), VERSION_NUMBER, str_U_levels, "Bearer " + AccessToken, "application/json").enqueue(new Callback<SuccessModel>() {
+            apiClient.AddEngagement(ConnectionStatus, phone_number, can_id, person_id, user_name, m_level, CoursesData, engagement_description_visit.getText().toString().trim(), "visit", 0, nextCallTimeStamp, " ", 0, Enrollment_status, batteryModel.getBattey_percentage(), batteryModel.getCharging_status(), VERSION_NUMBER, str_U_levels, "Bearer " + AccessToken, "application/json").enqueue(new Callback<SuccessModel>() {
                 @Override
                 public void onResponse(Call<SuccessModel> call, Response<SuccessModel> response) {
                     try {
@@ -3548,7 +3792,6 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
     private void getCandidatePersonaDetails(String accessToken, int mwb_id) {
         historyModelArrayList = new ArrayList<>();
         commanApiClient.getCandidatePersonaDetails(mwb_id, "Bearer " + accessToken, "application/json").enqueue(new Callback<CandidatePersonaDetailsModel>() {
-            //        commanApiClient.getCandidatePersonaDetails(1823257, "Bearer " + accessToken, "application/json").enqueue(new Callback<CandidatePersonaDetailsModel>() {
             @Override
             public void onResponse(Call<CandidatePersonaDetailsModel> call, Response<CandidatePersonaDetailsModel> response) {
                 try {
@@ -3654,7 +3897,6 @@ public class AddNewEngagement extends Fragment implements View.OnClickListener {
         }
         appconpact_spinner_U_levels.setSelection(_temp);
     }
-
 
 }
 

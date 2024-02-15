@@ -324,23 +324,35 @@
                                     android:paddingLeft="@dimen/spacing_middle"
                                     android:paddingRight="@dimen/spacing_middle" />
 
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:paddingTop="2dp"
+                                    android:text="Company Name::"
+                                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                                    android:textSize="16sp" />
                                 <EditText
                                     android:id="@+id/company_Name"
                                     style="@style/EditText.Flat.Grey"
                                     android:layout_width="match_parent"
                                     android:layout_height="45dp"
-                                    android:layout_marginTop="@dimen/spacing_large"
                                     android:background="@drawable/edit_text_round_bg_gray_50"
                                     android:hint="Company Name *"
                                     android:paddingLeft="@dimen/spacing_middle"
                                     android:paddingRight="@dimen/spacing_middle" />
-
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:paddingTop="2dp"
+                                    android:text="Work experience:"
+                                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                                    android:textSize="16sp" />
                                 <EditText
                                     android:id="@+id/edt_work_Experience"
                                     style="@style/EditText.Flat.Grey"
                                     android:layout_width="match_parent"
                                     android:layout_height="45dp"
-                                    android:layout_marginTop="@dimen/spacing_large"
                                     android:background="@drawable/edit_text_round_bg_gray_50"
                                     android:hint="No of Years of Work Experience *"
                                     android:inputType="number"
